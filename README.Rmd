@@ -1,0 +1,110 @@
+---
+output: github_document
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "75%"
+)
+```
+
+# fragquaxi <img src='man/figures/logo.svg' align="right" height="139" />
+
+
+## Overview
+  
+`fragquaxi` allows you to obtain **fr**actional **a**bundances of **g**lycoforms (and proteoforms in general) from mass spectrometric (MS) data by **qua**ntification *via* **X**IC (extracted ion current) **i**ntegration.
+
+
+## Installation
+
+```{r, eval = FALSE}
+devtools::install_git(
+  "https://gitlab-ci-token:5pxmPK8746GxLmYuzXB6@git.sbg.ac.at/b1044569/fragquaxi.git"
+)
+```
+
+
+## Usage
+
+Load mass spectrometric data.
+
+```{r load_ms_data, message=FALSE}
+library(fragquaxi)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+ms_data <- mzR::openMSfile(
+  system.file("extdata", "mzml", "mab1.mzML", package = "fragquaxi")
+)
+```
+
+Define proteoforms.
+
+```{r define_proteoforms}
+proteoforms <- tribble(
+  ~name,       ~Hex, ~HexNAc, ~Fuc,
+  "G0F/G0",       6,       8,    1,
+  "G0F/G0F",      6,       8,    2,
+  "G0F/G1F",      7,       8,    2,
+  "G1F/G1F",      8,       8,    2,
+  "G1F/G2F",      9,       8,    2,
+  "G2F/G2F",     10,       8,    2,
+)
+```
+
+Calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+
+
+```{r make_ions}
+pfm_ions <-
+  proteoforms %>%
+  calculate_proteoform_masses("C6464 H9950 N1706 O2014 S44") %>% 
+  ionize(charge_states = 33L:40L)
+
+pfm_ions
+```
+
+Plot these ions (here, only charge state 36+ of scans 126 to 136).
+
+```{r plot_ions, warning=FALSE}
+plot_ions(
+  ms_data,
+  ions = pfm_ions,
+  scans = 126:136,
+  xlim = c(4100, 4150)
+)
+```
+
+Quantify these ions via XIC integration.
+
+```{r quantify_ions}
+abundances <- quantify_ions(
+  ms_data,
+  pfm_ions,
+  rt_min = 300,
+  rt_max = 350
+)
+
+abundances
+```
+
+Plot abundances.
+
+```{r plot_abundances}
+abundances %>%
+  as_tibble() %>% 
+  unnest(abundance_data) %>% 
+  group_by(name) %>%
+  summarise(abundance = sum(abundance)) %>% 
+  mutate(frac_ab = abundance / sum(abundance) * 100) %>% 
+  ggplot(aes(name, frac_ab)) +
+  geom_col() +
+  xlab("") +
+  ylab("fractional abundance (%)")
+```

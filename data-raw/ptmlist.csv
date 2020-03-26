@@ -1,0 +1,73 @@
+abbreviation,description,formula,monoisotopic,average
+ACET,Acetylation,C2 H2 O,42.0106,42.0373
+ADP,ADP-ribosylation,C15 H21 N5 O13 P2,541.061,541.3
+ALLYS,Allysine,H-3 N-1 O,-1.0316,-1.03
+AMID,Amidation,H N O-1,-0.984,-0.9847
+ARCH,S-archaeol,C43 H86 O2,634.6628,635.14
+BMTH,Beta-methylthiolation,C H2 S,45.9877118,46.08688
+BIOT,Biotin,C10 H14 N2 O2 S,226.0776,226.2934
+BROM,Bromination,Br H-1,77.9105,78.9
+CETH,N6-1-carboxyethyl lysine,C3 H4 O2,72.0211,72.06
+CHOL,Cholesterol,C27 H44,368.3443,368.64
+CHDH,"Cis-14-hydroxy-10,13-dioxo-7-heptadecenoicacid aspartate ester",C17 H26 O4,294.1831,294.39
+CITR,Citrullination,H-1 N-1 O,0.9840276,0.98476
+CMAN,C-Mannosylation,C6 H10 O5,162.052823,162.1424
+CSEA,Cysteine sulfenic acid (-SOH),O,15.9949146,15.9994
+CSIA,Cysteine sulfinic acid (-SO2H),O2,31.9898292,31.9988
+CYSP,Cysteine persulfide,S,31.9721,32.06
+DEAM,Deamidation,H-1 N-1 O,0.984,0.9847
+DEAME,Deamidation followed by a methylation,C H N-1 O,14.9997,15.01
+DECA,n-Decanoate,C10 H18 O,241.1678,241.33
+DHAS,"2,3-didehydroalanine (Ser)",H-2 O-1,-18.0106,-18.02
+DHB,"2,3-didehydrobutyrine",H-2 O-1,-18.0106,-18.02
+DHY,"(Z)-2,3-didehydrotyrosine",H-2,-2.0156,-2.02
+DIAC,S-diacylglycerol cysteine,C37 H68 O4,576.5117,576.94
+DIHYDR,Dihydroxylation,O2,31.9898,32
+DIMETH,Dimethylation,C2 H4,28.0314,28.0538
+DIMETP,Dimethylation of proline,C2 H5,29.0391,29.06
+DIPH,Diphthamide,C7 H15 N2 O,143.1184,143.21
+FAD,FAD,C27 H31 N9 O15 P2,783.1415,783.542
+FARN,S-farnesyl cysteine,C15 H24,204.1878,204.3556
+FAR0,S-12-hydroxyfarnesyl cysteine,C15 H24 O,220.1827,220.35
+FLAC,3-phenyllactic acid,H-1 N-1 O,0.984,0.98
+FMNC,FMN conjugation (Cys),C17 H21 N4 O9 P,456.1046,456.34
+FMN,FMN conjugation (Ser/Thr),C17 H19 N4 O8 P,438.094,438.33
+FMNH,FMN conjugation (His),C17 H19 N4 O9 P,454.0889,454.33
+FORM,Formylation,C O,27.9949,28.0104
+GERA,Geranyl-geranylation,C20 H32,272.2504,272.4741
+GGLU,Gamma-carboxyglutamic acid,C O2,43.98983,44.0098
+GLCN,O-GlcNAc,C8 H13 N O5,203.0794,203.195
+GLUC,Glucosylation (Glycation),C6 H10 O5,162.0528,162.1424
+GLUT,Glutathionylation,C10 H15 N3 O6 S,305.0680814,305.3056
+HYDR,Hydroxylation,O,15.9949,15.9994
+HYPU,Hypusine,C4 H9 N O,87.0684,87.12
+LIPY,Lipoyl,C8 H12 O S2,188.033,188.3027
+METH,Methylation,C H2,14.0157,14.0269
+MSONE,Methionine sulfone,O2,32,31.9898
+MYRI,Myristoylation,C14 H26 O,210.1984,210.3598
+NTRY,S-Nitrosylation,H-1 N O,28.99017,28.99816
+OCTA,n-Octanoate,C8 H14 O,126.1044,126.1986
+OHC,Omega-hydroxyceramide glutamate ester,C50 H96 O4,760.7308,761.3
+OXOAC,3-oxoalanine (Cys),H-2 O S-1,-17.9928,-18.08
+OXOAS,3-oxoalanine (Ser),H-2,-2.0156,-2.02
+OXOB,2-oxobutanoic acid,H-3 N-1,-17.0265,-17.03
+PALM,Palmitoylation,C16 H30 O,238.2297,238.4136
+PALE,S-palmitoleyl cysteine,C16 H28 O,236.214,236.39
+PE,Phosphatidylethanolamine amidated glycine,C39 H74 N O7 P,699.5203,699.98
+PHOS,Phosphorylation,H O3 P,79.9663,79.9799
+PLP,Pyridoxal phosphate,C8 H8 N O5 P,229.014,229.129
+POLYM,N6-poly(methylaminopropyl)lysine,C24 H54 N6,426.441,426.73
+PPAN,Phosphopantetheine,C11 H21 N2 O6 P S,339.078,339.3234
+PYRRE,Pyrrolidone carboxylic acid (Glu),H-2 O-1,-18.010565,-18.02
+PYRK,Pyrrolysine,C6 H7 N O,109.0528,109.13
+PYRRO,Pyrrolidone carboxylic acid,H-3 N-1,-17.026549,-17.03
+PYRUC,Pyruvic acid (Cys),H-3 N-1 O S-1,-33.0037,-33.1
+PYRUS,Pyruvic acid (Ser),H-3 N-1,-17.0265,-17.03
+SUCC,N6-succinyllysine,C4 H4 O3,100.016044,100.07
+SULF,Sulfation,O3 S,79.9568,80.0642
+THIOG,1-thioglycine,O-1 S,15.9772,16.06
+THRX,Thyroxine,C6 I4 O,595.6123,595.68
+TOPA,"2',4',5'-topaquinone",H-2 O2,29.9742,29.98
+THRN,Triiodothyronine,C6 H I3 O,469.7158,469.78
+TRIMETH,Trimethylation,C3 H7,42.0471,42.0807
+TRIMETK,"N6,N6,N6-trimethyl-5-hydroxylysine",C3 H7 O,59.0497,59.09

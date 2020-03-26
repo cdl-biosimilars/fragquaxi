@@ -1,0 +1,23 @@
+abbreviation,three_letter,name,formula
+A,ala,alanine,C3 H5 N O
+C,cys,cysteine,C3 H5 N O S
+D,asp,aspartate,C4 H5 N O3
+E,glu,glutamate,C5 H7 N O3
+F,phe,phenylalanine,C9 H9 N O
+G,gly,glycine,C2 H3 N O
+H,his,histidine,C6 H7 N3 O
+I,ile,isoleucine,C6 H11 N O
+K,lys,lysine,C6 H12 N2 O
+L,leu,leucine,C6 H11 N O
+M,met,methionine,C5 H9 N O S
+N,asn,asparagine,C4 H6 N2 O2
+O,pyl,pyrrolysine,C12 H19 N3 O2
+P,pro,proline,C5 H7 N O
+Q,gln,glutamine,C5 H8 N2 O2
+R,arg,arginine,C6 H12 N4 O
+S,ser,serine,C3 H5 N O2
+T,thr,threonine,C4 H7 N O2
+U,sec,selenocysteine,C3 H5 N O Se
+V,val,valine,C5 H9 N O
+W,trp,tryptophan,C11 H10 N2 O
+Y,tyr,tyrosine,C9 H9 N O2

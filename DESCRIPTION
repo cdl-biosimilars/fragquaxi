@@ -1,0 +1,44 @@
+Package: fragquaxi
+Type: Package
+Title: Glycoform Quantification via XIC Integration
+Description: Tools for relative quantification of proteoforms in mass
+    spectometric data by integration of extracted ion currents.
+Version: 0.0.0.9000
+Authors@R:
+    c(person(given = "Wolfgang",
+             family = "Esser-Skala",
+             email = "Wolfgang.Esser-Skala@sbg.ac.at",
+             role = "cre",
+             comment = c(ORCID = "0000-0002-7350-4045")),
+      person(given = "Katharina",
+             family = "Müller",
+             role = "art"),
+      person("University of Salzburg",
+             role = c("cph", "fnd"))
+    )
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 2.1.0)
+VignetteBuilder: knitr
+RoxygenNote: 7.0.2
+Imports: 
+    dplyr,
+    purrr,
+    mzR,
+    tibble,
+    stringr,
+    readr,
+    tidyr,
+    rlang,
+    Biostrings,
+    magrittr,
+    ggplot2,
+    tidyselect,
+    crayon,
+    cli
+Roxygen: list(markdown = TRUE)

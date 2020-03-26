@@ -1,0 +1,53 @@
+destination: docs
+
+development:
+  mode: unreleased
+  version_label: danger
+
+authors:
+  Wolfgang Esser-Skala:
+    href: http://wolfgang.esser-skala.at
+  University of Salzburg:
+    href: https://www.uni-salzburg.at/
+    html: "<img src='https://www.uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo.gif' alt='PLUS' height=24>"
+
+reference:
+- title: Molecular formulas
+  description:
+  contents:
+  - molecular_formula
+  - as.character.mol_form
+  - print.mol_form
+  - get_mass
+  - new_mass_set
+- title: Proteoforms
+  description:
+  contents:
+  - load_protein_sequence
+  - calculate_proteoform_masses
+  - charge
+  - ionize
+- title: Quantification
+  description:
+  contents:
+  - quantify_ions
+  - as_tibble.quaxi
+  - print.quaxi
+  - trapz_limits
+- title: Visualization
+  description:
+  contents:
+  - plot_ions
+- title: Datasets
+  description:
+  contents:
+  - amino_acids
+  - atomic_masses
+  - monosaccharides
+  - ptms
+- title: Internal functions
+  description:
+  contents:
+  - add_sub_formula
+  - find_rt_limits
+  - hill_order

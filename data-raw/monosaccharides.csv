@@ -1,0 +1,84 @@
+abbreviation,type,formula,short_name,systematic_name
+4eLeg,Di-deoxynonulosonate,C9 H16 N2 O5,4-Epilegionaminic acid,"5,7-Diamino-3,5,7,9-tetradeoxy-D-glycero-D-talo-non-2-ulopyranosonic acid"
+6dAlt,Deoxyhexose,C6 H10 O4,6-Deoxy-L-altrose,6-Deoxy-L-altropyranose
+6dAltNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyl-6-deoxy-L-altrosamine,"2-Acetamido-2,6-dideoxy-L-altropyranose"
+6dGul,Deoxyhexose,C6 H10 O4,6-Deoxy-D-gulose,6-Deoxy-D-gulopyranose
+6dTal,Deoxyhexose,C6 H10 O4,6-Deoxy-D-talose,6-Deoxy-D-talopyranose
+6dTalNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyl-6-deoxy-D-talosamine,"2-Acetamido-2,6-dideoxy-D-talopyranose"
+Abe,Di-deoxyhex,C6 H10 O3,Abequose,"3,6-Dideoxy-D-xylo-hexopyranose"
+Aci,Di-deoxynonulosonate,C9 H16 N2 O5,Acinetaminic acid,"5,7-Diamino-3,5,7,9-tetradeoxy-L-glycero-L-altro-non-2-ulopyranosonic acid"
+All,Hexose,C6 H10 O5,D-Allose,D-Allopyranose
+AllA,Hexuronate,C5 H8 O6,D-Alluronic acid,D-Allopyranuronic acid
+AllN,Hexosamine,C6 H11 N O4,D-Allosamine,2-Amino-2-deoxy-D-allopyranose
+AllNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-allosamine,2-Acetamido-2-deoxy-D-allopyranose
+Alt,Hexose,C6 H10 O5,L-Altrose,L-Altropyranose
+AltA,Hexuronate,C5 H8 O6,L-Altruronic acid,L-Altropyranuronic acid
+AltN,Hexosamine,C6 H11 N O4,L-Altrosamine,2-Amino-2-deoxy-L-altropyranose
+AltNAc,HexNAc,C8 H13 N O5,N-Acetyl-L-altrosamine,2-Acetamido-2-deoxy-L-altropyranose
+Api,Other,C5 H8 O4,L-Apiose,3-C-(Hydroxymethyl)-L-erythro-tetrofuranose
+Ara,Pentose,C5 H8 O4,L-Arabinose,L-Arabinopyranose
+Bac,Other,C6 H12 N2 O2,Bacillosamine,"2,4-Diamino-2,4,6-trideoxy-D-glucopyranose"
+Col,Di-deoxyhex,C6 H10 O3,Colitose,"3,6-Dideoxy-L-xylo-hexopyranose"
+DDmanHep,Other,C7 H12 O6,D-glycero-D-manno-Heptose,D-glycero-D-manno-Heptopyranose
+Deoxyhex,Deoxyhex,C6 H10 O4,Deoxyhexose,Deoxyhexose residue of unspecified type
+DeoxyhexNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyldeoxyhexose,N-Acetyldeoxyhexose of unspecified type
+Dha,Other,C7 H8 O7,3-Deoxy-D-lyxo-heptulosaric acid,3-Deoxy-D-lyxo-hept-2-ulopyranosaric acid
+Di-deoxyhex,Di-deoxyhex,C6 H10 O3,Di-deoxyhexose,Di-deoxyhexose residue of unspecified type
+Dig,Di-deoxyhex,C6 H10 O3,D-Digitoxose,"2,6-Dideoxy-D-ribo-hexopyranose"
+Fru,Other,C6 H10 O5,D-Fructose,D-arabino-Hex-2-ulopyranose
+Fuc,Deoxyhexose,C6 H10 O4,L-Fucose,6-Deoxy-L-galactopyranose
+FucNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyl-L-fucosamine,"2-Acetamido-2,6-dideoxy-L-galactopyranose"
+Gal,Hexose,C6 H10 O5,D-Galactose,D-Galactopyranose
+GalA,Hexuronate,C5 H8 O6,D-Galacturonic acid,D-Galactopyranuronic acid
+GalN,Hexosamine,C6 H11 N O4,D-Galactosamine,2-Amino-2-deoxy-D-galactopyranose
+GalNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-galactosamine,2-Acetamido-2-deoxy-D-galactopyranose
+Glc,Hexose,C6 H10 O5,D-Glucose,D-Glucopyranose
+GlcA,Hexuronate,C5 H8 O6,D-Glucuronic acid,D-Glucopyranuronic acid
+GlcN,Hexosamine,C6 H11 N O4,D-Glucosamine,2-Amino-2-deoxy-D-glucopyranose
+GlcNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-glucosamine,2-Acetamido-2-deoxy-D-glucopyranose
+Gul,Hexose,C6 H10 O5,D-Gulose,D-Gulopyranose
+GulA,Hexuronate,C5 H8 O6,D-Guluronic acid,D-Gulopyranuronic acid
+GulN,Hexosamine,C6 H11 N O4,D-Gulosamine,2-Amino-2-deoxy-D-gulopyranose
+GulNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-gulosamine,2-Acetamido-2-deoxy-D-gulopyranose
+Hex,Hexose,C6 H10 O5,Hexose,Hexose residue of unspecified type
+HexA,Hexuronate,C5 H8 O6,Hexuronic acid,Hexuronic acid residue of unspecified type
+HexN,Hexosamine,C6 H11 N O4,Hexosamine,Hexosamine residue of unspecified type
+HexNAc,HexNAc,C8 H13 N O5,N-Acetylhexose,N-Acetylhexose residue of unspecified type
+Ido,Hexose,C6 H10 O5,L-Idose,L-Idopyranose
+IdoA,Hexuronate,C5 H8 O6,L-Iduronic acid,L-Idopyranuronic acid
+IdoN,Hexosamine,C6 H11 N O4,L-Idosamine,2-Amino-2-deoxy-L-idopyranose
+IdoNAc,HexNAc,C8 H13 N O5,N-Acetyl-L-idosamine,2-Acetamido-2-deoxy-L-idopyranose
+Kdn,Deoxynonulosonate,C9 H14 O8,3-Deoxy-D-glycero-D-galacto-nonulosonic acid,3-Deoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid
+Kdo,Other,C8 H12 O7,3-Deoxy-D-manno-octulosonic acid,3-Deoxy-D-manno-oct-2-ulopyranosonic acid
+LDmanHep,Other,C7 H12 O6,L-glycero-D-manno-Heptose,L-glycero-D-manno-Heptopyranose
+Leg,Di-deoxynonulosonate,C9 H16 N2 O5,Legionaminic acid,"5,7-Diamino-3,5,7,9-tetradeoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
+Lyx,Pentose,C5 H8 O4,D-Lyxose,D-Lyxopyranose
+Man,Hexose,C6 H10 O5,D-Mannose,D-Mannopyranose
+ManA,Hexuronate,C5 H8 O6,D-Mannuronic acid,D-Mannopyranuronic acid
+ManN,Hexosamine,C6 H11 N O4,D-Mannosamine,2-Amino-2-deoxy-D-mannopyranose
+ManNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-mannosamine,2-Acetamido-2-deoxy-D-mannopyranose
+Mur,Other,C9 H15 N O6,Muramic acid,2-Amino-3-O-[(R)-1-carboxyethyl]-2-deoxy-D-glucopyranose
+MurNAc,Other,C11 H17 N O6,N-Acetylmuramic acid,2-Acetamido-3-O-[(R)-1-carboxyethyl]-2-deoxy-D-glucopyranose
+MurNGc,Other,C11 H17 N O6,N-Glycolylmuramic acid,3-O-[(R)-1-Carboxyethyl]-2-deoxy-2-glycolamido-D-glucopyranose
+Neu,Deoxynonulosonate,C9 H15 N O7,Neuraminic acid,"5-Amino-3,5-dideoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
+Neu5Ac,Deoxynonulosonate,C11 H17 N O6,N-Acetylneuraminic acid,"5-Acetamido-3,5-dideoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
+Neu5Gc,Deoxynonulosonate,C11 H17 N O9,N-Glycolylneuraminic acid,"3,5-Dideoxy-5-glycolamido-D-glycero-D-galacto-non-2-ulopyranosonic acid"
+Oli,Di-deoxyhex,C6 H10 O3,Olivose,"2,6-Dideoxy-D-arabino-hexopyranose"
+Par,Di-deoxyhex,C6 H10 O3,Paratose,"3,6-Dideoxy-D-ribo-hexopyranose"
+Pen,Pentose,C5 H8 O4,Pentose,Pentose residue of unspecified type
+Pse,Di-deoxynonulosonate,C9 H16 N2 O5,Pseudaminic acid,"5,7-Diamino-3,5,7,9-tetradeoxy-L-glycero-L-manno-non-2-ulopyranosonic acid"
+Psi,Other,C6 H10 O5,D-Psicose,D-ribo-Hex-2-ulopyranose
+Qui,Deoxyhexose,C6 H10 O4,D-Quinovose,6-Deoxy-D-glucopyranose
+QuiNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyl-D-quinovosamine,"2-Acetamido-2,6-dideoxy-D-glucopyranose"
+Rha,Deoxyhexose,C6 H10 O4,L-Rhamnose,6-Deoxy-L-mannopyranose
+RhaNAc,DeoxyhexNAc,C8 H13 N O4,N-Acetyl-L-rhamnosamine,"2-Acetamido-2,6-dideoxy-L-mannopyranose"
+Rib,Pentose,C5 H8 O4,D-Ribose,D-Ribopyranose
+Sia,Deoxynonulosonate,C11 H17 N O6,Sialic acid,Sialic acid residue of unspecified type
+Sor,Other,C6 H10 O5,L-Sorbose,L-xylo-Hex-2-ulopyranose
+Tag,Other,C6 H10 O5,D-Tagatose,D-lyxo-Hex-2-ulopyranose
+Tal,Hexose,C6 H10 O5,D-Talose,D-Talopyranose
+TalA,Hexuronate,C5 H8 O6,D-Taluronic acid,D-Talopyranuronic acid
+TalN,Hexosamine,C6 H11 N O4,D-Talosamine,2-Amino-2-deoxy-D-talopyranose
+TalNAc,HexNAc,C8 H13 N O5,N-Acetyl-D-talosamine,2-Acetamido-2-deoxy-D-talopyranose
+Tyv,Di-deoxyhex,C6 H10 O3,Tyvelose,"3,6-Dideoxy-D-arabino-hexopyranose"
+Xyl,Pentose,C5 H8 O4,D-Xylose,D-Xylopyranose
