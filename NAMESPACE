@@ -3,7 +3,7 @@
 S3method("*",mol_form)
 S3method("+",mol_form)
 S3method("-",mol_form)
-S3method(as.character,mol_form)
+S3method(format,mol_form)
 S3method(print,mol_form)
 S3method(print,quaxi)
 export("%>%")

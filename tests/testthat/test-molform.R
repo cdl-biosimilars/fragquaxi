@@ -10,13 +10,11 @@ test_that("mol_form correctly parses spaces and element counts of 1", {
 })
 
 test_that("mol_form is correctly converted to character in Hill order", {
-  expect_equal(
-    as.character(molecular_formula("C35 Cl-3 O10 S1")), "C35 Cl-3 O10 S"
-  )
-  expect_equal(as.character(molecular_formula("Cl4 C1")), "C Cl4")
-  expect_equal(as.character(molecular_formula("H12 C6 O6")), "C6 H12 O6")
-  expect_equal(as.character(molecular_formula("S1 O4 H2")), "H2 O4 S")
-  expect_equal(as.character(molecular_formula("")), "empty")
+  expect_equal(format(molecular_formula("C35 Cl-3 O10 S1")), "C35 Cl-3 O10 S")
+  expect_equal(format(molecular_formula("Cl4 C1")), "C Cl4")
+  expect_equal(format(molecular_formula("H12 C6 O6")), "C6 H12 O6")
+  expect_equal(format(molecular_formula("S1 O4 H2")), "H2 O4 S")
+  expect_equal(format(molecular_formula("")), "empty")
 })
 
 test_that("mol_form arithmetic is correct", {

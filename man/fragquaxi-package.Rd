@@ -15,6 +15,7 @@ Tools for relative quantification of proteoforms in mass
 Other contributors:
 \itemize{
   \item Katharina Müller [artist]
+  \item University of Salzburg [copyright holder, funder]
 }
 
 }

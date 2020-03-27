@@ -16,7 +16,7 @@ reference:
   description:
   contents:
   - molecular_formula
-  - as.character.mol_form
+  - format.mol_form
   - print.mol_form
   - get_mass
   - new_mass_set

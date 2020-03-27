@@ -88,11 +88,10 @@ molecular_formula <- function(s, simplify = TRUE) {
     res
 }
 
-#' Convert a molecular formula to a character vector.
+#' Format a molecular formula.
 #'
-#' The string representation of a molecular formular is the character `Molecular
-#' formula <atoms>`, where `atoms` lists all elements and their counts in Hill
-#' order (see internal function [`hill_order()`]).
+#' Format a molecular formula as a list of all elements and their counts in
+#' [Hill order][hill_order()].
 #'
 #' @param x Molecular formula to be converted.
 #' @param prettify If `prettify = TRUE`, include control characters for pretty
@@ -104,19 +103,22 @@ molecular_formula <- function(s, simplify = TRUE) {
 #' @export
 #'
 #' @examples
-#' molecular_formula("N-1 H-3") %>% as.character()
-#' molecular_formula("N-1 H-3") %>% as.character(prettify = TRUE)
+#' molecular_formula("N-1 H-3") %>% format()
+#' molecular_formula("N-1 H-3") %>% format(prettify = TRUE)
 #'
-#' molecular_formula("P+1 O+3 H+1") %>% as.character()
-#' molecular_formula("P+1 O+3 H+1") %>% as.character(prettify = TRUE)
-as.character.mol_form <- function(x, prettify = FALSE, ...) {
+#' molecular_formula("P+1 O+3 H+1") %>% format()
+#' molecular_formula("P+1 O+3 H+1") %>% format(prettify = TRUE)
+#'
+#' # arguments in ... are forwarded to the default format() method
+#' molecular_formula("H2O") %>% format(justify = "right", width = 50)
+format.mol_form <- function(x, prettify = FALSE, ...) {
   if (length(x) == 0) {
     if (prettify)
-      crayon::silver("empty")
+      res <- crayon::silver("empty")
     else
-      "empty"
+      res <- "empty"
   } else {
-    purrr::imap_chr(
+    res <- purrr::imap_chr(
       x,
       ~if (.x > 1) {
         if (prettify)
@@ -134,9 +136,13 @@ as.character.mol_form <- function(x, prettify = FALSE, ...) {
     ) %>%
       paste0(collapse = " ")
   }
+  format(res, ...)
 }
 
 #' Print a molecular formula.
+#'
+#' Printing yields the string `Molecular formula <atoms>`, where `atoms` lists
+#' all elements and their counts in [Hill order][hill_order()].
 #'
 #' @param x molecular formula to be printed.
 #' @param ... further arguments passed to or from other methods.
@@ -149,7 +155,7 @@ as.character.mol_form <- function(x, prettify = FALSE, ...) {
 #'
 #' molecular_formula("P+1 O+3 H+1")
 print.mol_form <- function(x, ...) {
-  cat("Molecular formula <", as.character(x, prettify = TRUE), ">", sep = "")
+  cat("Molecular formula <", format(x, prettify = TRUE), ">", sep = "")
   invisible(x)
 }
 

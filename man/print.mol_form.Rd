@@ -15,7 +15,8 @@
 The function returns the printed molecular formula invisibly.
 }
 \description{
-Print a molecular formula.
+Printing yields the string \verb{Molecular formula <atoms>}, where \code{atoms} lists
+all elements and their counts in \link[=hill_order]{Hill order}.
 }
 \examples{
 molecular_formula("N-1 H-3")
