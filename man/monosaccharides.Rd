@@ -4,7 +4,8 @@
 \name{monosaccharides}
 \alias{monosaccharides}
 \title{Common monosaccharide residues.}
-\format{A data frame with 83 rows and 5 variables:
+\format{
+A data frame with 83 rows and 5 variables:
 \describe{
 \item{abbreviation}{abbreviation}
 \item{type}{carbohydrate type}
@@ -12,7 +13,8 @@
 incorporated into a glycan)}
 \item{short_name}{short name}
 \item{systematic_name}{IUPAC name}
-}}
+}
+}
 \source{
 \itemize{
 \item Abbreviations and names: Symbol Nomenclature for Glycans (SNFG),

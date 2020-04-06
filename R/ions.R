@@ -172,11 +172,11 @@ calculate_proteoform_masses <- function(proteoforms,
   )
 
   mod_masses <-
-    molecular_formula(all_mods, simplify = FALSE) %>%
+    molecular_formula(all_mods) %>%
     purrr::map_dbl(get_mass, mass_set) %>%
     rlang::set_names(names(all_mods))
 
-  if (typeof(protein_formula) == "character")
+  if (vec_is(protein_formula, character()))
     protein_formula <- molecular_formula(protein_formula)
   protein_mass <- protein_formula %>% get_mass(mass_set)
 

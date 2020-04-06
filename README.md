@@ -91,18 +91,18 @@ Quantify these ions via XIC integration.
 abundances <- quantify_ions(
   ms_data,
   pfm_ions,
-  rt_min = 300,
-  rt_max = 350
+  rt_limits = c(300, 350)
 )
 
 abundances
-#> ℹ Abundances of 48 ions quantified in 352 mass spectra using 1
-#>   retention time window by `fragquaxi::quantify_ions()`.
+#> ℹ Abundances of 48 ions quantified in 352 mass spectra using 1 retention time window.
 #> 
-#> ── Parameters ────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> ● MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML
-#> ● Ions:
-#>   # A tibble: 48 x 10
+#> ── Parameters ──
+#> 
+#> MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML
+#> 
+#> Ions:
+#> # A tibble: 48 x 10
 #>   ion_id name     Hex HexNAc   Fuc    mass     z    mz mz_min mz_max
 #>   <chr>  <chr>  <dbl>  <dbl> <dbl>   <dbl> <int> <dbl>  <dbl>  <dbl>
 #> 1 id_1   G0F/G0     6      8     1 147942.    33 4484.  4483.  4485.
@@ -111,13 +111,15 @@ abundances
 #> 4 id_4   G0F/G0     6      8     1 147942.    36 4111.  4110.  4111.
 #> 5 id_5   G0F/G0     6      8     1 147942.    37 3999.  3999.  4000.
 #> # … with 43 more rows
-#> ● Retention time limits:
-#>   # A tibble: 1 x 2
-#>   rt_min rt_max
-#>    <dbl>  <dbl>
-#> 1    300    350
 #> 
-#> ── Results ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> Retention time limits:
+#> # A tibble: 1 x 4
+#>   rt_min rt_max scan_min scan_max
+#>    <dbl>  <dbl>    <int>    <int>
+#> 1    300    350      117      141
+#> 
+#> ── Results ──
+#> 
 #> # A tibble: 1 x 50
 #>   rt_min rt_max   id_1   id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9
 #>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>

@@ -4,14 +4,16 @@
 \name{amino_acids}
 \alias{amino_acids}
 \title{Amino acid residues.}
-\format{A data frame with 22 rows and 4 variables:
+\format{
+A data frame with 22 rows and 4 variables:
 \describe{
 \item{abbreviation}{single-letter abbreviation}
 \item{three_letter}{three-letter abbreviation}
 \item{name}{name}
 \item{formula}{formula for the residue (i.e., for an amino acid
 incorporated into a polypeptide chain)}
-}}
+}
+}
 \usage{
 amino_acids
 }

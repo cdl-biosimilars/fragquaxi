@@ -64,13 +64,13 @@ molecular_formula("H12 C6 O6")
 molecular_formula("H2SO4")
 ```
 
-`molecular_formula()` is vectorized: If called with a string vector, it returns a list of formula objects.
+`molecular_formula()` is vectorized: If called with a string vector, it returns a vector of formulas.
 
 ```{r}
 molecular_formula(c("H2 O", "C6 H12 O6"))
 ```
 
-Formulas support elementary arithmetic operations. (In case of multiplication, the numeric multiplier is always coerced to integer *via* `as.integer()` in order to ensure that element counts remain integral).
+Formulas support elementary arithmetic operations. (In case of multiplication and division, the numeric multiplier is always coerced to integer in order to ensure that element counts remain integral. Moreover, division is always integral.)
 
 ```{r}
 f1 <- molecular_formula("C6 H10 O5")
@@ -82,6 +82,10 @@ f1 - f2
 f1 * 2L
 
 f1 * 2.9  # multiplier implicitly converted to the integer 2L
+
+f1 / 2    # equivalent to f1 %/% 2L
+
+sum(c(f1, f2))
 ```
 
 `get_mass()` calculates the molecular mass of a formula:
@@ -258,7 +262,7 @@ plot_ions(
 
 Labels on the upper $x$-axis denote proteoform ions, while solid and dashed red lines indicate mass-to-charge ratios and integration boundaries, respectively  
 
-`quantify_ions()` quantifies the previously defined proteoform ions. In the loaded MS data set, only mass spectra that were acquired at retention times between 300 and 350 seconds contain relevant information. Thus, specify these retention time limits *via* the argument `rt_liimits`.
+`quantify_ions()` quantifies the previously defined proteoform ions. In the loaded MS data set, only mass spectra that were acquired at retention times between 300 and 350 seconds contain relevant information. Thus, specify these retention time limits *via* the argument `rt_limits`.
 
 ```{r}
 abundances <- quantify_ions(

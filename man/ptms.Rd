@@ -4,12 +4,14 @@
 \name{ptms}
 \alias{ptms}
 \title{Common post-translational modifications.}
-\format{A data frame with 72 rows and 3 variables:
+\format{
+A data frame with 72 rows and 3 variables:
 \describe{
 \item{abbreviation}{abbreviation}
 \item{name}{description}
 \item{formula}{correction formula}
-}}
+}
+}
 \source{
 \itemize{
 \item Abbreviations and name: ExPASy FindMod tool

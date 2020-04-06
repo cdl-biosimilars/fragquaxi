@@ -17,7 +17,6 @@ reference:
   contents:
   - molecular_formula
   - format.mol_form
-  - print.mol_form
   - get_mass
   - new_mass_set
 - title: Proteoforms
@@ -48,6 +47,8 @@ reference:
 - title: Internal functions
   description:
   contents:
-  - add_sub_formula
+  - add_sub_mol_form
+  - mul_div_mol_form
+  - sum_mol_form
   - find_rt_limits
   - hill_order

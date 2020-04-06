@@ -4,7 +4,8 @@
 \name{atomic_masses}
 \alias{atomic_masses}
 \title{Average and monoisotopic atomic masses.}
-\format{A data frame with 118 rows and 6 variables:
+\format{
+A data frame with 118 rows and 6 variables:
 \describe{
 \item{element}{chemical symbol}
 \item{name}{IUPAC name}
@@ -13,7 +14,8 @@
 \item{A}{mass number (total number of protons and neutrons in the nucleus)
 of the most abundant isotope}
 \item{monoisotopic}{atomic mass of the most abundant isotope}
-}}
+}
+}
 \source{
 \itemize{
 \item Average masses: Atomic weights of the elements 2013, Tables 2 and 3

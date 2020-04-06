@@ -87,8 +87,7 @@ Quantify these ions via XIC integration.
 abundances <- quantify_ions(
   ms_data,
   pfm_ions,
-  rt_min = 300,
-  rt_max = 350
+  rt_limits = c(300, 350)
 )
 
 abundances

@@ -26,20 +26,29 @@ hill_order <- function(el) {
   c(if ("C" %in% el) "C", if ("H" %in% el) "H", other)
 }
 
-new_molecular_formula <- function(df = data.frame()) {
-  if (nrow(df) == 0)
-    atoms <- list(C = integer(), H = integer())
-  else {
-    if (!"C" %in% names(df))
-      df["C"] <- 0L
-    if (!"H" %in% names(df))
-      df["H"] <- 0L
-    atoms <-
-      as.list(df[hill_order(names(df))]) %>%
-      purrr::map(tidyr::replace_na, 0L)
-  }
-  purrr::iwalk(atoms, ~vec_assert(.x, ptype = integer(), arg = .y))
-  new_rcrd(atoms, class = "mol_form")
+new_molecular_formula <- function(fs = list()) {
+  if (is.atomic(fs))
+    fs <- list(fs)
+  purrr::iwalk(fs, ~vec_assert(.x, ptype = integer(), arg = .y))
+  new_list_of(
+    purrr::map(
+      fs,
+      function(f) {
+        if (!rlang::is_na(f)) {
+          f <-
+            f[hill_order(names(f))] %>%
+            purrr::discard(~. == 0L)
+          if (length(f) == 0)
+            names(f) <- NULL
+        } else {
+          f <- NULL
+        }
+        f
+      }
+    ),
+    ptype = integer(),
+    class = "mol_form"
+  )
 }
 
 methods::setOldClass(c("mol_form", "vctrs_rcrd"))
@@ -65,17 +74,22 @@ methods::setOldClass(c("mol_form", "vctrs_rcrd"))
 #'
 #' # the function is vectorized
 #' molecular_formula(c("H2 O", "C6 H12 O6", "C Cl4"))
+#'
+#' # ... and handles empty and missing formulas
+#' molecular_formula(c("H2 O", "", "<empty>", NA))
 molecular_formula <- function(s = character()) {
   s %>%
     stringr::str_match_all("([:upper:][:lower:]?)([-+]?[:digit:]*)") %>%
-    purrr::imap_dfr(
+    purrr::imap(
       function(x, i) {
         if (length(x) == 0) {
           if (s[i] %in% c("", "<empty>"))
-            tibble::tibble(.rows = 1)
+            integer(0)
           else
             stop("Formula '", s[i], "' is invalid.",
                  call. = FALSE)
+        } else if (all(is.na(x))) {
+          NA_integer_
         } else {
           if (any(duplicated(x[,2])))
             stop("Formula '", s[i], "' contains duplicate elements.",
@@ -83,8 +97,7 @@ molecular_formula <- function(s = character()) {
           readr::parse_integer(x[,3]) %>%
             rlang::set_names(x[,2]) %>%
             tidyr::replace_na(1L) %>%
-            purrr::keep(~. != 0L) %>%
-            {tibble::tibble(!!!., .rows = 1, .name_repair = "minimal")}
+            purrr::keep(~. != 0L)
         }
       }
     ) %>%
@@ -119,10 +132,12 @@ is_molecular_formula <- function(x) {
 #' molecular_formula("P+1 O+3 H+1") %>% format()
 #' molecular_formula("P+1 O+3 H+1") %>% format(prettify = TRUE)
 format.mol_form <- function(x, prettify = FALSE, ...) {
-  purrr::pmap_chr(
+  purrr::map_chr(
     vec_data(x),
-    function(...) {
-      elements <- purrr::discard(c(...), ~. == 0L)
+    function(f) {
+      if (is.null(f))
+        return(NA_character_)
+      elements <- purrr::discard(f, ~. == 0L)
       if (length(elements) == 0) {
         if (prettify)
           crayon::silver("<empty>")
@@ -149,6 +164,20 @@ format.mol_form <- function(x, prettify = FALSE, ...) {
       }
     }
   )
+}
+
+#' @export
+obj_print_data.mol_form <- function(x, ...) {
+  if (length(x) == 0)
+    return()
+  print(format(x), quote = FALSE)
+}
+
+#' @importFrom pillar pillar_shaft
+#' @export
+pillar_shaft.mol_form <- function(x, ...) {
+  out <- format(x, prettify = TRUE)
+  pillar::new_pillar_shaft_simple(out)
 }
 
 #' @export
@@ -225,35 +254,49 @@ vec_cast.character.mol_form <- function(x, to, ...) {
   format(x)
 }
 
-#' @method vec_proxy_equal mol_form
-#' @export
-vec_proxy_equal.mol_form <- function(x, ...) {
-  format(x)
-}
-
 #' @method vec_proxy_compare mol_form
 #' @export
 vec_proxy_compare.mol_form <- function(x, ...) {
-  vec_proxy(x) %>%
-    dplyr::rename(AC = any_of("C"), AH = any_of("H")) %>%
-    purrr::pmap_chr(
-      function(...)
-        c(...) %>%
-        purrr::discard(~. == 0L) %>%
-        {stringr::str_glue("{names(.)}{sprintf('%010d', .)}")} %>%
+  purrr::map_chr(
+    vec_data(x),
+    ~if (is.null(.x)) {
+      NA_character_
+    } else {
+      purrr::discard(.x, ~. == 0L) %>%
+        {stringr::str_glue("{dplyr::recode(names(.), C = 'AC', H = 'AH')}",
+                           "{sprintf('%010d', .)}")} %>%
         stringr::str_c(collapse = "")
-    )
+    }
+  )
+}
+
+#' @export
+`[[.mol_form` <- function(x, i, ...) vec_slice(x, i)
+
+#' Sum of molecular formulas.
+#'
+#' @param x Vector of molecular formulas.
+#' @param ... Additional arguments in the call to `sum()`.
+#'
+#' @return The sum of all values present in `x`.
+#' @keywords internal
+sum_mol_form <- function(x, ...) {
+  args <- list(...)
+  if (!args$na.rm && any(is.na(x)))
+    res <- NA_integer_
+  else
+    res <-
+    dplyr::bind_rows(!!!vec_data(x)) %>%
+    dplyr::summarise_all(sum, na.rm = TRUE) %>%
+    unlist()
+  new_molecular_formula(res)
 }
 
 #' @method vec_math mol_form
 #' @export
 vec_math.mol_form <- function(.fn, .x, ...) {
   switch(.fn,
-    sum =
-      vec_proxy(.x) %>%
-      dplyr::summarise_all(sum) %>%
-      dplyr::select_if(~ sum(.) != 0L) %>%
-      new_molecular_formula(),
+    sum = sum_mol_form(.x, ...),
     stop("'", .fn, "()' not supported by molecular formulas.",
          call. = FALSE)
   )
@@ -285,22 +328,63 @@ vec_arith.mol_form.default <- function(op, x, y, ...) {
 #' @return A molecular formula resulting from the binary operation.
 #' @keywords internal
 add_sub_mol_form <- function(op, x, y) {
+  if (vec_size(x) == 0 || vec_size(y) == 0)
+    return(new_molecular_formula())
+
+  x_data <-
+    vec_data(x) %>%
+    purrr::map(
+      ~if (is.null(.x)) {
+        c(na_col = TRUE)
+      } else
+        .x
+    )
+
+  y_data <-
+    vec_data(y) %>%
+    purrr::map(
+      ~if (is.null(.x)) {
+        c(na_col = TRUE)
+      } else
+        .x
+    )
+
+  template_col <- list(id = 0L, na_col = NA)
+
   dplyr::bind_rows(
-    dplyr::mutate(vec_proxy(x), id = dplyr::row_number()),
-    dplyr::mutate(op(vec_proxy(y)), id = dplyr::row_number())
+    dplyr::bind_rows(template_col, !!!x_data) %>%
+      dplyr::mutate(id = dplyr::row_number()),
+    dplyr::bind_rows(template_col, !!!y_data) %>%
+      dplyr::mutate(id = dplyr::row_number()) %>%
+      dplyr::mutate_at(dplyr::vars(-.data$id, -.data$na_col), op)
   ) %>%
+    dplyr::mutate(na_col = ifelse(is.na(.data$na_col), 0L, NA_integer_)) %>%
+    dplyr::mutate_at(
+      dplyr::vars(-.data$id, -.data$na_col),
+      function(x) ifelse(is.na(x), .$na_col, x)
+    ) %>%
     dplyr::group_by(.data$id) %>%
-    dplyr::summarise_all(sum, na.rm = TRUE) %>%
-    dplyr::select(-.data$id) %>%
-    dplyr::select_if(~ sum(.) != 0L) %>%
+    dplyr::summarise_all(sum) %>%
+    dplyr::filter(.data$id > 1L) %>%
+    purrr::pmap(
+      function(id, na_col, ...) {
+        res <- c(...)
+        if (length(res) == 0)
+          integer(0)
+        else if (all(is.na(res)))
+          NA_integer_
+        else
+          res
+      }
+    ) %>%
     new_molecular_formula()
 }
 
 #' Multiply or divide molecular formulas.
 #'
 #' Depending on the value of `op`, molecular formula `x` is either multiplied by
-#' numeric `y` (op = `*`) or integer divided (op = `%/%`). `y` is always cast to
-#' integer.
+#' numeric `y` (op = `*`) or integer divided (op = `%/%` or `/`). `y` is always
+#' cast to integer.
 #'
 #' @param x Left operand.
 #' @param y Right operand.
@@ -309,9 +393,36 @@ add_sub_mol_form <- function(op, x, y) {
 #' @return A molecular formula resulting from the binary operation.
 #' @keywords internal
 mul_div_mol_form <- function(op, x, y) {
-  vec_proxy(x) %>%
-    dplyr::mutate_all(~op(., allow_lossy_cast(vec_cast(y, integer())))) %>%
-    dplyr::select_if(~sum(.) != 0L) %>%
+  x_data <-
+    vec_data(x) %>%
+    purrr::map(
+      ~if (is.null(.x)) {
+        c(type = "NA")
+      } else
+        .x
+    )
+
+  template_col <- c(type = "template")
+
+  dplyr::bind_rows(template_col, !!!x_data) %>%
+    dplyr::mutate(
+      type = tidyr::replace_na(.data$type, "product"),
+      indicate_na = 0L
+    ) %>%
+    dplyr::mutate_at(
+      dplyr::vars(-.data$type),
+      ~op(., allow_lossy_cast(vec_cast(y, integer())))
+    ) %>%
+    dplyr::filter(.data$type != "template") %>%
+    purrr::pmap(
+      function(type, indicate_na, ...) {
+        res <- c(...)
+        if (type == "NA" || is.na(indicate_na))
+          NA_integer_
+        else
+          tidyr::replace_na(res, 0L)
+      }
+    ) %>%
     new_molecular_formula()
 }
 
@@ -339,6 +450,7 @@ vec_arith.mol_form.MISSING <- function(op, x, y, ...) {
 vec_arith.mol_form.numeric <- function(op, x, y, ...) {
   switch(op,
     "*" = mul_div_mol_form(`*`, x, y),
+    "/" = mul_div_mol_form(`%/%`, x, y),
     "%/%" = mul_div_mol_form(`%/%`, x, y),
     stop_incompatible_op(op, x, y)
   )
@@ -355,14 +467,15 @@ vec_arith.numeric.mol_form <- function(op, x, y, ...) {
 
 #' Calculate the mass of a molecular formula.
 #'
-#' @param f Molecular formula whose mass should be calculated.
+#' @param x Vector of molecular formulas whose masses should be calculated.
 #' @param mass_set Atomic masses that should be used for mass calculation.
 #'   Either a string specifying a predefined mass set (`"average"`, average
 #'   atomic masses as defined by IUPAC; `"monoisotopic"`, masses of the most
 #'   abundant isotope of each element), or a variable containing a custom mass
 #'   set defined by [new_mass_set()].
+#' @param ... Other arguments passed on to individual methods.
 #'
-#' @return A scalar double representing the molecular mass (in dalton).
+#' @return A double vector representing the molecular masses (in dalton).
 #' @export
 #'
 #' @seealso [new_mass_set()] for defining custom mass sets, [`atomic_masses`]
@@ -372,7 +485,13 @@ vec_arith.numeric.mol_form <- function(op, x, y, ...) {
 #' molecular_formula("C6 H10 O5") %>% get_mass()
 #'
 #' molecular_formula("C6 H10 O5") %>% get_mass("monoisotopic")
-get_mass <- function(f, mass_set = "average") {
+get_mass <- function(x, ...) {
+  UseMethod("get_mass")
+}
+
+#' @rdname get_mass
+#' @export
+get_mass.mol_form <- function(x, mass_set = "average", ...) {
   if (is.character(mass_set)) {
     if (!mass_set %in% names(fragquaxi::atomic_masses))
       stop("Mass set '", mass_set, "' unknown.")
@@ -382,11 +501,16 @@ get_mass <- function(f, mass_set = "average") {
       tibble::deframe()
   }
 
-  purrr::imap_dbl(
-    f,
-    ~.x * mass_set[.y]
-  ) %>%
-    sum()
+  purrr::map_dbl(
+    vec_data(x),
+    function(f) {
+      purrr::imap_dbl(
+        f,
+        ~.x * mass_set[.y]
+      ) %>%
+        sum()
+    }
+  )
 }
 
 

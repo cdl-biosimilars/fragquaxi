@@ -42,5 +42,6 @@ Imports:
     crayon,
     cli,
     vctrs,
-    methods
+    methods,
+    pillar
 Roxygen: list(markdown = TRUE)
