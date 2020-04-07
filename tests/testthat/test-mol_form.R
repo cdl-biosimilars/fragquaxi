@@ -1,4 +1,4 @@
-test_that("mol_form constructor", {
+test_that("mol_form private constructor", {
   expect_equal(vec_size(new_molecular_formula()), 0)
   expect_equal(vec_size(new_molecular_formula(list(integer(0)))), 1)
   expect_equal(vec_size(new_molecular_formula(list(NA_integer_))), 1)
@@ -11,6 +11,9 @@ test_that("mol_form constructor", {
       c(H = 1L)
     ))), c(NA, "<empty>", "<empty>", "H")
   )
+})
+
+test_that("mol_form public constructor", {
   expect_equal(vec_size(molecular_formula()), 0)
   expect_equal(
     new_molecular_formula(list(c(C = 0L, H = 1L), c(C = 1L, H = 2L), c(C = 2L, H = 3L))),
@@ -24,6 +27,10 @@ test_that("mol_form constructor", {
   expect_equal(molecular_formula("C6 H0"), molecular_formula("C6"))
   expect_equal(format(molecular_formula(c("", ""))), rep("<empty>", 2))
   expect_equal(format(molecular_formula("")), "<empty>")
+  expect_equal(names(molecular_formula(c(A = "C6", B = "H12"))), c("A", "B"))
+})
+
+test_that("mol_form test function", {
   expect_true(is_molecular_formula(molecular_formula()))
 })
 

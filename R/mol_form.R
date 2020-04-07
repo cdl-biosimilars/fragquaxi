@@ -101,6 +101,7 @@ molecular_formula <- function(s = character()) {
         }
       }
     ) %>%
+    rlang::set_names(names(s)) %>%
     new_molecular_formula()
 }
 
