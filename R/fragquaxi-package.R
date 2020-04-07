@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @importFrom magrittr %>%
-#' @importFrom rlang %||% .data :=
+#' @importFrom rlang .data .env %||% :=
 "_PACKAGE"
 
 # The following block is used by usethis to automatically manage

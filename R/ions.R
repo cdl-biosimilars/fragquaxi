@@ -81,27 +81,36 @@ load_protein_sequence <- function(f, disulfides = 0L) {
 #' due to changes introduced by posttranslational modifications (PTMs).
 #'
 #' The set of proteoforms is described by a data frame passed to the first
-#' argument. In this data frame, each row corresponds to a single proteoform. The
-#' first column must be labeled `name` and should contain a short, informative
-#' description. All subsequent columns must be labeled by valid PTM names (see
-#' below) and contain the number of the respective PTM found in the respective
-#' proteoform.
+#' argument. In this data frame, each row corresponds to a single proteoform,
+#' and the columns specify each proteoform as follows:
+#'
+#' * A mandatory column labeled `name` must contain a short, informative
+#' description.
+#' * An optional column labeled `protein_formula` specifies a formula for the
+#' protein associated with the respective proteoform (useful if the data frame
+#' describes proteoforms derived from different proteins). If this column is
+#' absent, all rows use the value of the argument `protein_formula`.
+#' * Several optional columns labeled by valid PTM names (see below) contain the
+#' number of the respective PTM found in the respective proteoform.
 #'
 #' Valid PTM names include
+#'
 #' * monosaccharides as provided in the data set [monosaccharides],
 #' * PTMs as provided in the data set [ptms],
 #' * user-defined PTMs supplied by the user via the argument `other_ptms`.
 #'
 #' @param proteoforms A data frame describing proteoforms (see details).
 #' @param protein_formula A string or [mol_form][molecular_formula()] object
-#'   describing the molecular formula of the protein.
+#'   describing the molecular formula of the protein. If `NULL`, the data frame
+#'   passed to `proteoforms` must contain a column `protein_formula` with
+#'   formulas.
 #' @param mass_set Atomic masses that should be used for mass calculation.
-#' @param other_ptms A named character vector of the form
-#'   `c(ptm_1 = "correction formula 1", ..., ptm_n = "correction formula n")`
-#'   defining additional PTMs.
+#' @param other_ptms A named character vector of the form `c(ptm_1 = "correction
+#'   formula 1", ..., ptm_n = "correction formula n")` defining additional PTMs.
 #' @return A data frame containing all columns of the supplied data frame plus
-#'   an additional column `mass`, which contains the calculated proteoform
-#'   masses.
+#'   the additional columns `protein_formula` (if absent in the input),
+#'   `ptm_formula` (sum formula of all PTMs), and `mass` (calculated proteoform
+#'   masses).
 #' @export
 #'
 #' @seealso [`get_mass()`] for predefined mass sets, [monosaccharides] and
@@ -131,12 +140,12 @@ load_protein_sequence <- function(f, disulfides = 0L) {
 #' mab_formula <- molecular_formula(mab_atoms)
 #' calculate_proteoform_masses(proteoforms, mab_formula, other_ptms = my_ptms)
 calculate_proteoform_masses <- function(proteoforms,
-                                        protein_formula,
+                                        protein_formula = NULL,
                                         mass_set = "average",
                                         other_ptms = NULL) {
   requested_mods <-
     names(proteoforms) %>%
-    setdiff("name")
+    setdiff(c("name", "protein_formula"))
 
   unknown_mods <-
     requested_mods %>%
@@ -171,29 +180,58 @@ calculate_proteoform_masses <- function(proteoforms,
     other_ptms[names(other_ptms) %in% requested_mods]
   )
 
-  mod_masses <-
+  all_mods <-
     molecular_formula(all_mods) %>%
-    purrr::map_dbl(get_mass, mass_set) %>%
     rlang::set_names(names(all_mods))
 
-  if (vec_is(protein_formula, character()))
-    protein_formula <- molecular_formula(protein_formula)
-  protein_mass <- protein_formula %>% get_mass(mass_set)
+  if ("protein_formula" %in% names(proteoforms)) {
+    if (!is.null(protein_formula))
+      warning("Protein formulas already specified for proteoforms. ",
+              "Ignoring value of argument 'protein_formula'.",
+              call. = FALSE)
+
+    if (vec_is(proteoforms$protein_formula, character()))
+      proteoforms <-
+        proteoforms %>%
+        dplyr::mutate(
+          protein_formula = molecular_formula(.data$protein_formula)
+        )
+  } else {
+    if (is.null(protein_formula))
+      stop("No protein formula specified. ",
+           "Either specify a formula via the argument 'protein_formula' or ",
+           "include a column 'protein_formula' in the data frame ",
+           "passed to 'proteoforms'.",
+           call. = FALSE)
+
+    if (vec_is(protein_formula, character()))
+      protein_formula <- molecular_formula(protein_formula)
+
+    proteoforms <-
+      proteoforms %>%
+      dplyr::mutate(protein_formula = .env$protein_formula)
+  }
 
   proteoforms %>%
     dplyr::mutate(
-      mass = protein_mass +
-        purrr::pmap_dbl(
-        .,
-        function(name, ...) {
-          purrr::imap_dbl(
-            list(...),
-            ~.x * mod_masses[.y]
-          ) %>%
-            sum()
-        }
-      )
-    )
+      ptm_formula =
+        purrr::pmap(
+          .,
+          function(name, protein_formula, ...) {
+            purrr::imap(
+              list(...),
+              ~.x * all_mods[.y]
+            ) %>%
+              vec_unchop() %>%
+              sum()
+          }
+        ) %>%
+        vec_unchop(),
+      mass =
+        get_mass(.data$protein_formula, mass_set) +
+        get_mass(.data$ptm_formula, mass_set)
+    ) %>%
+    dplyr::select(.data$name, names(.env$all_mods), dplyr::everything())
 }
 
 #' Calculate mass-to-charge ratios for proteoform ions.

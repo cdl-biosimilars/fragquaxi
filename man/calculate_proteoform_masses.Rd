@@ -6,7 +6,7 @@
 \usage{
 calculate_proteoform_masses(
   proteoforms,
-  protein_formula,
+  protein_formula = NULL,
   mass_set = "average",
   other_ptms = NULL
 )
@@ -15,18 +15,19 @@ calculate_proteoform_masses(
 \item{proteoforms}{A data frame describing proteoforms (see details).}
 
 \item{protein_formula}{A string or \link[=molecular_formula]{mol_form} object
-describing the molecular formula of the protein.}
+describing the molecular formula of the protein. If \code{NULL}, the data frame
+passed to \code{proteoforms} must contain a column \code{protein_formula} with
+formulas.}
 
 \item{mass_set}{Atomic masses that should be used for mass calculation.}
 
-\item{other_ptms}{A named character vector of the form
-\code{c(ptm_1 = "correction formula 1", ..., ptm_n = "correction formula n")}
-defining additional PTMs.}
+\item{other_ptms}{A named character vector of the form \code{c(ptm_1 = "correction formula 1", ..., ptm_n = "correction formula n")} defining additional PTMs.}
 }
 \value{
 A data frame containing all columns of the supplied data frame plus
-an additional column \code{mass}, which contains the calculated proteoform
-masses.
+the additional columns \code{protein_formula} (if absent in the input),
+\code{ptm_formula} (sum formula of all PTMs), and \code{mass} (calculated proteoform
+masses).
 }
 \description{
 This function calculates masses for a set of proteoforms, i.e., the different
@@ -35,11 +36,18 @@ due to changes introduced by posttranslational modifications (PTMs).
 }
 \details{
 The set of proteoforms is described by a data frame passed to the first
-argument. In this data frame, each row corresponds to a single proteoform. The
-first column must be labeled \code{name} and should contain a short, informative
-description. All subsequent columns must be labeled by valid PTM names (see
-below) and contain the number of the respective PTM found in the respective
-proteoform.
+argument. In this data frame, each row corresponds to a single proteoform,
+and the columns specify each proteoform as follows:
+\itemize{
+\item A mandatory column labeled \code{name} must contain a short, informative
+description.
+\item An optional column labeled \code{protein_formula} specifies a formula for the
+protein associated with the respective proteoform (useful if the data frame
+describes proteoforms derived from different proteins). If this column is
+absent, all rows use the value of the argument \code{protein_formula}.
+\item Several optional columns labeled by valid PTM names (see below) contain the
+number of the respective PTM found in the respective proteoform.
+}
 
 Valid PTM names include
 \itemize{
