@@ -1,3 +1,50 @@
+#' Plot the total ion current.
+#'
+#' @param ms_data Mass spectrometry data stored in an mzR object as returned by
+#'   [mzR::openMSfile()].
+#' @param time_scale Units used for the x-axis.
+#'
+#' @return A ggplot object describing the created plot.
+#' @export
+#'
+#' @examples
+#' ms_data <- mzR::openMSfile(
+#'   system.file("extdata", "mzml", "mab1.mzML", package = "fragquaxi")
+#' )
+#'
+#' plot_tic(ms_data)
+#'
+#' plot_tic(ms_data, time_scale = "s")
+plot_tic <- function(ms_data, time_scale = c("min", "s")) {
+  vis_data <-
+    mzR::tic(ms_data) %>%
+    rlang::set_names(c("time", "int"))
+
+  time_scale = match.arg(time_scale)
+
+  if (time_scale == "min") {
+    x_name = "time (min)"
+  } else {
+    vis_data <-
+      vis_data %>%
+      dplyr::mutate(time = .data$time * 60)
+    x_name <- "time (s)"
+  }
+
+  p <-
+    ggplot2::ggplot(vis_data, ggplot2::aes(.data$time, .data$int)) +
+    ggplot2::geom_line() +
+    ggplot2::xlab(x_name) +
+    ggplot2::ylab("intensity") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(
+      panel.grid = ggplot2::element_blank()
+    )
+
+  p
+}
+
+
 #' Visualize integration boundaries for proteoform ions.
 #'
 #' This function plots one or several mass spectra overlaid with mass-to-charge
