@@ -56,6 +56,10 @@ plot_tic <- function(ms_data, time_scale = c("min", "s")) {
 #'   as returned by [ionize()].
 #' @param scans Scan numbers to show (vector of integers). If `NULL`, show all
 #'   spectra in the file.
+#' @param rt_limits A numeric vector with two elements specifying retention time
+#'   limits (in seconds) for selecting scans. If values are specified for both
+#'   `scans` and `rt_limits`, the function issues a warning and ignores the
+#'   value of the latter.
 #' @param xlim x-axis limits, given as `c(lower, upper)`. If `NULL`, use the
 #'   default scale range.
 #' @param plot_elements Character vector specifying which plot elements should
@@ -100,9 +104,30 @@ plot_tic <- function(ms_data, time_scale = c("min", "s")) {
 plot_ions <- function(ms_data,
                       ions,
                       scans = NULL,
+                      rt_limits = NULL,
                       xlim = NULL,
                       plot_elements = c("mz", "mz_min",
                                         "mz_max", "ion_labels")) {
+  if (!is.null(rt_limits)) {
+    if (!is.null(scans)) {
+      warning("Values specified for both 'scans' and 'rt_limits'. ",
+              "Ignoring the value of 'rt_limits'.",
+              call. = FALSE)
+    } else {
+      scans <-
+        mzR::header(ms_data)$retentionTime %>%
+        dplyr::between(rt_limits[1], rt_limits[2]) %>%
+        which()
+
+      if (length(scans) == 0)
+        stop("No scans within the given retention time limits.", call. = FALSE)
+
+      message("Showing the following scans ",
+              "based on the given retention time limits: ",
+              paste(scans, collapse = ", "))
+    }
+  }
+
   if (is.null(scans))
     all_spectra <- mzR::spectra(ms_data)
   else if (length(scans) == 1)

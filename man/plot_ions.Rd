@@ -8,6 +8,7 @@ plot_ions(
   ms_data,
   ions,
   scans = NULL,
+  rt_limits = NULL,
   xlim = NULL,
   plot_elements = c("mz", "mz_min", "mz_max", "ion_labels")
 )
@@ -21,6 +22,11 @@ as returned by \code{\link[=ionize]{ionize()}}.}
 
 \item{scans}{Scan numbers to show (vector of integers). If \code{NULL}, show all
 spectra in the file.}
+
+\item{rt_limits}{A numeric vector with two elements specifying retention time
+limits (in seconds) for selecting scans. If values are specified for both
+\code{scans} and \code{rt_limits}, the function issues a warning and ignores the
+value of the latter.}
 
 \item{xlim}{x-axis limits, given as \code{c(lower, upper)}. If \code{NULL}, use the
 default scale range.}
