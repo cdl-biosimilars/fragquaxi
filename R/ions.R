@@ -49,10 +49,12 @@ charge <- function(m, z, charge_agent_mass = NULL) {
 #'   recycled to the number of the given FASTA files. For each disulfide bridge,
 #'   two hydrogen atoms are subtracted from the molecular formula.
 #'
-#' @return A data frame that describes one protein per row and comprises two
+#' @return A data frame that describes one protein per row and comprises three
 #'   columns: \describe{\item{`protein_name`}{Name of each protein, derived from
 #'   the argument name in `...` (if present; otherwise, a consecutive
-#'   number).}\item{`protein_formula`}{Formula calculated from its sequence.}}
+#'   number).}\item{`protein_data`}{Data frame storing the FASTA file name
+#'   (`file`) and number of disulfides (`disulfides`) used for calculating its
+#'   formula.}\item{`protein_formula`}{Formula calculated from its sequence.}}
 #' @export
 #'
 #' @examples
@@ -88,14 +90,13 @@ define_proteins <- function(..., .disulfides = 0L) {
     }
   ) %>%
     vec_unchop() %>%
-    tibble::enframe(name = "protein_name", value = "protein_formula")
+    tibble::enframe(name = "protein_name", value = "protein_formula") %>%
+    dplyr::mutate(file = files, disulfides = disulfides) %>%
+    tidyr::nest(protein_data = c(.data$file, .data$disulfides)) %>%
+    dplyr::select(.data$protein_name, .data$protein_data, .data$protein_formula)
 }
 
-#' Calculate proteoform masses.
-#'
-#' This function calculates masses for a set of proteoforms, i.e., the different
-#' molecular forms in which the protein product of a single gene can be found
-#' due to changes introduced by posttranslational modifications (PTMs).
+#' Create a proteoform specification.
 #'
 #' ## Proteoform specification
 #'

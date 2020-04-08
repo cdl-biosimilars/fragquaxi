@@ -15,10 +15,12 @@ recycled to the number of the given FASTA files. For each disulfide bridge,
 two hydrogen atoms are subtracted from the molecular formula.}
 }
 \value{
-A data frame that describes one protein per row and comprises two
+A data frame that describes one protein per row and comprises three
 columns: \describe{\item{\code{protein_name}}{Name of each protein, derived from
 the argument name in \code{...} (if present; otherwise, a consecutive
-number).}\item{\code{protein_formula}}{Formula calculated from its sequence.}}
+number).}\item{\code{protein_data}}{Data frame storing the FASTA file name
+(\code{file}) and number of disulfides (\code{disulfides}) used for calculating its
+formula.}\item{\code{protein_formula}}{Formula calculated from its sequence.}}
 }
 \description{
 This function assembles a protein specification from several FASTA files.
