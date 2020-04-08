@@ -110,8 +110,6 @@ plot_ions <- function(ms_data,
   else
     all_spectra <- mzR::spectra(ms_data, scans)
 
-  plot_elements <- match.arg(plot_elements, several.ok = TRUE)
-
   vis_data <-
     all_spectra %>%
     purrr::map(
