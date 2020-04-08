@@ -98,95 +98,59 @@ define_proteins <- function(..., .disulfides = 0L) {
 
 #' Create a proteoform specification.
 #'
-#' ## Proteoform specification
+#' This function defines proteoforms from post-translational modification (PTM)
+#' compositions.
 #'
-#' The set of proteoforms is described by a data frame passed to the first
-#' argument. In this data frame, each row corresponds to a single proteoform,
-#' and the columns specify each proteoform as follows:
+#' ## PTM compositions
 #'
-#' * A mandatory column labeled `name` must contain a short, informative
-#' description.
-#' * An optional column labeled `protein_formula` specifies a formula for the
-#' protein associated with the respective proteoform (useful if the data frame
-#' describes proteoforms derived from different proteins). If this column is
-#' absent, all rows use the value of the argument `protein_formula`.
-#' * Several optional columns labeled by valid PTM names (see below) contain the
-#' number of the respective PTM found in the respective proteoform.
+#' PTM compositions are supplied in a data frame where each row corresponds to a
+#' single composition. This data frame must comprise a column labeled `pfm_name`
+#' with a short description. The remaining columns must be labeled by valid PTM
+#' names (see below) and contain the number of the respective PTM found in the
+#' respective composition.
 #'
 #' Valid PTM names include
-#'
 #' * monosaccharides as provided in the data set [monosaccharides],
 #' * PTMs as provided in the data set [ptms],
 #' * user-defined PTMs supplied by the user via the argument `other_ptms`.
 #'
-#' ## Protein formula
+#' @param ptm_compositions A data frame with PTM compositions (see details).
+#' @param other_ptms A named vector (of strings or molecular formulas) defining
+#'   additional PTMs like `c(ptm_1 = correction formula 1, ..., ptm_n =
+#'   correction formula n)` .
 #'
-#' Each of the \eqn{n} elements in `protein_formula` is interpreted as a
-#' distinct protein for which all \eqn{p} proteoforms specified *via* the first
-#' argument should be constructed. Hence, the result will contain \eqn{n \times
-#' p}{n * p} rows.
-#'
-#' ## Composite proteoform names
-#'
-#' In order to ensure unique identifiers in column `name`, its contents will be
-#' rewritten if `protein_formula` contains more than one element. The new names
-#' will be assembled according to the [glue::glue()] string literal defined by
-#' `name_template`. In this string literal,
-#'
-#' * `{name}` will be replaced by the original value in column `name`, and
-#' * `{fname}` will be replaced by the names of vector `protein_formula` (if
-#'   present) or by consecutive numbers.
-#'
-#' @param proteoforms A data frame describing proteoforms (see details).
-#' @param protein_formula A string or [molecular formula][molecular_formula()]
-#'   describing the molecular formula of the protein (see details). If `NULL`,
-#'   the data frame passed to `proteoforms` must contain a column
-#'   `protein_formula` with formulas.
-#' @param mass_set Atomic masses that should be used for mass calculation.
-#' @param other_ptms A named character vector of the form `c(ptm_1 = "correction
-#'   formula 1", ..., ptm_n = "correction formula n")` defining additional PTMs.
-#' @param name_template A [glue::glue()] string literal that describes the
-#'   construction of composite proteoform names (see details).
-#' @return A data frame containing a complete proteoform specification. It
-#'   comprises all columns of the supplied data frame plus the additional
-#'   columns `protein_formula` (if absent in the input), `ptm_formula` (sum
-#'   formula of all PTMs), and `mass` (calculated proteoform masses).
+#' @return
 #' @export
 #'
-#' @seealso [`get_mass()`] for predefined mass sets, [monosaccharides] and
-#'   [ptms] for predefined monosaccharides and PTMs, respectively
+#' @seealso [monosaccharides] and [ptms] for predefined monosaccharides and
+#'   PTMs, respectively
 #'
 #' @examples
-#' proteoforms <- tibble::tribble(
-#'   ~name,       ~Hex, ~HexNAc, ~Fuc, ~PHOS, ~foo,
-#'   "G0F/G0",       6,       8,    1,    0,     0,
-#'   "G0F/G0F",      6,       8,    2,    0,     0,
-#'   "G0F/G1F",      7,       8,    2,    0,     0,
-#'   "G1F/G1F",      8,       8,    2,    0,     0,
-#'   "G1F/G2F",      9,       8,    2,    0,     0,
-#'   "G2F/G2F",     10,       8,    2,    0,     0,
-#'   "G2F/G2F+P",   10,       8,    2,    1,     0,
-#'   "G2F/G2F+foo", 10,       8,    2,    0,     1,
+#' ptm_compositions <- tibble::tribble(
+#'   ~pfm_name,       ~Hex, ~HexNAc, ~Fuc, ~PHOS, ~foo,
+#'   "G0F/G0",           6,       8,    1,    0,     0,
+#'   "G0F/G0F",          6,       8,    2,    0,     0,
+#'   "G0F/G1F",          7,       8,    2,    0,     0,
+#'   "G1F/G1F",          8,       8,    2,    0,     0,
+#'   "G1F/G2F",          9,       8,    2,    0,     0,
+#'   "G2F/G2F",         10,       8,    2,    0,     0,
+#'   "G2F/G2F+P",       10,       8,    2,    1,     0,
+#'   "G2F/G2F+foo",     10,       8,    2,    0,     1,
 #' )
 #'
-#' mab_atoms <- "C6464 H9950 N1706 O2014 S44"
 #' my_ptms <- c(
 #'   foo = "C42",
 #'   bar = "H42"
 #' )
 #'
-#' calculate_proteoform_masses(proteoforms, mab_atoms, other_ptms = my_ptms)
-#'
-#' mab_formula <- molecular_formula(mab_atoms)
-#' calculate_proteoform_masses(proteoforms, mab_formula, other_ptms = my_ptms)
-calculate_proteoform_masses <- function(proteoforms,
-                                        protein_formula = NULL,
-                                        mass_set = "average",
-                                        other_ptms = NULL,
-                                        name_template = "{fname}_{name}") {
+#' define_proteoforms(ptm_compositions, my_ptms)
+define_proteoforms <- function(ptm_compositions, other_ptms = NULL) {
+  if (vec_is(other_ptms, character()))
+    other_ptms <- molecular_formula(other_ptms)
+
   requested_mods <-
-    names(proteoforms) %>%
-    setdiff(c("name", "protein_formula"))
+    names(ptm_compositions) %>%
+    setdiff("pfm_name")
 
   unknown_mods <-
     requested_mods %>%
@@ -224,56 +188,12 @@ calculate_proteoform_masses <- function(proteoforms,
     molecular_formula(all_mods) %>%
     rlang::set_names(names(all_mods))
 
-  if ("protein_formula" %in% names(proteoforms)) {
-    if (!is.null(protein_formula))
-      warning("Protein formulas already specified for proteoforms. ",
-              "Ignoring value of argument 'protein_formula'.",
-              call. = FALSE)
-
-    if (vec_is(proteoforms$protein_formula, character()))
-      proteoforms <-
-        proteoforms %>%
-        dplyr::mutate(
-          protein_formula = molecular_formula(.data$protein_formula)
-        )
-  } else {
-    if (is.null(protein_formula))
-      stop("No protein formula specified. ",
-           "Either specify a formula via the argument 'protein_formula' or ",
-           "include a column 'protein_formula' in the data frame ",
-           "passed to 'proteoforms'.",
-           call. = FALSE)
-
-    if (vec_is(protein_formula, character()))
-      protein_formula <- molecular_formula(protein_formula)
-
-    protein_formula <- tibble::enframe(
-      protein_formula,
-      name = "fname",
-      value = "protein_formula"
-    )
-
-    proteoforms <-
-      proteoforms %>%
-      dplyr::mutate(protein_formula = list(.env$protein_formula)) %>%
-      tidyr::unnest(.data$protein_formula)
-
-    if (nrow(protein_formula) > 1)
-      proteoforms <-
-        proteoforms %>%
-        dplyr::mutate(name = stringr::str_glue(name_template))
-
-    proteoforms <-
-      proteoforms %>%
-      dplyr::select(-.data$fname)
-  }
-
-  proteoforms %>%
+  ptm_compositions %>%
     dplyr::mutate(
-      ptm_formula =
+      pfm_formula =
         purrr::pmap(
           .,
-          function(name, protein_formula, ...) {
+          function(pfm_name, ...) {
             purrr::imap(
               list(...),
               ~.x * all_mods[.y]
@@ -282,12 +202,61 @@ calculate_proteoform_masses <- function(proteoforms,
               sum()
           }
         ) %>%
-        vec_unchop(),
-      mass =
-        get_mass(.data$protein_formula, mass_set) +
-        get_mass(.data$ptm_formula, mass_set)
+        vec_unchop()
     ) %>%
-    dplyr::select(.data$name, names(.env$all_mods), dplyr::everything())
+    tidyr::nest(pfm_data = -c(pfm_name, pfm_formula)) %>%
+    dplyr::select(pfm_name, pfm_data, pfm_formula)
+}
+
+#' Calculate proteoform masses.
+#'
+#' This function combines a set of proteins with a set of proteoforms and
+#' calculates the masses of the resulting proteoforms (i.e., the different
+#' molecular forms in which the protein product of a single gene can be found
+#' due to changes introduced by posttranslational modifications).
+#'
+#' @param proteins A protein specification as returned by [define_proteins()].
+#' @param proteoforms A proteoform specification as returned by
+#'   [define_proteoforms()].
+#' @param mass_set Atomic masses that should be used for mass calculation.
+#' @return A data frame containing \eqn{p \times n}{p * n} proteoforms, obtained
+#'   by combining information on \eqn{p} proteins (as specified in `proteins`)
+#'   with information on \eqn{n} proteoforms (as specified in `proteoforms`).
+#'   This data frame comprises two columns derived from the input data frames
+#'   (`protein_name` and `pfm_name`, respectively) and two new columns `formula`
+#'   (overall molecular formula) and `mass` (calculated proteoform masses).
+#' @export
+#'
+#' @seealso [`get_mass()`] for predefined mass sets
+#'
+#' @examples
+#' proteins <- define_proteins(
+#'   system.file("extdata", "mab_sequence.fasta", package = "fragquaxi"),
+#'   .disulfides = 16
+#' )
+#'
+#' proteoforms <- define_proteoforms(
+#'   tibble::tribble(
+#'     ~pfm_name,       ~Hex, ~HexNAc, ~Fuc,
+#'     "G0F/G0",           6,       8,    1,
+#'     "G0F/G0F",          6,       8,    2,
+#'     "G0F/G1F",          7,       8,    2,
+#'     "G1F/G1F",          8,       8,    2,
+#'     "G1F/G2F",          9,       8,    2,
+#'     "G2F/G2F",         10,       8,    2,
+#'   )
+#' )
+#'
+#' weigh(proteins, proteoforms)
+weigh <- function(proteins, proteoforms, mass_set = "average") {
+  proteins %>%
+    dplyr::mutate(proteoforms = list(proteoforms)) %>%
+    tidyr::unnest(.data$proteoforms) %>%
+    dplyr::mutate(
+      formula = .data$protein_formula + .data$pfm_formula,
+      mass = get_mass(.data$formula, mass_set)
+    ) %>%
+    dplyr::select(.data$protein_name, .data$pfm_name, .data$formula, .data$mass)
 }
 
 #' Calculate mass-to-charge ratios for proteoform ions.
@@ -337,6 +306,5 @@ ionize <- function(proteoforms,
     dplyr::select(
       -tidyselect::all_of(c("z", "mz", "mz_min", "mz_max")),
       .data$z, .data$mz, .data$mz_min, .data$mz_max
-    ) %>%
-    dplyr::arrange(.data$name, .data$z)
+    )
 }
