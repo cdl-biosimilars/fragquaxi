@@ -8,26 +8,30 @@ calculate_proteoform_masses(
   proteoforms,
   protein_formula = NULL,
   mass_set = "average",
-  other_ptms = NULL
+  other_ptms = NULL,
+  name_template = "{fname}_{name}"
 )
 }
 \arguments{
 \item{proteoforms}{A data frame describing proteoforms (see details).}
 
-\item{protein_formula}{A string or \link[=molecular_formula]{mol_form} object
-describing the molecular formula of the protein. If \code{NULL}, the data frame
-passed to \code{proteoforms} must contain a column \code{protein_formula} with
-formulas.}
+\item{protein_formula}{A string or \link[=molecular_formula]{molecular formula}
+describing the molecular formula of the protein (see details). If \code{NULL},
+the data frame passed to \code{proteoforms} must contain a column
+\code{protein_formula} with formulas.}
 
 \item{mass_set}{Atomic masses that should be used for mass calculation.}
 
 \item{other_ptms}{A named character vector of the form \code{c(ptm_1 = "correction formula 1", ..., ptm_n = "correction formula n")} defining additional PTMs.}
+
+\item{name_template}{A \code{\link[glue:glue]{glue::glue()}} string literal that describes the
+construction of composite proteoform names (see details).}
 }
 \value{
-A data frame containing all columns of the supplied data frame plus
-the additional columns \code{protein_formula} (if absent in the input),
-\code{ptm_formula} (sum formula of all PTMs), and \code{mass} (calculated proteoform
-masses).
+A data frame containing a complete proteoform specification. It
+comprises all columns of the supplied data frame plus the additional
+columns \code{protein_formula} (if absent in the input), \code{ptm_formula} (sum
+formula of all PTMs), and \code{mass} (calculated proteoform masses).
 }
 \description{
 This function calculates masses for a set of proteoforms, i.e., the different
@@ -35,6 +39,8 @@ molecular forms in which the protein product of a single gene can be found
 due to changes introduced by posttranslational modifications (PTMs).
 }
 \details{
+\subsection{Proteoform specification}{
+
 The set of proteoforms is described by a data frame passed to the first
 argument. In this data frame, each row corresponds to a single proteoform,
 and the columns specify each proteoform as follows:
@@ -54,6 +60,28 @@ Valid PTM names include
 \item monosaccharides as provided in the data set \link{monosaccharides},
 \item PTMs as provided in the data set \link{ptms},
 \item user-defined PTMs supplied by the user via the argument \code{other_ptms}.
+}
+}
+
+\subsection{Protein formula}{
+
+Each of the \eqn{n} elements in \code{protein_formula} is interpreted as a
+distinct protein for which all \eqn{p} proteoforms specified \emph{via} the first
+argument should be constructed. Hence, the result will contain \eqn{n \times
+p}{n * p} rows.
+}
+
+\subsection{Composite proteoform names}{
+
+In order to ensure unique identifiers in column \code{name}, its contents will be
+rewritten if \code{protein_formula} contains more than one element. The new names
+will be assembled according to the \code{\link[glue:glue]{glue::glue()}} string literal defined by
+\code{name_template}. In this string literal,
+\itemize{
+\item \code{{name}} will be replaced by the original value in column \code{name}, and
+\item \code{{fname}} will be replaced by the names of vector \code{protein_formula} (if
+present) or by consecutive numbers.
+}
 }
 }
 \examples{

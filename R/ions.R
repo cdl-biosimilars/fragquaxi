@@ -80,6 +80,8 @@ load_protein_sequence <- function(f, disulfides = 0L) {
 #' molecular forms in which the protein product of a single gene can be found
 #' due to changes introduced by posttranslational modifications (PTMs).
 #'
+#' ## Proteoform specification
+#'
 #' The set of proteoforms is described by a data frame passed to the first
 #' argument. In this data frame, each row corresponds to a single proteoform,
 #' and the columns specify each proteoform as follows:
@@ -99,18 +101,38 @@ load_protein_sequence <- function(f, disulfides = 0L) {
 #' * PTMs as provided in the data set [ptms],
 #' * user-defined PTMs supplied by the user via the argument `other_ptms`.
 #'
+#' ## Protein formula
+#'
+#' Each of the \eqn{n} elements in `protein_formula` is interpreted as a
+#' distinct protein for which all \eqn{p} proteoforms specified *via* the first
+#' argument should be constructed. Hence, the result will contain \eqn{n \times
+#' p}{n * p} rows.
+#'
+#' ## Composite proteoform names
+#'
+#' In order to ensure unique identifiers in column `name`, its contents will be
+#' rewritten if `protein_formula` contains more than one element. The new names
+#' will be assembled according to the [glue::glue()] string literal defined by
+#' `name_template`. In this string literal,
+#'
+#' * `{name}` will be replaced by the original value in column `name`, and
+#' * `{fname}` will be replaced by the names of vector `protein_formula` (if
+#'   present) or by consecutive numbers.
+#'
 #' @param proteoforms A data frame describing proteoforms (see details).
-#' @param protein_formula A string or [mol_form][molecular_formula()] object
-#'   describing the molecular formula of the protein. If `NULL`, the data frame
-#'   passed to `proteoforms` must contain a column `protein_formula` with
-#'   formulas.
+#' @param protein_formula A string or [molecular formula][molecular_formula()]
+#'   describing the molecular formula of the protein (see details). If `NULL`,
+#'   the data frame passed to `proteoforms` must contain a column
+#'   `protein_formula` with formulas.
 #' @param mass_set Atomic masses that should be used for mass calculation.
 #' @param other_ptms A named character vector of the form `c(ptm_1 = "correction
 #'   formula 1", ..., ptm_n = "correction formula n")` defining additional PTMs.
-#' @return A data frame containing all columns of the supplied data frame plus
-#'   the additional columns `protein_formula` (if absent in the input),
-#'   `ptm_formula` (sum formula of all PTMs), and `mass` (calculated proteoform
-#'   masses).
+#' @param name_template A [glue::glue()] string literal that describes the
+#'   construction of composite proteoform names (see details).
+#' @return A data frame containing a complete proteoform specification. It
+#'   comprises all columns of the supplied data frame plus the additional
+#'   columns `protein_formula` (if absent in the input), `ptm_formula` (sum
+#'   formula of all PTMs), and `mass` (calculated proteoform masses).
 #' @export
 #'
 #' @seealso [`get_mass()`] for predefined mass sets, [monosaccharides] and
@@ -142,7 +164,8 @@ load_protein_sequence <- function(f, disulfides = 0L) {
 calculate_proteoform_masses <- function(proteoforms,
                                         protein_formula = NULL,
                                         mass_set = "average",
-                                        other_ptms = NULL) {
+                                        other_ptms = NULL,
+                                        name_template = "{fname}_{name}") {
   requested_mods <-
     names(proteoforms) %>%
     setdiff(c("name", "protein_formula"))
@@ -179,7 +202,6 @@ calculate_proteoform_masses <- function(proteoforms,
       tibble::deframe(),
     other_ptms[names(other_ptms) %in% requested_mods]
   )
-
   all_mods <-
     molecular_formula(all_mods) %>%
     rlang::set_names(names(all_mods))
@@ -207,9 +229,25 @@ calculate_proteoform_masses <- function(proteoforms,
     if (vec_is(protein_formula, character()))
       protein_formula <- molecular_formula(protein_formula)
 
+    protein_formula <- tibble::enframe(
+      protein_formula,
+      name = "fname",
+      value = "protein_formula"
+    )
+
     proteoforms <-
       proteoforms %>%
-      dplyr::mutate(protein_formula = .env$protein_formula)
+      dplyr::mutate(protein_formula = list(.env$protein_formula)) %>%
+      tidyr::unnest(.data$protein_formula)
+
+    if (nrow(protein_formula) > 1)
+      proteoforms <-
+        proteoforms %>%
+        dplyr::mutate(name = stringr::str_glue(name_template))
+
+    proteoforms <-
+      proteoforms %>%
+      dplyr::select(-.data$fname)
   }
 
   proteoforms %>%
