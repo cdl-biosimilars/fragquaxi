@@ -35,43 +35,60 @@ charge <- function(m, z, charge_agent_mass = NULL) {
   )
 }
 
-#' Calculate the molecular formula of a protein.
+#' Create a protein specification.
 #'
-#' This function converts the amino acid sequences stored in a FASTA file to a
+#' This function assembles a protein specification from several FASTA files.
+#' It converts the amino acid sequence stored in each FASTA file to a
 #' molecular formula. If the protein has multiple chains, each chain must be
 #' specified with its own header line, *i.e.*, a line starting with `>`. For
 #' each chain, a water molecule is added to the formula.
 #'
-#' @param f FASTA file containing the protein sequence.
-#' @param disulfides Number of disulfide bridges. For each disulfide bridge, two
-#'   hydrogen atoms are subtracted from the molecular formula.
+#' @param ... FASTA files containing protein sequences. Argument names will be
+#'   used as protein names.
+#' @param .disulfides A vector describing the number of disulfide bridges,
+#'   recycled to the number of the given FASTA files. For each disulfide bridge,
+#'   two hydrogen atoms are subtracted from the molecular formula.
 #'
-#' @return The molecular formula of the protein.
+#' @return A data frame that describes one protein per row and comprises two
+#'   columns: \describe{\item{`protein_name`}{Name of each protein, derived from
+#'   the argument name in `...` (if present; otherwise, a consecutive
+#'   number).}\item{`protein_formula`}{Formula calculated from its sequence.}}
 #' @export
 #'
 #' @examples
-#' mab_sequence <- system.file("extdata", "mab_sequence.fasta", package = "fragquaxi")
-#' load_protein_sequence(mab_sequence)
+#' mab_sequence <- system.file("extdata", "mab_sequence.fasta",
+#'                             package = "fragquaxi")
+#' define_proteins(mab_sequence)
 #'
-#' load_protein_sequence(mab_sequence, disulfides = 16)
-load_protein_sequence <- function(f, disulfides = 0L) {
-  sequences <- Biostrings::readAAStringSet(f)
+#' define_proteins(mab_sequence, .disulfides = 16)
+define_proteins <- function(..., .disulfides = 0L) {
+  files <- c(...)
+  disulfides <- vec_recycle(.disulfides, vec_size(files), x_arg = ".disulfides")
 
   amino_acid_compositions <-
     fragquaxi::amino_acids$formula %>%
     molecular_formula() %>%
     rlang::set_names(fragquaxi::amino_acids$abbreviation)
 
-  res <-
-    sequences %>%
-    Biostrings::letterFrequency(names(amino_acid_compositions)) %>%
-    colSums() %>%
-    purrr::imap(~amino_acid_compositions[[.y]] * .x) %>%
-    purrr::reduce(`+`)
-
-  res +
-    molecular_formula("H2O") * length(sequences) -
-    molecular_formula("H2") * disulfides
+  purrr::map2(
+    files,
+    disulfides,
+    function(path, n_disulfides) {
+      sequences <- Biostrings::readAAStringSet(path)
+      res <-
+        sequences %>%
+        Biostrings::letterFrequency(names(amino_acid_compositions)) %>%
+        colSums() %>%
+        purrr::imap(~amino_acid_compositions[[.y]] * .x) %>%
+        vec_unchop() %>%
+        sum()
+      res +
+        molecular_formula("H2O") * length(sequences) -
+        molecular_formula("H2") * n_disulfides
+    }
+  ) %>%
+    vec_unchop() %>%
+    tibble::enframe(name = "protein_name", value = "protein_formula")
 }
 
 #' Calculate proteoform masses.
