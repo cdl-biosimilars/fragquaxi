@@ -76,16 +76,16 @@ plot_tic <- function(ms_data, time_scale = c("min", "s")) {
 #' ms_data <- mzR::openMSfile(
 #'   system.file("extdata", "mzml", "mab1.mzML", package = "fragquaxi")
 #' )
-#' pfm_ions <- tibble::tribble(
-#'   ~name,       ~Hex, ~HexNAc, ~Fuc,
-#'   "G0F/G0",       6,       8,    1,
-#'   "G0F/G0F",      6,       8,    2,
-#'   "G0F/G1F",      7,       8,    2,
-#'   "G1F/G1F",      8,       8,    2,
-#'   "G1F/G2F",      9,       8,    2,
-#'   "G2F/G2F",     10,       8,    2,
-#' ) %>%
-#'   calculate_proteoform_masses("C6464 H9950 N1706 O2014 S44") %>%
+#'
+#' proteins <- define_proteins(
+#'   system.file("extdata", "mab_sequence.fasta", package = "fragquaxi"),
+#'   .disulfides = 16
+#' )
+#'
+#' modcoms <- define_ptm_compositions(sample_modcoms)
+#'
+#' pfm_ions <-
+#'   assemble_proteoforms(proteins, modcoms) %>%
 #'   ionize(36L)
 #'
 #' # show all scans
@@ -188,7 +188,9 @@ plot_ions <- function(ms_data,
   if ("ion_labels" %in% plot_elements) {
     label_data <-
       ions %>%
-      dplyr::mutate(label = stringr::str_glue("{name} (z={z})"))
+      dplyr::mutate(
+        label = stringr::str_glue("{protein_name}_{modcom_name} (z={z})")
+      )
 
     ion_label_axis <- ggplot2::sec_axis(
       trans = ~.,

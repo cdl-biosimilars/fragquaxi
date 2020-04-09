@@ -19,12 +19,13 @@ reference:
   - format.mol_form
   - get_mass
   - new_mass_set
+  - charge
 - title: Proteoforms
   description:
   contents:
-  - load_protein_sequence
-  - calculate_proteoform_masses
-  - charge
+  - define_proteins
+  - define_ptm_compositions
+  - assemble_proteoforms
   - ionize
 - title: Quantification
   description:
@@ -37,6 +38,7 @@ reference:
   description:
   contents:
   - plot_ions
+  - plot_tic
 - title: Datasets
   description:
   contents:
@@ -44,6 +46,7 @@ reference:
   - atomic_masses
   - monosaccharides
   - ptms
+  - sample_modcoms
 - title: Internal functions
   description:
   contents:

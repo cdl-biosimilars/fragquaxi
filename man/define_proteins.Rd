@@ -18,7 +18,7 @@ two hydrogen atoms are subtracted from the molecular formula.}
 A data frame that describes one protein per row and comprises three
 columns: \describe{\item{\code{protein_name}}{Name of each protein, derived from
 the argument name in \code{...} (if present; otherwise, a consecutive
-number).}\item{\code{protein_data}}{Data frame storing the FASTA file name
+number).}\item{\code{protein_data}}{Nested column storing the FASTA file name
 (\code{file}) and number of disulfides (\code{disulfides}) used for calculating its
 formula.}\item{\code{protein_formula}}{Formula calculated from its sequence.}}
 }
@@ -32,7 +32,7 @@ each chain, a water molecule is added to the formula.
 \examples{
 mab_sequence <- system.file("extdata", "mab_sequence.fasta",
                             package = "fragquaxi")
-define_proteins(mab_sequence)
+define_proteins(mab = mab_sequence)
 
 define_proteins(mab_sequence, .disulfides = 16)
 }

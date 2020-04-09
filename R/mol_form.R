@@ -598,3 +598,40 @@ new_mass_set <- function(masses, inherits_from = NULL) {
     dplyr::select(.data$element, .data$col_new_masses) %>%
     tibble::deframe()
 }
+
+#' Calculate mass-to-charge ratios.
+#'
+#' The function is vectorized over `z` and thus may calculate several \eqn{m/z}
+#' values for a single mass.
+#'
+#' @param m Mass.
+#' @param z Vector of charges.
+#' @param charge_agent_mass Mass of the charge carrier. If `NULL`, use the
+#'   average IUPAC mass of the proton.
+#'
+#' @return A named vector of mass-to-charge ratios; names correspond to the
+#'   values of `z`, converted to character.
+#' @export
+#'
+#' @examples
+#' charge(150000, z = 24)
+#'
+#' charge(150000, z = 20:24)
+#'
+#' charge(150000, z = 20:24, charge_agent_mass = 3)
+charge <- function(m, z, charge_agent_mass = NULL) {
+  if (is.null(charge_agent_mass))
+    charge_agent_mass <-
+      fragquaxi::atomic_masses %>%
+      dplyr::filter(.data$element == "H") %>%
+      dplyr::pull(.data$average)
+
+  if (any(z < 1))
+    stop("z < 1. ",
+         "Use a negative charge carrier to obtain negative charge states.")
+
+  rlang::set_names(
+    m / z + charge_agent_mass,
+    z
+  )
+}

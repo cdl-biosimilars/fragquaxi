@@ -48,10 +48,10 @@
 
 <meta property="og:title" content="Calculate mass-to-charge ratios for proteoform ions. — ionize" />
 <meta property="og:description" content="For each value \(z\) in charge_states, the function calculates
-the corresponding mass-to-charge ratio \(m / z + mc\)
-(\(mc\): charge agent mass);
+the corresponding mass-to-charge ratio \(m / z + m_c\)
+(\(m_c\): charge agent mass);
 upper and lower tolerances for this ratio, so that these values
-form a window of width \(mz * ppm / 1000000\) centered at \(mz\).
+form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
 
 " />
 <meta property="og:image" content="/logo.svg" />
@@ -127,21 +127,21 @@ form a window of width \(mz * ppm / 1000000\) centered at \(mz\).
 
     <div class="ref-description">
     <p>For each value \(z\) in <code>charge_states</code>, the function calculates</p><ul>
-<li><p>the corresponding mass-to-charge ratio \(m / z + mc\)
-(\(mc\): charge agent mass);</p></li>
+<li><p>the corresponding mass-to-charge ratio \(m / z + m_c\)
+(\(m_c\): charge agent mass);</p></li>
 <li><p>upper and lower tolerances for this ratio, so that these values
-form a window of width \(mz * ppm / 1000000\) centered at \(mz\).</p></li>
+form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).</p></li>
 </ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ionize</span>(<span class='no'>proteoforms</span>, <span class='no'>charge_states</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>charge_agent_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>ionize</span>(<span class='no'>p</span>, <span class='no'>charge_states</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>charge_agent_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>proteoforms</th>
+      <th>p</th>
       <td><p>A data frame describing proteoform masses (see details).</p></td>
     </tr>
     <tr>
@@ -162,18 +162,18 @@ average IUPAC mass of the proton.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame containing all columns of the supplied data frame plus
-four additional columns: <code>z</code> (charge state), <code>mz</code> (exact mass-to-charge
-ratio), <code>mz_min</code>, and <code>mz_max</code>. The latter two columns represent lower and
-upper tolerances for the mass-to-charge ratio and are used as integration
+    <p>A data frame containing all columns of the input data frame plus four
+additional columns: <code>z</code> (charge state), <code>mz</code> (exact mass-to-charge ratio),
+<code>mz_min</code>, and <code>mz_max</code>. The latter two columns represent lower and upper
+tolerances for the mass-to-charge ratio and are used as integration
 boundaries by <code><a href='quantify_ions.html'>quantify_ions()</a></code>. If the supplied data frame has \(r\)
 rows and \(c\) charge states were specified, the resulting data frame has
 \(r * c\) rows.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The data frame passed to <code>proteoforms</code> must contain at least one column named
-<code>mass</code>; each of its value represents the mass of a single proteoform. The
-data frame may contain any number of additional columns, which will be
+    <p>The data frame passed to the first argument must contain at least one column
+named <code>mass</code>; each of its value represents the mass of a single proteoform.
+The data frame may contain any number of additional columns, which will be
 returned unchanged.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

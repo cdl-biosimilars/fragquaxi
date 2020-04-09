@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coerce quantification results to a data frame. — as_tibble.quaxi • fragquaxi</title>
+<title>Assemble proteoforms and calculate their masses. — assemble_proteoforms • fragquaxi</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,11 @@
 
 
 
-<meta property="og:title" content="Coerce quantification results to a data frame. — as_tibble.quaxi" />
-<meta property="og:description" content="This function converts quantification results obtained from quantify_ions()
-to a nested data frame, which provides data on abundances and extracted ion
-currents (XIC) for each quantified ion." />
+<meta property="og:title" content="Assemble proteoforms and calculate their masses. — assemble_proteoforms" />
+<meta property="og:description" content="This function combines a set of proteins with a set of PTM compositions
+(&quot;modcoms&quot;) and calculates the masses of the resulting proteoforms (i.e., the
+different molecular forms in which the protein product of a single gene can
+be found due to changes introduced by posttranslational modifications)." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -116,78 +117,67 @@ currents (XIC) for each quantified ion." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coerce quantification results to a data frame.</h1>
+    <h1>Assemble proteoforms and calculate their masses.</h1>
     
-    <div class="hidden name"><code>as_tibble.quaxi.Rd</code></div>
+    <div class="hidden name"><code>assemble_proteoforms.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function converts quantification results obtained from <code><a href='quantify_ions.html'>quantify_ions()</a></code>
-to a nested data frame, which provides data on abundances and extracted ion
-currents (XIC) for each quantified ion.</p>
+    <p>This function combines a set of proteins with a set of PTM compositions
+("modcoms") and calculates the masses of the resulting proteoforms (i.e., the
+different molecular forms in which the protein product of a single gene can
+be found due to changes introduced by posttranslational modifications).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_tibble.quaxi</span>(<span class='no'>x</span>, <span class='kw'>abundance_col</span> <span class='kw'>=</span> <span class='st'>"abundance_data"</span>, <span class='kw'>xic_col</span> <span class='kw'>=</span> <span class='st'>"xic_data"</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>assemble_proteoforms</span>(<span class='no'>p</span>, <span class='no'>m</span>, <span class='kw'>mass_set</span> <span class='kw'>=</span> <span class='st'>"average"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A <code>quaxi</code> object that should be coerced to a data frame.</p></td>
+      <th>p</th>
+      <td><p>A protein specification as returned by <code><a href='define_proteins.html'>define_proteins()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>abundance_col</th>
-      <td><p>Name of the column that will contain abundance data. If
-<code>NULL</code>, do not include abundance data in the output.</p></td>
+      <th>m</th>
+      <td><p>A modcom specification as returned by <code><a href='define_ptm_compositions.html'>define_ptm_compositions()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>xic_col</th>
-      <td><p>Name of the column that will contain XIC data. If <code>NULL</code>, do
-not include XIC data in the output.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other arguments passed on to individual methods.</p></td>
+      <th>mass_set</th>
+      <td><p>Atomic masses that should be used for mass calculation.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The data frame stored in <code>x$ions</code> without column <code>ion_id</code> (i.e., a
-data frame with one ion per row) and up to two nested columns containing
-data on abundances and XICs, respectively.</p>
-<p>The former column is labeled according to the value of <code>abundance_col</code> and
-contains the variables <code>rt_min</code>, <code>rt_max</code>, <code>scan_min</code>, <code>scan_max</code>, and
-<code>abundance</code>.</p>
-<p>The latter column is labeled according to the value of <code>xic_col</code> and
-contains the variables <code>scan</code> (scan index), <code>rt</code> (corresponding retention
-time), and <code>int</code> (intensity).</p>
+    <p>A data frame containing \(p \times m\) proteoforms, obtained
+by combining information on \(p\) proteins (i.e., number of rows in <code>p</code>)
+with information on \(m\) PTM compositions (i.e., number of rows in <code>m</code>).
+This data frame comprises two columns derived from the input data frames
+(<code>protein_name</code> and <code>modcom_name</code>, respectively) and two new columns
+<code>formula</code> (overall molecular formula) and <code>mass</code> (calculated proteoform
+masses).</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='get_mass.html'>get_mass()</a></code> for predefined mass sets</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tibble</span>)
-
-<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+    <pre class="examples"><div class='input'><span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
   <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
   <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
 )
 
 <span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
 
-<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span>:<span class='fl'>40L</span>)
-
-<span class='no'>abundances</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='quantify_ions.html'>quantify_ions</a></span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>350</span>))</div><div class='output co'>#&gt; <span class='error'>Error in mzR::header(ms_data): object 'ms_data' not found</span></div><div class='input'>
-<span class='co'># by default, include data on abundances and XICs in the output</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as_tibble(abundances): object 'abundances' not found</span></div><div class='input'>
-<span class='co'># rename the column containing abundance data</span>
-<span class='co'># (and omit several columns for readability)</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>, <span class='kw'>abundance_col</span> <span class='kw'>=</span> <span class='st'>"abundances"</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>formula</span>, -<span class='no'>mz_min</span>, -<span class='no'>mz_max</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as_tibble(abundances, abundance_col = "abundances"): object 'abundances' not found</span></div><div class='input'>
-<span class='co'># omit XIC data in the output</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>, <span class='kw'>xic_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>formula</span>, -<span class='no'>mz_min</span>, -<span class='no'>mz_max</span>)</div><div class='output co'>#&gt; <span class='error'>Error in as_tibble(abundances, xic_col = NULL): object 'abundances' not found</span></div></pre>
+<span class='fu'>assemble_proteoforms</span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span><span>
+#&gt;   protein_name modcom_name formula                         mass
+#&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>            1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>147</span><span>942.
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>            1 G0F/G0F     C</span><span style='color: #0000BB;'>6576</span><span> H</span><span style='color: #0000BB;'>10134</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2092</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>088.
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>            1 G0F/G1F     C</span><span style='color: #0000BB;'>6582</span><span> H</span><span style='color: #0000BB;'>10144</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2097</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>250.
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>            1 G1F/G1F     C</span><span style='color: #0000BB;'>6588</span><span> H</span><span style='color: #0000BB;'>10154</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2102</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>412.
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>            1 G1F/G2F     C</span><span style='color: #0000BB;'>6594</span><span> H</span><span style='color: #0000BB;'>10164</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2107</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>574.
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>            1 G2F/G2F     C</span><span style='color: #0000BB;'>6600</span><span> H</span><span style='color: #0000BB;'>10174</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2112</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>737.</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

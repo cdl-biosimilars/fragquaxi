@@ -99,39 +99,49 @@
 <span class="no">ms_data</span> <span class="kw">&lt;-</span> <span class="kw pkg">mzR</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab1.mzML"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"fragquaxi"</span>)
 )</pre></div>
-<p>Define proteoforms.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">proteoforms</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  ~<span class="no">name</span>,       ~<span class="no">Hex</span>, ~<span class="no">HexNAc</span>, ~<span class="no">Fuc</span>,
-  <span class="st">"G0F/G0"</span>,       <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">1</span>,
-  <span class="st">"G0F/G0F"</span>,      <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
-  <span class="st">"G0F/G1F"</span>,      <span class="fl">7</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
-  <span class="st">"G1F/G1F"</span>,      <span class="fl">8</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
-  <span class="st">"G1F/G2F"</span>,      <span class="fl">9</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
-  <span class="st">"G2F/G2F"</span>,     <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+<p>Define proteins.</p>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">mab_sequence</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(
+  <span class="st">"extdata"</span>, <span class="st">"mab_sequence.fasta"</span>,
+  <span class="kw">package</span> <span class="kw">=</span> <span class="st">"fragquaxi"</span>
+)
+
+<span class="no">proteins</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/define_proteins.html">define_proteins</a></span>(
+  <span class="kw">mab</span> <span class="kw">=</span> <span class="no">mab_sequence</span>,
+  <span class="kw">.disulfides</span> <span class="kw">=</span> <span class="fl">16</span>
 )</pre></div>
-<p>Calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">pfm_ions</span> <span class="kw">&lt;-</span>
-  <span class="no">proteoforms</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/calculate_proteoform_masses.html">calculate_proteoform_masses</a></span>(<span class="st">"C6464 H9950 N1706 O2014 S44"</span>) <span class="kw">%&gt;%</span>
+<p>Define PTM compositions.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">modcoms</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
+  ~<span class="no">modcom_name</span>, ~<span class="no">Hex</span>, ~<span class="no">HexNAc</span>, ~<span class="no">Fuc</span>,
+  <span class="st">"G0F/G0"</span>,        <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">1</span>,
+  <span class="st">"G0F/G0F"</span>,       <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+  <span class="st">"G0F/G1F"</span>,       <span class="fl">7</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+  <span class="st">"G1F/G1F"</span>,       <span class="fl">8</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+  <span class="st">"G1F/G2F"</span>,       <span class="fl">9</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+  <span class="st">"G2F/G2F"</span>,      <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
+) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/define_ptm_compositions.html">define_ptm_compositions</a></span>()</pre></div>
+<p>Assemble proteoforms and calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">pfm_ions</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="reference/assemble_proteoforms.html">assemble_proteoforms</a></span>(<span class="no">proteins</span>, <span class="no">modcoms</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/ionize.html">ionize</a></span>(<span class="kw">charge_states</span> <span class="kw">=</span> <span class="fl">33L</span>:<span class="fl">40L</span>)
 
 <span class="no">pfm_ions</span>
-<span class="co">#&gt; # A tibble: 48 x 9</span>
-<span class="co">#&gt;    name      Hex HexNAc   Fuc    mass     z    mz mz_min mz_max</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 G0F/G0      6      8     1 147942.    33 4484.  4483.  4485.</span>
-<span class="co">#&gt;  2 G0F/G0      6      8     1 147942.    34 4352.  4351.  4353.</span>
-<span class="co">#&gt;  3 G0F/G0      6      8     1 147942.    35 4228.  4227.  4229.</span>
-<span class="co">#&gt;  4 G0F/G0      6      8     1 147942.    36 4111.  4110.  4111.</span>
-<span class="co">#&gt;  5 G0F/G0      6      8     1 147942.    37 3999.  3999.  4000.</span>
-<span class="co">#&gt;  6 G0F/G0      6      8     1 147942.    38 3894.  3893.  3895.</span>
-<span class="co">#&gt;  7 G0F/G0      6      8     1 147942.    39 3794.  3794.  3795.</span>
-<span class="co">#&gt;  8 G0F/G0      6      8     1 147942.    40 3700.  3699.  3700.</span>
-<span class="co">#&gt;  9 G0F/G0F     6      8     2 148088.    33 4489.  4488.  4489.</span>
-<span class="co">#&gt; 10 G0F/G0F     6      8     2 148088.    34 4357.  4356.  4357.</span>
-<span class="co">#&gt; # … with 38 more rows</span></pre></div>
+<span class="co">#&gt; # A tibble: 48 x 8</span>
+<span class="co">#&gt;    protein_name modcom_name formula                        mass     z    mz</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.</span>
+<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.</span>
+<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.</span>
+<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.</span>
+<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.</span>
+<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.</span>
+<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.</span>
+<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.</span>
+<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.</span>
+<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.</span>
+<span class="co">#&gt; # … with 38 more rows, and 2 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;</span></pre></div>
 <p>Plot these ions (here, only charge state 36+ of scans 126 to 136).</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/plot_ions.html">plot_ions</a></span>(
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/plot_ions.html">plot_ions</a></span>(
   <span class="no">ms_data</span>,
   <span class="kw">ions</span> <span class="kw">=</span> <span class="no">pfm_ions</span>,
   <span class="kw">scans</span> <span class="kw">=</span> <span class="fl">126</span>:<span class="fl">136</span>,
@@ -139,7 +149,7 @@
 )</pre></div>
 <p><img src="reference/figures/README-plot_ions-1.png" width="75%"></p>
 <p>Quantify these ions via XIC integration.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">abundances</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/quantify_ions.html">quantify_ions</a></span>(
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">abundances</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/quantify_ions.html">quantify_ions</a></span>(
   <span class="no">ms_data</span>,
   <span class="no">pfm_ions</span>,
   <span class="kw">rt_limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">300</span>, <span class="fl">350</span>)
@@ -153,15 +163,16 @@
 <span class="co">#&gt; MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Ions:</span>
-<span class="co">#&gt; # A tibble: 48 x 10</span>
-<span class="co">#&gt;   ion_id name     Hex HexNAc   Fuc    mass     z    mz mz_min mz_max</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 id_1   G0F/G0     6      8     1 147942.    33 4484.  4483.  4485.</span>
-<span class="co">#&gt; 2 id_2   G0F/G0     6      8     1 147942.    34 4352.  4351.  4353.</span>
-<span class="co">#&gt; 3 id_3   G0F/G0     6      8     1 147942.    35 4228.  4227.  4229.</span>
-<span class="co">#&gt; 4 id_4   G0F/G0     6      8     1 147942.    36 4111.  4110.  4111.</span>
-<span class="co">#&gt; 5 id_5   G0F/G0     6      8     1 147942.    37 3999.  3999.  4000.</span>
-<span class="co">#&gt; # … with 43 more rows</span>
+<span class="co">#&gt; # A tibble: 48 x 9</span>
+<span class="co">#&gt;   ion_id protein_name modcom_name formula                        mass     z</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33</span>
+<span class="co">#&gt; 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34</span>
+<span class="co">#&gt; 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35</span>
+<span class="co">#&gt; 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36</span>
+<span class="co">#&gt; 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37</span>
+<span class="co">#&gt; # … with 43 more rows, and 3 more variables: mz &lt;dbl&gt;, mz_min &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   mz_max &lt;dbl&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Retention time limits:</span>
 <span class="co">#&gt; # A tibble: 1 x 4</span>
@@ -178,13 +189,13 @@
 <span class="co">#&gt; # … with 39 more variables: id_10 &lt;dbl&gt;, id_11 &lt;dbl&gt;, id_12 &lt;dbl&gt;, id_13 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   id_14 &lt;dbl&gt;, …</span></pre></div>
 <p>Plot abundances.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">abundances</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">abundances</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="no">abundance_data</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">name</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">modcom_name</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="kw">abundance</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">abundance</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">frac_ab</span> <span class="kw">=</span> <span class="no">abundance</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">abundance</span>) * <span class="fl">100</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">name</span>, <span class="no">frac_ab</span>)) +
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">modcom_name</span>, <span class="no">frac_ab</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">""</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"fractional abundance (%)"</span>)</pre></div>

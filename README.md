@@ -32,44 +32,58 @@ ms_data <- mzR::openMSfile(
 )
 ```
 
-Define proteoforms.
+Define proteins.
 
 ``` r
-proteoforms <- tribble(
-  ~name,       ~Hex, ~HexNAc, ~Fuc,
-  "G0F/G0",       6,       8,    1,
-  "G0F/G0F",      6,       8,    2,
-  "G0F/G1F",      7,       8,    2,
-  "G1F/G1F",      8,       8,    2,
-  "G1F/G2F",      9,       8,    2,
-  "G2F/G2F",     10,       8,    2,
+mab_sequence <- system.file(
+  "extdata", "mab_sequence.fasta",
+  package = "fragquaxi"
+)
+
+proteins <- define_proteins(
+  mab = mab_sequence,
+  .disulfides = 16
 )
 ```
 
-Calculate mass-to-charge ratios of proteoform ions in charge states 33+
-to 40+
+Define PTM compositions.
+
+``` r
+modcoms <- tribble(
+  ~modcom_name, ~Hex, ~HexNAc, ~Fuc,
+  "G0F/G0",        6,       8,    1,
+  "G0F/G0F",       6,       8,    2,
+  "G0F/G1F",       7,       8,    2,
+  "G1F/G1F",       8,       8,    2,
+  "G1F/G2F",       9,       8,    2,
+  "G2F/G2F",      10,       8,    2,
+) %>% 
+  define_ptm_compositions()
+```
+
+Assemble proteoforms and calculate mass-to-charge ratios of proteoform
+ions in charge states 33+ to 40+
 
 ``` r
 pfm_ions <-
-  proteoforms %>%
-  calculate_proteoform_masses("C6464 H9950 N1706 O2014 S44") %>% 
+  assemble_proteoforms(proteins, modcoms) %>% 
   ionize(charge_states = 33L:40L)
 
 pfm_ions
-#> # A tibble: 48 x 9
-#>    name      Hex HexNAc   Fuc    mass     z    mz mz_min mz_max
-#>    <chr>   <dbl>  <dbl> <dbl>   <dbl> <int> <dbl>  <dbl>  <dbl>
-#>  1 G0F/G0      6      8     1 147942.    33 4484.  4483.  4485.
-#>  2 G0F/G0      6      8     1 147942.    34 4352.  4351.  4353.
-#>  3 G0F/G0      6      8     1 147942.    35 4228.  4227.  4229.
-#>  4 G0F/G0      6      8     1 147942.    36 4111.  4110.  4111.
-#>  5 G0F/G0      6      8     1 147942.    37 3999.  3999.  4000.
-#>  6 G0F/G0      6      8     1 147942.    38 3894.  3893.  3895.
-#>  7 G0F/G0      6      8     1 147942.    39 3794.  3794.  3795.
-#>  8 G0F/G0      6      8     1 147942.    40 3700.  3699.  3700.
-#>  9 G0F/G0F     6      8     2 148088.    33 4489.  4488.  4489.
-#> 10 G0F/G0F     6      8     2 148088.    34 4357.  4356.  4357.
-#> # … with 38 more rows
+#> # A tibble: 48 x 8
+#>    protein_name modcom_name formula                        mass     z    mz
+#>    <chr>        <chr>       <mol>                         <dbl> <int> <dbl>
+#>  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.
+#>  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.
+#>  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.
+#>  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.
+#>  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.
+#>  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.
+#>  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.
+#>  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.
+#>  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.
+#> 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.
+#> # … with 38 more rows, and 2 more variables: mz_min <dbl>, mz_max <dbl>
 ```
 
 Plot these ions (here, only charge state 36+ of scans 126 to 136).
@@ -102,15 +116,16 @@ abundances
 #> MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML
 #> 
 #> Ions:
-#> # A tibble: 48 x 10
-#>   ion_id name     Hex HexNAc   Fuc    mass     z    mz mz_min mz_max
-#>   <chr>  <chr>  <dbl>  <dbl> <dbl>   <dbl> <int> <dbl>  <dbl>  <dbl>
-#> 1 id_1   G0F/G0     6      8     1 147942.    33 4484.  4483.  4485.
-#> 2 id_2   G0F/G0     6      8     1 147942.    34 4352.  4351.  4353.
-#> 3 id_3   G0F/G0     6      8     1 147942.    35 4228.  4227.  4229.
-#> 4 id_4   G0F/G0     6      8     1 147942.    36 4111.  4110.  4111.
-#> 5 id_5   G0F/G0     6      8     1 147942.    37 3999.  3999.  4000.
-#> # … with 43 more rows
+#> # A tibble: 48 x 9
+#>   ion_id protein_name modcom_name formula                        mass     z
+#>   <chr>  <chr>        <chr>       <mol>                         <dbl> <int>
+#> 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33
+#> 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34
+#> 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35
+#> 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36
+#> 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37
+#> # … with 43 more rows, and 3 more variables: mz <dbl>, mz_min <dbl>,
+#> #   mz_max <dbl>
 #> 
 #> Retention time limits:
 #> # A tibble: 1 x 4
@@ -134,10 +149,10 @@ Plot abundances.
 abundances %>%
   as_tibble() %>% 
   unnest(abundance_data) %>% 
-  group_by(name) %>%
+  group_by(modcom_name) %>%
   summarise(abundance = sum(abundance)) %>% 
   mutate(frac_ab = abundance / sum(abundance) * 100) %>% 
-  ggplot(aes(name, frac_ab)) +
+  ggplot(aes(modcom_name, frac_ab)) +
   geom_col() +
   xlab("") +
   ylab("fractional abundance (%)")

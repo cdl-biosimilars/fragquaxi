@@ -45,26 +45,41 @@ ms_data <- mzR::openMSfile(
 )
 ```
 
-Define proteoforms.
+Define proteins.
 
-```{r define_proteoforms}
-proteoforms <- tribble(
-  ~name,       ~Hex, ~HexNAc, ~Fuc,
-  "G0F/G0",       6,       8,    1,
-  "G0F/G0F",      6,       8,    2,
-  "G0F/G1F",      7,       8,    2,
-  "G1F/G1F",      8,       8,    2,
-  "G1F/G2F",      9,       8,    2,
-  "G2F/G2F",     10,       8,    2,
+```{r}
+mab_sequence <- system.file(
+  "extdata", "mab_sequence.fasta",
+  package = "fragquaxi"
+)
+
+proteins <- define_proteins(
+  mab = mab_sequence,
+  .disulfides = 16
 )
 ```
 
-Calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+
+
+Define PTM compositions.
+
+```{r define_proteoforms}
+modcoms <- tribble(
+  ~modcom_name, ~Hex, ~HexNAc, ~Fuc,
+  "G0F/G0",        6,       8,    1,
+  "G0F/G0F",       6,       8,    2,
+  "G0F/G1F",       7,       8,    2,
+  "G1F/G1F",       8,       8,    2,
+  "G1F/G2F",       9,       8,    2,
+  "G2F/G2F",      10,       8,    2,
+) %>% 
+  define_ptm_compositions()
+```
+
+Assemble proteoforms and calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+
 
 ```{r make_ions}
 pfm_ions <-
-  proteoforms %>%
-  calculate_proteoform_masses("C6464 H9950 N1706 O2014 S44") %>% 
+  assemble_proteoforms(proteins, modcoms) %>% 
   ionize(charge_states = 33L:40L)
 
 pfm_ions
@@ -99,10 +114,10 @@ Plot abundances.
 abundances %>%
   as_tibble() %>% 
   unnest(abundance_data) %>% 
-  group_by(name) %>%
+  group_by(modcom_name) %>%
   summarise(abundance = sum(abundance)) %>% 
   mutate(frac_ab = abundance / sum(abundance) * 100) %>% 
-  ggplot(aes(name, frac_ab)) +
+  ggplot(aes(modcom_name, frac_ab)) +
   geom_col() +
   xlab("") +
   ylab("fractional abundance (%)")

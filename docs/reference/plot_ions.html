@@ -129,6 +129,7 @@ ratios and integration boundaries of proteoform ions.</p>
   <span class='no'>ms_data</span>,
   <span class='no'>ions</span>,
   <span class='kw'>scans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>plot_elements</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"mz_min"</span>, <span class='st'>"mz_max"</span>, <span class='st'>"ion_labels"</span>)
 )</pre>
@@ -150,6 +151,13 @@ as returned by <code><a href='ionize.html'>ionize()</a></code>.</p></td>
       <th>scans</th>
       <td><p>Scan numbers to show (vector of integers). If <code>NULL</code>, show all
 spectra in the file.</p></td>
+    </tr>
+    <tr>
+      <th>rt_limits</th>
+      <td><p>A numeric vector with two elements specifying retention time
+limits (in seconds) for selecting scans. If values are specified for both
+<code>scans</code> and <code>rt_limits</code>, the function issues a warning and ignores the
+value of the latter.</p></td>
     </tr>
     <tr>
       <th>xlim</th>
@@ -177,16 +185,16 @@ the proteoform ions shown.</p></dd>
     <pre class="examples"><div class='input'><span class='no'>ms_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mzR</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
   <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
 )
-<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  ~<span class='no'>name</span>,       ~<span class='no'>Hex</span>, ~<span class='no'>HexNAc</span>, ~<span class='no'>Fuc</span>,
-  <span class='st'>"G0F/G0"</span>,       <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>1</span>,
-  <span class='st'>"G0F/G0F"</span>,      <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,
-  <span class='st'>"G0F/G1F"</span>,      <span class='fl'>7</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,
-  <span class='st'>"G1F/G1F"</span>,      <span class='fl'>8</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,
-  <span class='st'>"G1F/G2F"</span>,      <span class='fl'>9</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,
-  <span class='st'>"G2F/G2F"</span>,     <span class='fl'>10</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,
-) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='calculate_proteoform_masses.html'>calculate_proteoform_masses</a></span>(<span class='st'>"C6464 H9950 N1706 O2014 S44"</span>) <span class='kw'>%&gt;%</span>
+
+<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
+  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+)
+
+<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
+
+<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span>
+  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span>)
 
 <span class='co'># show all scans</span>

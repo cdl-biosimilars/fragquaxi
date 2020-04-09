@@ -4,10 +4,10 @@
 \alias{ionize}
 \title{Calculate mass-to-charge ratios for proteoform ions.}
 \usage{
-ionize(proteoforms, charge_states, ppm = 400, charge_agent_mass = NULL)
+ionize(p, charge_states, ppm = 400, charge_agent_mass = NULL)
 }
 \arguments{
-\item{proteoforms}{A data frame describing proteoform masses (see details).}
+\item{p}{A data frame describing proteoform masses (see details).}
 
 \item{charge_states}{Vector of charge states for which m/z values should be
 calculated.}
@@ -18,10 +18,10 @@ calculated.}
 average IUPAC mass of the proton.}
 }
 \value{
-A data frame containing all columns of the supplied data frame plus
-four additional columns: \code{z} (charge state), \code{mz} (exact mass-to-charge
-ratio), \code{mz_min}, and \code{mz_max}. The latter two columns represent lower and
-upper tolerances for the mass-to-charge ratio and are used as integration
+A data frame containing all columns of the input data frame plus four
+additional columns: \code{z} (charge state), \code{mz} (exact mass-to-charge ratio),
+\code{mz_min}, and \code{mz_max}. The latter two columns represent lower and upper
+tolerances for the mass-to-charge ratio and are used as integration
 boundaries by \code{\link[=quantify_ions]{quantify_ions()}}. If the supplied data frame has \eqn{r}
 rows and \eqn{c} charge states were specified, the resulting data frame has
 \eqn{r * c} rows.
@@ -29,16 +29,16 @@ rows and \eqn{c} charge states were specified, the resulting data frame has
 \description{
 For each value \eqn{z} in \code{charge_states}, the function calculates
 \itemize{
-\item the corresponding mass-to-charge ratio \eqn{m / z + mc}
-(\eqn{mc}: charge agent mass);
+\item the corresponding mass-to-charge ratio \eqn{m / z + m_c}{m/z + mc}
+(\eqn{m_c}{mc}: charge agent mass);
 \item upper and lower tolerances for this ratio, so that these values
-form a window of width \eqn{mz * ppm / 1000000} centered at \eqn{mz}.
+form a window of width \eqn{mz \times ppm / 10^6}{mz * ppm / 1e6} centered at \eqn{mz}.
 }
 }
 \details{
-The data frame passed to \code{proteoforms} must contain at least one column named
-\code{mass}; each of its value represents the mass of a single proteoform. The
-data frame may contain any number of additional columns, which will be
+The data frame passed to the first argument must contain at least one column
+named \code{mass}; each of its value represents the mass of a single proteoform.
+The data frame may contain any number of additional columns, which will be
 returned unchanged.
 }
 \examples{

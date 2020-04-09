@@ -125,16 +125,7 @@ molecular_formula("H2 S O4") %>% get_mass(my_masses)
 molecular_formula("H2 S O4") %>% get_mass(my_masses_complete)
 ```
 
-
-# Define proteoforms and ions
-
-`charge()` converts a molecular mass to a mass-to-charge ratio.
-
-```{r}
-charge(150000, z = 24)
-```
-
-The function is vectorized over charge `z`:
+`charge()` converts a molecular mass to a mass-to-charge ratio:
 
 ```{r}
 charge(150000, z = 20:24)
@@ -143,43 +134,59 @@ charge(150000, z = 20:24)
 `charge()` naturally works with masses calculated for molecular formulas:
 
 ```{r}
-mab_atoms <- "C6464 H9950 N1706 O2014 S44"  # formula of a monoclonal antibody
-molecular_formula(mab_atoms) %>%
+molecular_formula("C6464 H9950 N1706 O2014 S44") %>%
   get_mass() %>%
   charge(20:24)
 ```
 
-Above, the molecular formula of the antibody was determined by an external tool. However, you may also use `load_protein_sequence()` to load a protein sequence in FASTA format and obtain its formula. The FASTA file must contain one record for each protein chain (so that the formula reflects the correct number of chain termini). In addition, you must indicate the number of disulfide bridges (if any) *via* the optional argument `disulfides`.
+
+
+# Prepare data for quantification
+
+Prepare data for quantification in three steps: (1) Define proteins; (2) define PTM compositions; (3) assemble proteoforms and calculate their masses; and (4) select ions to be quantified.
+
+## (1) Define proteins
+
+`define_proteins()` loads protein sequences in FASTA format and obtains their formulas. Each FASTA file must contain one record for each protein chain (so that the formula reflects the correct number of chain termini). In addition, indicate the number of disulfide bridges (if any) *via* the optional argument `.disulfides`.
 
 ```{r}
 mab_sequence <- system.file(
   "extdata", "mab_sequence.fasta",
   package = "fragquaxi"
 )
-mab_formula <- load_protein_sequence(mab_sequence, disulfides = 16)
 
-mab_formula
+proteins <- define_proteins(
+  mab = mab_sequence,
+  .disulfides = 16
+)
+
+proteins
 ```
 
-`fragquaxi` is tailored towards analysis of *proteoforms*, *i.e.*, the different molecular forms in which the protein product of a single gene can be found due to changes introduced by posttranslational modifications (PTMs). In the context of this package, a set of proteoforms is described by a data frame:
+The resulting *protein specification* is a data frame that describes one protein per row and comprises three columns: `protein_name`, protein names derived from the argument names in `define_proteins()`; `protein_data`, a nested column that stores the FASTA file name and number of disulfides; and `protein_formula`, the formula calculated from the amino acid sequence, taking into account the numbers of disulfides and chains.
+
+
+## (2) Define PTM compositions
+
+`fragquaxi` is tailored towards analysis of *proteoforms*, *i.e.*, the different molecular forms in which the protein product of a single gene can be found due to changes introduced by posttranslational modifications (PTMs). In the context of this package, proteoforms are described by their PTM compositions (or *modcoms* in short):
 
 ```{r}
-proteoforms <- tribble(
-  ~name,       ~Hex, ~HexNAc, ~Fuc, ~PHOS, ~foo,
-  "G0F/G0",       6,       8,    1,    0,     0,
-  "G0F/G0F",      6,       8,    2,    0,     0,
-  "G0F/G1F",      7,       8,    2,    0,     0,
-  "G1F/G1F",      8,       8,    2,    0,     0,
-  "G1F/G2F",      9,       8,    2,    0,     0,
-  "G2F/G2F",     10,       8,    2,    0,     0,
-  "G2F/G2F+P",   10,       8,    2,    1,     0,
-  "G2F/G2F+foo", 10,       8,    2,    0,     1,
+ptm_compositions <- tribble(
+  ~modcom_name, ~Hex, ~HexNAc, ~Fuc, ~PHOS, ~foo,
+  "G0F/G0",        6,       8,    1,     0,    0,
+  "G0F/G0F",       6,       8,    2,     0,    0,
+  "G0F/G1F",       7,       8,    2,     0,    0,
+  "G1F/G1F",       8,       8,    2,     0,    0,
+  "G1F/G2F",       9,       8,    2,     0,    0,
+  "G2F/G2F",      10,       8,    2,     0,    0,
+  "G2F/G2F+P",    10,       8,    2,     1,    0,
+  "G2F/G2F+foo",  10,       8,    2,     0,    1,
 )
 ```
 
-In this data frame, each row corresponds to a single proteoform. The first column must be labeled `name` and should contain a short, informative description. All subsequent columns must be labeled by valid PTM names (see below) and contain the number of the respective PTM found in the respective proteoform.
+In this data frame, each row corresponds to the PTM composition of a single proteoform. The first column must be labeled `modcom_name` and should contain a short description. The remaining columns must be labeled by valid PTM names (see below) and contain the number of the respective PTM found in the respective composition.
 
-The data frame above describes a range of proteoforms that differ in *N*-glycosylation, phosphorylation (`PHOS`) and “fooylation” (`foo`). Glycosylation is described in terms of the overall monosaccharide composition of the *N*-glycans; consequently, the data frame includes the columns `Hex`, `HexNAc`, and `Fuc` to indicate the number of hexose, *N*-acetylhexosamine, and fucose residues, respectively.
+The table above describes a range of proteoforms that differ in *N*-glycosylation, phosphorylation (`PHOS`) and “fooylation” (`foo`). Glycosylation is described in terms of the overall monosaccharide composition of the *N*-glycans; consequently, the data frame includes the columns `Hex`, `HexNAc`, and `Fuc` to indicate the number of hexose, *N*-acetylhexosamine, and fucose residues, respectively.
 
 Valid PTM names include
 
@@ -204,15 +211,29 @@ Valid PTM names include
     )
     ```
 
-Once all proteoforms have been described in this way, `calculate_proteoform_masses()` calculates their masses, appending a column `mass` to the data frame of proteoforms:
+`define_ptm_compositions()` creates a modcom specification from these PTM compositions and custom PTMs (if required):
 
 ```{r}
-pfm_masses <- 
-  proteoforms %>%
-  calculate_proteoform_masses(mab_formula, other_ptms = my_ptms)
+modcoms <- define_ptm_compositions(ptm_compositions, other_ptms = my_ptms)
+modcoms
+```
+
+The resulting *modcom specification* is a data frame that describes one PTM composition per row and comprises three columns: `modcom_name` (same column as in the input data frame); `modcom_data`, a nested column that contains the remaining columns from the input data frame; and `modcom_formula`, the correction formula associated with the respective PTM composition.
+
+
+## (3) Assemble proteoforms and calculate their masses
+
+Once all proteins and modcoms have been specified in this way, `assemble_proteoforms()` combines them and calculates the masses of the resulting proteoforms:
+
+```{r}
+pfm_masses <- assemble_proteoforms(proteins, modcoms)
 
 pfm_masses
 ```
+
+Combining $p$ proteins with $m$ modcoms yields a data frame that describes $p \times m$ proteoforms and comprises four columns: `protein_name` and `modcom_name`, which together uniquely identify a proteoform; `formula`, its molecular formula; and `mass`, its mass in Dalton.
+
+## (4) Select ions to be quantified
 
 Finally, `ionize()` calculates mass-to-charge ratios of these proteoforms in selected `charge_states`.
 
@@ -224,7 +245,7 @@ pfm_ions <-
 pfm_ions
 ```
 
-This function appends columns `z` (charge state), `mz` (exact mass-to-charge ratio), `mz_min`, and `mz_max`. The latter two columns represent lower and upper tolerances for the mass-to-charge ratio and will be used as integration boundaries (see below). (The width of this tolerance region is governed by the optional argument `ppm`; see the documentation of `ionize()` for details.) Since each proteoform typically occurs in several charge states, the resulting data frame will contain more rows than the supplied data frame. (Or, using [tidy data](https://tidyr.tidyverse.org/articles/tidy-data.html) terminology: In the input data frame, each observation corresponded to one *proteoform*; in the output data frame, each observation corresponds to one *ion*).
+Creating $c$ differently charged ions for $r$ proteoforms yields a data frame with $c \times r$ rows, containing all variables from the input data frame as well as four additional columns: `z` (charge state), `mz` (exact mass-to-charge ratio), `mz_min`, and `mz_max`. The latter two columns represent lower and upper tolerances for the mass-to-charge ratio and will be used as integration boundaries (see below). (The width of this tolerance region is governed by the optional argument `ppm`; see the documentation of `ionize()` for details.)
 
 
 # Quantify proteoforms
@@ -293,7 +314,7 @@ This conversion returns the data frame describing proteoform ions, plus two addi
     ```{r}
     abundances %>%
       as_tibble() %>%
-      select(name, z, abundance_data) %>% 
+      select(modcom_name, z, abundance_data) %>% 
       unnest(abundance_data)
     ```
 
@@ -303,10 +324,10 @@ This conversion returns the data frame describing proteoform ions, plus two addi
     abundances %>%
       as_tibble() %>% 
       unnest(abundance_data) %>% 
-      group_by(name) %>%
+      group_by(modcom_name) %>%
       summarise(abundance = sum(abundance)) %>% 
       mutate(frac_ab = abundance / sum(abundance) * 100) %>% 
-      ggplot(aes(name, frac_ab)) +
+      ggplot(aes(modcom_name, frac_ab)) +
       geom_col() +
       xlab("") +
       ylab("fractional abundance (%)")
@@ -317,7 +338,7 @@ This conversion returns the data frame describing proteoform ions, plus two addi
     ```{r}
     abundances %>%
       as_tibble() %>%
-      select(name, z, xic_data) %>% 
+      select(modcom_name, z, xic_data) %>% 
       unnest(xic_data)
     ```
 
@@ -329,7 +350,7 @@ This conversion returns the data frame describing proteoform ions, plus two addi
       unnest(xic_data) %>%
       ggplot(aes(rt, int)) +
       geom_line(aes(color = factor(z))) +
-      facet_wrap(vars(name)) +
+      facet_wrap(vars(modcom_name)) +
       xlab("retention time (s)") +
       ylab("intensity (AU)") +
       xlim(300, 350) +
@@ -356,7 +377,7 @@ all_abundances <-
       xic %>%
         as_tibble() %>%
         unnest(abundance_data) %>%
-        group_by(name) %>%
+        group_by(modcom_name) %>%
         summarise(abundance = sum(abundance)) %>%
         mutate(abundance = abundance / sum(abundance) * 100)
     },
@@ -371,7 +392,7 @@ The following bar chart displays ion abundances in each sample:
 ```{r}
 all_abundances %>%
   ggplot(aes(sample, abundance)) +
-  geom_col(aes(fill = name), position = "dodge") +
+  geom_col(aes(fill = modcom_name), position = "dodge") +
   ylab("fractional abundance (%)")
 ```
 
@@ -379,10 +400,10 @@ Since the three MS data files correspond to replicates, calculate mean proteofor
 
 ```{r}
 all_abundances %>%
-  group_by(name) %>%
+  group_by(modcom_name) %>%
   summarise(mean = mean(abundance), sd = sd(abundance)) %>%
-  ggplot(aes(name, mean)) +
-  geom_col(aes(fill = name), show.legend = FALSE) +
+  ggplot(aes(modcom_name, mean)) +
+  geom_col(aes(fill = modcom_name), show.legend = FALSE) +
   geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = .5) +
   ylab("fractional abundance (%)")
 ```
@@ -399,24 +420,32 @@ di_data <- openMSfile(
   system.file("extdata", "mzml", "mab_di.mzML", package = "fragquaxi")
 )
 
-di_proteoforms <- tribble(
-  ~Hex, ~HexNAc, ~Fuc, ~name,
-   6, 8, 2, "A2G0F/A2G0F",
-   7, 8, 2, "A2G0F/A2G1F",
-   8, 8, 2, "A2G1F/A2G1F",
-   9, 8, 2, "A2G1F/A2G2F",
-  10, 8, 2, "A2G2F/A2G2F",
-  11, 8, 2, "A2G2F/A2G2F+1Hex",
-   6, 7, 2, "A1G0F/A2G0F"
+nistmab <- tibble(
+  protein_name = "nistmab",
+  protein_formula = molecular_formula("C6464 H9984 N1700 O2006 S48")
+)
+
+nistmab_modcoms <- tribble(
+  ~modcom_name,     ~Hex, ~HexNAc, ~Fuc, 
+  "A2G0F/A2G0F",       6,        8,   2, 
+  "A2G0F/A2G1F",       7,        8,   2, 
+  "A2G1F/A2G1F",       8,        8,   2, 
+  "A2G1F/A2G2F",       9,        8,   2,
+  "A2G2F/A2G2F",      10,        8,   2, 
+  "A2G2F/A2G2F+1Hex", 11,        8,   2, 
+  "A1G0F/A2G0F",       6,        7,   2
 ) %>% 
-  calculate_proteoform_masses("C6464 H9984 N1700 O2006 S48") %>% 
+  define_ptm_compositions()
+
+di_ions <- 
+  assemble_proteoforms(nistmab, nistmab_modcoms) %>% 
   ionize(24L:30L)
 ```
 
 Since these spectra were obtained by rolling averaging, it is sufficient to quantify proteoforms in the last recorded spectrum, where most of the noise has been eliminated.
 
 ```{r}
-plot_ions(di_data, di_proteoforms, scans = c(1, 105), xlim = c(5450, 5550)) +
+plot_ions(di_data, di_ions, scans = c(1, 105), xlim = c(5450, 5550)) +
   facet_wrap(
     vars(scan),
     ncol = 1,
@@ -432,7 +461,7 @@ Following quantification, obtain XIC data and filter for the last scan number:
 ```{r}
 di_abundances <- 
   di_data %>%
-  quantify_ions(di_proteoforms) %>% 
+  quantify_ions(di_ions) %>% 
   as_tibble(abundance_col = NULL) %>% 
   unnest(xic_data) %>%
   filter(scan == max(scan))
@@ -444,7 +473,7 @@ The values in column `int` represent proteoform ion abundances in the last scan.
 
 ```{r}
 di_abundances %>% 
-  group_by(name) %>% 
+  group_by(modcom_name) %>% 
   summarise(abundance = sum(int)) %>%
   mutate(abundance = abundance / sum(abundance) * 100)
 ```

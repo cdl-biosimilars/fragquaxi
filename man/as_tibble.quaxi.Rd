@@ -41,22 +41,19 @@ library(tibble)
 ms_data <- mzR::openMSfile(
   system.file("extdata", "mzml", "mab1.mzML", package = "fragquaxi")
 )
-proteoforms <- tribble(
-  ~name,       ~Hex, ~HexNAc, ~Fuc,
-  "G0F/G0",       6,       8,    1,
-  "G0F/G0F",      6,       8,    2,
-  "G0F/G1F",      7,       8,    2,
-  "G1F/G1F",      8,       8,    2,
-  "G1F/G2F",      9,       8,    2,
-  "G2F/G2F",     10,       8,    2,
+
+proteins <- define_proteins(
+  system.file("extdata", "mab_sequence.fasta", package = "fragquaxi"),
+  .disulfides = 16
 )
 
-ions <-
-  proteoforms \%>\%
-  calculate_proteoform_masses("C6464 H9950 N1706 O2014 S44") \%>\%
+modcoms <- define_ptm_compositions(sample_modcoms)
+
+pfm_ions <-
+  assemble_proteoforms(proteins, modcoms) \%>\%
   ionize(36L:40L)
 
-abundances <- quantify_ions(ms_data, ions, c(300, 350))
+abundances <- quantify_ions(ms_data, pfm_ions, c(300, 350))
 
 # by default, include data on abundances and XICs in the output
 as_tibble(abundances)
@@ -64,9 +61,9 @@ as_tibble(abundances)
 # rename the column containing abundance data
 # (and omit several columns for readability)
 as_tibble(abundances, abundance_col = "abundances") \%>\%
-  dplyr::select(-Hex:-Fuc, -mz_min, -mz_max)
+  dplyr::select(-formula, -mz_min, -mz_max)
 
 # omit XIC data in the output
 as_tibble(abundances, xic_col = NULL) \%>\%
-  dplyr::select(-Hex:-Fuc, -mz_min, -mz_max)
+  dplyr::select(-formula, -mz_min, -mz_max)
 }

@@ -17,7 +17,7 @@ test_that("molecular formulas are correctly calculated for FASTA files", {
         "extdata", "mab_sequence.fasta",
         package = "fragquaxi"
       )
-      load_protein_sequence(mab_sequence)
+      define_proteins(mab_sequence)$protein_formula
     },
     molecular_formula("C6464 H9982 N1706 O2014 S44")
   )
@@ -27,7 +27,7 @@ test_that("molecular formulas are correctly calculated for FASTA files", {
         "extdata", "mab_sequence.fasta",
         package = "fragquaxi"
       )
-      load_protein_sequence(mab_sequence, disulfides = 16)
+      define_proteins(mab_sequence, .disulfides = 16)$protein_formula
     },
     molecular_formula("C6464 H9950 N1706 O2014 S44")
   )
