@@ -79,3 +79,17 @@
 #'   posttranslational modifications (PTM), release 2020_01 of 26-Feb-2020
 #'   (<https://www.uniprot.org/docs/ptmlist>)
 "ptms"
+
+#' Exemplary PTM compositions ("modcoms").
+#'
+#' A dataset describing PTM compositions.
+#'
+#' @format A data frame with 6 rows and 4 variables:
+#' \describe{
+#' \item{modcom_name}{abbreviation}
+#' \item{Hex}{number of hexoses}
+#' \item{HexNAc}{number of N-acetylhexosamines}
+#' \item{Fuc}{number of fucoses}
+#' }
+#'
+"sample_modcoms"
