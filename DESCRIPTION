@@ -43,5 +43,6 @@ Imports:
     cli,
     vctrs,
     methods,
-    pillar
+    pillar,
+    patchwork
 Roxygen: list(markdown = TRUE)

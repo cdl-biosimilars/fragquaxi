@@ -220,3 +220,157 @@ plot_ions <- function(ms_data,
     )
   p
 }
+
+#' Diagnostic plot for selecting optimal peak integration boundaries.
+#'
+#' This function draws proteoform abundances vs the PPM value used by
+#' [ionize()], which in turn determines the integration boundaries for each ion.
+#'
+#' By default, the function creates four plots: Total proteoform abundance vs
+#' PPM (upper left), first derivative of this curve (lower left), individual
+#' proteoform abundances vs PPM (upper right) and first derivative of the latter
+#' curve (lower right).
+#'
+#' Optimal integration boundaries capture each peak completely and do not lead
+#' to overlaps with neighboring peaks. This corresponds to the PPM value where
+#' the curves in the upper plots reach the first plateau, and their derivatives
+#' become zero.
+#'
+#' @param ms_data Mass spectrometry data stored in an mzR object as returned by
+#'   [mzR::openMSfile()].
+#' @param proteoforms Proteoform masses as returned by [assemble_proteoforms()].
+#' @param charge_states Vector of charge states in which the proteoforms should
+#'   be quantified.
+#' @param ppm_values Vectors of PPM values where abundances should be sampled.
+#' @param subplots Subplots that should be drawn; one of `"all"` (draw all
+#'   subplots), `"total"` (draw only the total abundance plot), and `"modcom"`
+#'   (draw only the subplot with individual proteoform abundances).
+#'
+#' @return A ggplot object describing the created plot.
+#'
+#' @export
+#'
+#' @examples
+#' ms_data <- mzR::openMSfile(
+#'   system.file("extdata", "mzml", "mab1.mzML", package = "fragquaxi")
+#' )
+#' proteins <- define_proteins(
+#'   system.file("extdata", "mab_sequence.fasta", package = "fragquaxi"),
+#'   .disulfides = 16
+#' )
+#' modcoms <- define_ptm_compositions(sample_modcoms)
+#' pfm_masses <- assemble_proteoforms(proteins, modcoms)
+#'
+#' plot_optimal_ppm(ms_data, pfm_masses, 33L:40L)
+plot_optimal_ppm <- function(ms_data,
+                             proteoforms,
+                             charge_states,
+                             ppm_values = seq(0, 2500, 50),
+                             subplots = c("all", "total", "modcom")) {
+  subplots <- match.arg(subplots)
+
+  pfm_ions <-
+    purrr::map(
+      ppm_values,
+      ~ionize(proteoforms, charge_states = charge_states, ppm = .x)
+    ) %>%
+    rlang::set_names(ppm_values)
+
+  abundances <-
+    purrr::map_dfr(
+      pfm_ions,
+      ~quantify_ions(
+        ms_data,
+        .x,
+        rt_limits = c(300, 350)
+      ) %>%
+        tibble::as_tibble() %>%
+        dplyr::select(.data$modcom_name, .data$abundance_data),
+      .id = "ppm"
+    ) %>%
+    dplyr::mutate(ppm = as.integer(.data$ppm)) %>%
+    tidyr::unnest(.data$abundance_data) %>%
+    dplyr::group_by(.data$ppm, .data$modcom_name) %>%
+    dplyr::summarise(abundance = sum(.data$abundance))
+
+  delta_abundances <-
+    abundances %>%
+    dplyr::group_split() %>%
+    {purrr::map2(
+      .[1:length(.) - 1],
+      .[2:length(.)],
+      ~dplyr::left_join(.y, .x, by = c("modcom_name")) %>%
+        dplyr::mutate(
+          delta_abundance = .data$abundance.x - .data$abundance.y
+        ) %>%
+        dplyr::select(
+          ppm = .data$ppm.x,
+          .data$modcom_name,
+          .data$delta_abundance
+        )
+    )} %>%
+    dplyr::bind_rows()
+
+  plot_total <-
+    dplyr::left_join(
+      abundances,
+      delta_abundances,
+      by = c("ppm", "modcom_name")
+    ) %>%
+    dplyr::group_by(.data$ppm) %>%
+    dplyr::summarise(
+      abundance = sum(.data$abundance),
+      delta_abundance = sum(.data$delta_abundance)
+    ) %>%
+    dplyr::mutate(modcom_name = "total") %>%
+    tidyr::pivot_longer(
+      dplyr::contains("abundance"),
+      names_to = "type",
+      values_to = "area"
+    ) %>%
+    dplyr::mutate(
+      type = dplyr::recode(.data$type, delta_abundance = "first derivative")
+    ) %>%
+    ggplot2::ggplot(ggplot2::aes(.data$ppm, .data$area)) +
+    ggplot2::geom_line() +
+    ggplot2::facet_wrap(
+      ggplot2::vars(.data$type),
+      ncol = 1,
+      scales = "free_y"
+    ) +
+    ggplot2::ggtitle("Total abundance")
+
+  plot_modcom <-
+    dplyr::left_join(
+      abundances,
+      delta_abundances,
+      by = c("ppm", "modcom_name")
+    ) %>%
+    tidyr::pivot_longer(
+      dplyr::contains("abundance"),
+      names_to = "type",
+      values_to = "area"
+    ) %>%
+    dplyr::mutate(
+      type = dplyr::recode(.data$type, delta_abundance = "first derivative")
+    ) %>%
+    ggplot2::ggplot(ggplot2::aes(.data$ppm, .data$area)) +
+    ggplot2::geom_line(ggplot2::aes(color = .data$modcom_name)) +
+    ggplot2::scale_color_hue(name = "proteoform") +
+    ggplot2::facet_wrap(
+      ggplot2::vars(.data$type),
+      ncol = 1,
+      scales = "free_y"
+    ) +
+    ggplot2::ggtitle("Proteoform abundances")
+
+  if (subplots == "total")
+    p <- plot_total
+  else if (subplots == "modcom")
+    p <- plot_modcom
+  else
+    p <- patchwork::wrap_plots(plot_total, plot_modcom)
+
+  p
+}
+

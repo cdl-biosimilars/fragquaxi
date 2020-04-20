@@ -38,6 +38,7 @@ reference:
   description:
   contents:
   - plot_ions
+  - plot_optimal_ppm
   - plot_tic
 - title: Datasets
   description:
