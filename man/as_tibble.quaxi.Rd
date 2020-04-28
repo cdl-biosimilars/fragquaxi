@@ -4,7 +4,7 @@
 \alias{as_tibble.quaxi}
 \title{Coerce quantification results to a data frame.}
 \usage{
-as_tibble.quaxi(x, abundance_col = "abundance_data", xic_col = "xic_data", ...)
+\method{as_tibble}{quaxi}(x, abundance_col = "abundance_data", xic_col = "xic_data", ...)
 }
 \arguments{
 \item{x}{A \code{quaxi} object that should be coerced to a data frame.}

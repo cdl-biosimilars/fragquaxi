@@ -313,6 +313,7 @@ print.quaxi <- function(x, ...) {
 #'   The latter column is labeled according to the value of `xic_col` and
 #'   contains the variables `scan` (scan index), `rt` (corresponding retention
 #'   time), and `int` (intensity).
+#' @importFrom tibble as_tibble
 #' @export
 #'
 #' @examples
