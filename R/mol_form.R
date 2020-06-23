@@ -283,13 +283,22 @@ vec_proxy_compare.mol_form <- function(x, ...) {
 #' @keywords internal
 sum_mol_form <- function(x, ...) {
   args <- list(...)
-  if (!args$na.rm && any(is.na(x)))
+  if (!args$na.rm && any(is.na(x))) {
     res <- NA_integer_
-  else
+  } else {
+    x_data <-
+      vec_data(x) %>%
+      purrr::map(
+        ~if (is.null(.x) || vec_size(.x) == 0) {
+          c(C = 0L, H = 0L)
+        } else
+          .x
+      )
     res <-
-    dplyr::bind_rows(!!!vec_data(x)) %>%
-    dplyr::summarise_all(sum, na.rm = TRUE) %>%
-    unlist()
+      dplyr::bind_rows(!!!x_data) %>%
+      dplyr::summarise(dplyr::across(dplyr::everything(), sum, na.rm = TRUE)) %>%
+      unlist()
+  }
   new_molecular_formula(res)
 }
 
@@ -337,6 +346,8 @@ add_sub_mol_form <- function(op, x, y) {
     purrr::map(
       ~if (is.null(.x)) {
         c(na_col = TRUE)
+      } else if (vec_size(.x) == 0) {
+        c(C = 0L, H = 0L)
       } else
         .x
     )
@@ -346,6 +357,8 @@ add_sub_mol_form <- function(op, x, y) {
     purrr::map(
       ~if (is.null(.x)) {
         c(na_col = TRUE)
+      } else if (vec_size(.x) == 0) {
+        c(C = 0L, H = 0L)
       } else
         .x
     )
@@ -357,15 +370,17 @@ add_sub_mol_form <- function(op, x, y) {
       dplyr::mutate(id = dplyr::row_number()),
     dplyr::bind_rows(template_col, !!!y_data) %>%
       dplyr::mutate(id = dplyr::row_number()) %>%
-      dplyr::mutate_at(dplyr::vars(-.data$id, -.data$na_col), op)
+      dplyr::mutate(dplyr::across(c(-.data$id, -.data$na_col), op))
   ) %>%
     dplyr::mutate(na_col = ifelse(is.na(.data$na_col), 0L, NA_integer_)) %>%
-    dplyr::mutate_at(
-      dplyr::vars(-.data$id, -.data$na_col),
-      function(x) ifelse(is.na(x), .$na_col, x)
+    dplyr::mutate(
+      dplyr::across(
+        c(-.data$id, -.data$na_col),
+        function(x) ifelse(is.na(x), .$na_col, x)
+      )
     ) %>%
     dplyr::group_by(.data$id) %>%
-    dplyr::summarise_all(sum) %>%
+    dplyr::summarise(dplyr::across(dplyr::everything(), sum)) %>%
     dplyr::filter(.data$id > 1L) %>%
     purrr::pmap(
       function(id, na_col, ...) {
@@ -399,6 +414,8 @@ mul_div_mol_form <- function(op, x, y) {
     purrr::map(
       ~if (is.null(.x)) {
         c(type = "NA")
+      } else if (vec_size(.x) == 0L) {
+        c(C = 0L, H = 0L)
       } else
         .x
     )
@@ -410,9 +427,11 @@ mul_div_mol_form <- function(op, x, y) {
       type = tidyr::replace_na(.data$type, "product"),
       indicate_na = 0L
     ) %>%
-    dplyr::mutate_at(
-      dplyr::vars(-.data$type),
-      ~op(., allow_lossy_cast(vec_cast(y, integer())))
+    dplyr::mutate(
+      dplyr::across(
+        -.data$type,
+        ~op(., allow_lossy_cast(vec_cast(y, integer())))
+      )
     ) %>%
     dplyr::filter(.data$type != "template") %>%
     purrr::pmap(
