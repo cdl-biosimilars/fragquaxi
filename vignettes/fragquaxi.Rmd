@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(dplyr.summarise.inform = FALSE)
 ```
 
 The `fragquaxi` package allows you to obtain **fr**actional **a**bundances of **g**lycoforms (and proteoforms in general) from mass spectrometric (MS) data by **qua**ntification *via* **X**IC (extracted ion current) **i**ntegration. 
