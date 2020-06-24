@@ -61,7 +61,7 @@ Mur,Other,C9 H15 N O6,Muramic acid,2-Amino-3-O-[(R)-1-carboxyethyl]-2-deoxy-D-gl
 MurNAc,Other,C11 H17 N O6,N-Acetylmuramic acid,2-Acetamido-3-O-[(R)-1-carboxyethyl]-2-deoxy-D-glucopyranose
 MurNGc,Other,C11 H17 N O6,N-Glycolylmuramic acid,3-O-[(R)-1-Carboxyethyl]-2-deoxy-2-glycolamido-D-glucopyranose
 Neu,Deoxynonulosonate,C9 H15 N O7,Neuraminic acid,"5-Amino-3,5-dideoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
-Neu5Ac,Deoxynonulosonate,C11 H17 N O6,N-Acetylneuraminic acid,"5-Acetamido-3,5-dideoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
+Neu5Ac,Deoxynonulosonate,C11 H17 N O8,N-Acetylneuraminic acid,"5-Acetamido-3,5-dideoxy-D-glycero-D-galacto-non-2-ulopyranosonic acid"
 Neu5Gc,Deoxynonulosonate,C11 H17 N O9,N-Glycolylneuraminic acid,"3,5-Dideoxy-5-glycolamido-D-glycero-D-galacto-non-2-ulopyranosonic acid"
 Oli,Di-deoxyhex,C6 H10 O3,Olivose,"2,6-Dideoxy-D-arabino-hexopyranose"
 Par,Di-deoxyhex,C6 H10 O3,Paratose,"3,6-Dideoxy-D-ribo-hexopyranose"
