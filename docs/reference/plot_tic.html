@@ -123,7 +123,7 @@
     <p>Plot the total ion current.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_tic</span>(<span class='no'>ms_data</span>, <span class='kw'>time_scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"s"</span>))</pre>
+    <pre class="usage"><span class='fu'>plot_tic</span>(<span class='no'>ms_data</span>, <span class='kw'>time_scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"min"</span>, <span class='st'>"s"</span>), <span class='kw'>filter_ms1</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,6 +136,10 @@
     <tr>
       <th>time_scale</th>
       <td><p>Units used for the x-axis.</p></td>
+    </tr>
+    <tr>
+      <th>filter_ms1</th>
+      <td><p>If true, only scans from MS level 1 are taken into account.</p></td>
     </tr>
     </table>
 

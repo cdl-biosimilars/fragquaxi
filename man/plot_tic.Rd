@@ -4,13 +4,15 @@
 \alias{plot_tic}
 \title{Plot the total ion current.}
 \usage{
-plot_tic(ms_data, time_scale = c("min", "s"))
+plot_tic(ms_data, time_scale = c("min", "s"), filter_ms1 = TRUE)
 }
 \arguments{
 \item{ms_data}{Mass spectrometry data stored in an mzR object as returned by
 \code{\link[mzR:openMSfile]{mzR::openMSfile()}}.}
 
 \item{time_scale}{Units used for the x-axis.}
+
+\item{filter_ms1}{If true, only scans from MS level 1 are taken into account.}
 }
 \value{
 A ggplot object describing the created plot.

@@ -3,6 +3,7 @@
 #' @param ms_data Mass spectrometry data stored in an mzR object as returned by
 #'   [mzR::openMSfile()].
 #' @param time_scale Units used for the x-axis.
+#' @param filter_ms1 If true, only scans from MS level 1 are taken into account.
 #'
 #' @return A ggplot object describing the created plot.
 #' @export
@@ -15,10 +16,20 @@
 #' plot_tic(ms_data)
 #'
 #' plot_tic(ms_data, time_scale = "s")
-plot_tic <- function(ms_data, time_scale = c("min", "s")) {
+plot_tic <- function(ms_data, time_scale = c("min", "s"), filter_ms1 = TRUE) {
   vis_data <-
     mzR::tic(ms_data) %>%
     rlang::set_names(c("time", "int"))
+
+  if (filter_ms1) {
+    ms1_scans <-
+      mzR::header(ms_data) %>%
+      dplyr::filter(msLevel == 1L) %>%
+      dplyr::pull(seqNum)
+    vis_data <-
+      vis_data %>%
+      magrittr::extract(ms1_scans,)
+  }
 
   time_scale = match.arg(time_scale)
 
