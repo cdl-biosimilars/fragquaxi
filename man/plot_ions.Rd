@@ -10,7 +10,8 @@ plot_ions(
   scans = NULL,
   rt_limits = NULL,
   xlim = NULL,
-  plot_elements = c("mz", "mz_min", "mz_max", "ion_labels")
+  plot_elements = c("mz", "mz_min", "mz_max", "ion_labels"),
+  filter_ms1 = TRUE
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ m/z values.} \item{\code{"mz_min"}, \code{"mz_max"}}{Dashed red vertical lines
 indicating lower and upper integration boundaries, respectively.}
 \item{\code{"ion_labels"}}{Secondary x-axis, labeled by the names and charges of
 the proteoform ions shown.} }}
+
+\item{filter_ms1}{If true, only scans from MS level 1 are selected by the
+retention time limits.}
 }
 \value{
 A ggplot object describing the created plot.

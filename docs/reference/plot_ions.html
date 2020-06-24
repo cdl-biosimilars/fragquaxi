@@ -131,7 +131,8 @@ ratios and integration boundaries of proteoform ions.</p>
   <span class='kw'>scans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot_elements</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"mz_min"</span>, <span class='st'>"mz_max"</span>, <span class='st'>"ion_labels"</span>)
+  <span class='kw'>plot_elements</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"mz_min"</span>, <span class='st'>"mz_max"</span>, <span class='st'>"ion_labels"</span>),
+  <span class='kw'>filter_ms1</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -174,6 +175,11 @@ indicating lower and upper integration boundaries, respectively.</p></dd>
 <dt><code>"ion_labels"</code></dt><dd><p>Secondary x-axis, labeled by the names and charges of
 the proteoform ions shown.</p></dd> 
 </dl></td>
+    </tr>
+    <tr>
+      <th>filter_ms1</th>
+      <td><p>If true, only scans from MS level 1 are selected by the
+retention time limits.</p></td>
     </tr>
     </table>
 

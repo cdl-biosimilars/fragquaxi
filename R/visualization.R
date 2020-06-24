@@ -79,6 +79,8 @@ plot_tic <- function(ms_data, time_scale = c("min", "s"), filter_ms1 = TRUE) {
 #'   indicating lower and upper integration boundaries, respectively.}
 #'   \item{`"ion_labels"`}{Secondary x-axis, labeled by the names and charges of
 #'   the proteoform ions shown.} }
+#' @param filter_ms1 If true, only scans from MS level 1 are selected by the
+#'   retention time limits.
 #'
 #' @return A ggplot object describing the created plot.
 #' @export
@@ -118,7 +120,8 @@ plot_ions <- function(ms_data,
                       rt_limits = NULL,
                       xlim = NULL,
                       plot_elements = c("mz", "mz_min",
-                                        "mz_max", "ion_labels")) {
+                                        "mz_max", "ion_labels"),
+                      filter_ms1 = TRUE) {
   if (!is.null(rt_limits)) {
     if (!is.null(scans)) {
       warning("Values specified for both 'scans' and 'rt_limits'. ",
@@ -126,9 +129,18 @@ plot_ions <- function(ms_data,
               call. = FALSE)
     } else {
       scans <-
-        mzR::header(ms_data)$retentionTime %>%
-        dplyr::between(rt_limits[1], rt_limits[2]) %>%
-        which()
+        mzR::header(ms_data) %>%
+        filter(retentionTime %>% dplyr::between(rt_limits[1], rt_limits[2]))
+
+      if (filter_ms1) {
+        scans <-
+         scans %>%
+          dplyr::filter(msLevel == 1L)
+      }
+
+      scans <-
+        scans %>%
+        dplyr::pull(seqNum)
 
       if (length(scans) == 0)
         stop("No scans within the given retention time limits.", call. = FALSE)
