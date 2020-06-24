@@ -130,6 +130,7 @@ ionize(), which in turn determines the integration boundaries for each ion." />
   <span class='no'>proteoforms</span>,
   <span class='no'>charge_states</span>,
   <span class='kw'>ppm_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>2500</span>, <span class='fl'>50</span>),
+  <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>Inf</span>, +<span class='fl'>Inf</span>),
   <span class='kw'>subplots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"total"</span>, <span class='st'>"modcom"</span>)
 )</pre>
 
@@ -153,6 +154,11 @@ be quantified.</p></td>
     <tr>
       <th>ppm_values</th>
       <td><p>Vectors of PPM values where abundances should be sampled.</p></td>
+    </tr>
+    <tr>
+      <th>rt_limits</th>
+      <td><p>A specification of retention time limits, passed to
+<code><a href='quantify_ions.html'>quantify_ions()</a></code>.</p></td>
     </tr>
     <tr>
       <th>subplots</th>
@@ -187,7 +193,8 @@ become zero.</p>
 <span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
 <span class='no'>pfm_masses</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>)
 
-<span class='fu'>plot_optimal_ppm</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_masses</span>, <span class='fl'>33L</span>:<span class='fl'>40L</span>)</div><div class='img'><img src='plot_optimal_ppm-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_optimal_ppm</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_masses</span>,
+                 <span class='kw'>charge_states</span> <span class='kw'>=</span> <span class='fl'>33L</span>:<span class='fl'>40L</span>, <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>350</span>))</div><div class='img'><img src='plot_optimal_ppm-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

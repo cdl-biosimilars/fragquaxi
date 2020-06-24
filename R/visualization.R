@@ -265,6 +265,8 @@ plot_ions <- function(ms_data,
 #' @param charge_states Vector of charge states in which the proteoforms should
 #'   be quantified.
 #' @param ppm_values Vectors of PPM values where abundances should be sampled.
+#' @param rt_limits A specification of retention time limits, passed to
+#'   [quantify_ions()].
 #' @param subplots Subplots that should be drawn; one of `"all"` (draw all
 #'   subplots), `"total"` (draw only the total abundance plot), and `"modcom"`
 #'   (draw only the subplot with individual proteoform abundances).
@@ -284,11 +286,13 @@ plot_ions <- function(ms_data,
 #' modcoms <- define_ptm_compositions(sample_modcoms)
 #' pfm_masses <- assemble_proteoforms(proteins, modcoms)
 #'
-#' plot_optimal_ppm(ms_data, pfm_masses, 33L:40L)
+#' plot_optimal_ppm(ms_data, pfm_masses,
+#'                  charge_states = 33L:40L, rt_limits = c(300,350))
 plot_optimal_ppm <- function(ms_data,
                              proteoforms,
                              charge_states,
                              ppm_values = seq(0, 2500, 50),
+                             rt_limits = c(-Inf, +Inf),
                              subplots = c("all", "total", "modcom")) {
   subplots <- match.arg(subplots)
 
@@ -305,7 +309,7 @@ plot_optimal_ppm <- function(ms_data,
       ~quantify_ions(
         ms_data,
         .x,
-        rt_limits = c(300, 350)
+        rt_limits = rt_limits
       ) %>%
         tibble::as_tibble() %>%
         dplyr::select(.data$modcom_name, .data$abundance_data),

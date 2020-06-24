@@ -9,6 +9,7 @@ plot_optimal_ppm(
   proteoforms,
   charge_states,
   ppm_values = seq(0, 2500, 50),
+  rt_limits = c(-Inf, +Inf),
   subplots = c("all", "total", "modcom")
 )
 }
@@ -22,6 +23,9 @@ plot_optimal_ppm(
 be quantified.}
 
 \item{ppm_values}{Vectors of PPM values where abundances should be sampled.}
+
+\item{rt_limits}{A specification of retention time limits, passed to
+\code{\link[=quantify_ions]{quantify_ions()}}.}
 
 \item{subplots}{Subplots that should be drawn; one of \code{"all"} (draw all
 subplots), \code{"total"} (draw only the total abundance plot), and \code{"modcom"}
@@ -56,5 +60,6 @@ proteins <- define_proteins(
 modcoms <- define_ptm_compositions(sample_modcoms)
 pfm_masses <- assemble_proteoforms(proteins, modcoms)
 
-plot_optimal_ppm(ms_data, pfm_masses, 33L:40L)
+plot_optimal_ppm(ms_data, pfm_masses,
+                 charge_states = 33L:40L, rt_limits = c(300,350))
 }
