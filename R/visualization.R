@@ -24,8 +24,8 @@ plot_tic <- function(ms_data, time_scale = c("min", "s"), filter_ms1 = TRUE) {
   if (filter_ms1) {
     ms1_scans <-
       mzR::header(ms_data) %>%
-      dplyr::filter(msLevel == 1L) %>%
-      dplyr::pull(seqNum)
+      dplyr::filter(.data$msLevel == 1L) %>%
+      dplyr::pull(.data$seqNum)
     vis_data <-
       vis_data %>%
       magrittr::extract(ms1_scans,)
@@ -130,17 +130,19 @@ plot_ions <- function(ms_data,
     } else {
       scans <-
         mzR::header(ms_data) %>%
-        filter(retentionTime %>% dplyr::between(rt_limits[1], rt_limits[2]))
+        dplyr::filter(
+          .data$retentionTime %>% dplyr::between(rt_limits[1], rt_limits[2])
+        )
 
       if (filter_ms1) {
         scans <-
          scans %>%
-          dplyr::filter(msLevel == 1L)
+          dplyr::filter(.data$msLevel == 1L)
       }
 
       scans <-
         scans %>%
-        dplyr::pull(seqNum)
+        dplyr::pull(.data$seqNum)
 
       if (length(scans) == 0)
         stop("No scans within the given retention time limits.", call. = FALSE)

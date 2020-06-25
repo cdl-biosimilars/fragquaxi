@@ -4,17 +4,18 @@
 \alias{find_rt_limits}
 \title{Find retention time limits for XIC integration.}
 \usage{
-find_rt_limits(rt, rt_limits)
+find_rt_limits(ms_header, rt_limits)
 }
 \arguments{
-\item{rt}{Retention times from an \code{mzR} object.}
+\item{ms_header}{Header of an \code{mzR} object, possibly pre-filtered for MS1
+scans.}
 
 \item{rt_limits}{Value of the correspondent argument of \code{\link[=quantify_ions]{quantify_ions()}}.}
 }
 \value{
 A data frame with one row per retention time window and the
 calculated retention time limits and scan indices in columns \code{rt_min},
-\code{rt_max}, \code{scan_min}, and \code{scan_max}, respectively.
+\code{rt_max}, and \code{scans}, respectively.
 }
 \description{
 This internal function is called by \code{\link[=quantify_ions]{quantify_ions()}}. It

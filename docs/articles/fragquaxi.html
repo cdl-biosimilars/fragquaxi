@@ -392,7 +392,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Parameters ──</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; MS data file: /tmp/RtmpXT7vHw/temp_libpath548f538a6de1/fragquaxi/extdata/mzml/mab1.mzML</span>
+<span class="co">#&gt; MS data file: /tmp/Rtmpnlayh5/temp_libpath25ee419e721d/fragquaxi/extdata/mzml/mab1.mzML</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Ions:</span>
 <span class="co">#&gt; # A tibble: 64 x 9</span>
@@ -407,10 +407,10 @@
 <span class="co">#&gt; #   mz_max &lt;dbl&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Retention time limits:</span>
-<span class="co">#&gt; # A tibble: 1 x 4</span>
-<span class="co">#&gt;   rt_min rt_max scan_min scan_max</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1    300    350      117      141</span>
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;   rt_min rt_max scans     </span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;    </span>
+<span class="co">#&gt; 1    300    350 &lt;int [25]&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Results ──</span>
 <span class="co">#&gt; </span>
@@ -445,19 +445,19 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">modcom_name</span>, <span class="no">z</span>, <span class="no">abundance_data</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="no">abundance_data</span>)
-<span class="co">#&gt; # A tibble: 64 x 7</span>
-<span class="co">#&gt;    modcom_name     z rt_min rt_max scan_min scan_max abundance</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 G0F/G0         33    300    350      117      141   153744.</span>
-<span class="co">#&gt;  2 G0F/G0         34    300    350      117      141   204512.</span>
-<span class="co">#&gt;  3 G0F/G0         35    300    350      117      141   256930.</span>
-<span class="co">#&gt;  4 G0F/G0         36    300    350      117      141   334421.</span>
-<span class="co">#&gt;  5 G0F/G0         37    300    350      117      141   183758.</span>
-<span class="co">#&gt;  6 G0F/G0         38    300    350      117      141   177475.</span>
-<span class="co">#&gt;  7 G0F/G0         39    300    350      117      141   121394.</span>
-<span class="co">#&gt;  8 G0F/G0         40    300    350      117      141   114270.</span>
-<span class="co">#&gt;  9 G0F/G0F        33    300    350      117      141  2903791.</span>
-<span class="co">#&gt; 10 G0F/G0F        34    300    350      117      141  4762999.</span>
+<span class="co">#&gt; # A tibble: 64 x 6</span>
+<span class="co">#&gt;    modcom_name     z rt_min rt_max scans      abundance</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 G0F/G0         33    300    350 &lt;int [25]&gt;   153744.</span>
+<span class="co">#&gt;  2 G0F/G0         34    300    350 &lt;int [25]&gt;   204512.</span>
+<span class="co">#&gt;  3 G0F/G0         35    300    350 &lt;int [25]&gt;   256930.</span>
+<span class="co">#&gt;  4 G0F/G0         36    300    350 &lt;int [25]&gt;   334421.</span>
+<span class="co">#&gt;  5 G0F/G0         37    300    350 &lt;int [25]&gt;   183758.</span>
+<span class="co">#&gt;  6 G0F/G0         38    300    350 &lt;int [25]&gt;   177475.</span>
+<span class="co">#&gt;  7 G0F/G0         39    300    350 &lt;int [25]&gt;   121394.</span>
+<span class="co">#&gt;  8 G0F/G0         40    300    350 &lt;int [25]&gt;   114270.</span>
+<span class="co">#&gt;  9 G0F/G0F        33    300    350 &lt;int [25]&gt;  2903791.</span>
+<span class="co">#&gt; 10 G0F/G0F        34    300    350 &lt;int [25]&gt;  4762999.</span>
 <span class="co">#&gt; # … with 54 more rows</span></pre></body></html></div>
 <p>Use this data to visualize proteoform abundances:</p>
 <div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">abundances</span> <span class="kw">%&gt;%</span>

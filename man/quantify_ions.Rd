@@ -8,6 +8,7 @@ quantify_ions(
   ms_data,
   ions,
   rt_limits = c(-Inf, +Inf),
+  filter_ms1 = TRUE,
   ifun_spectrum = c("adaptive", "trapezoidal"),
   ifun_xic = c("trapezoidal", "adaptive")
 )
@@ -19,6 +20,8 @@ by \code{\link[mzR:openMSfile]{mzR::openMSfile()}}.}
 \item{ions}{A data frame specifying ions (see details).}
 
 \item{rt_limits}{A specification of retention time limits (see details).}
+
+\item{filter_ms1}{If true, only scans from MS level 1 are integrated.}
 
 \item{ifun_spectrum}{Integration method for spectra (see details).}
 

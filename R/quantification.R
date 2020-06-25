@@ -8,14 +8,15 @@
 #'   If a retention time window does not include any scans,
 #'   scan indices are `NA`.
 #'
-#' @param rt Retention times from an `mzR` object.
+#' @param ms_header Header of an `mzR` object, possibly pre-filtered for MS1
+#'   scans.
 #' @param rt_limits Value of the correspondent argument of [quantify_ions()].
 #'
 #' @return A data frame with one row per retention time window and the
 #'   calculated retention time limits and scan indices in columns `rt_min`,
-#'   `rt_max`, `scan_min`, and `scan_max`, respectively.
+#'   `rt_max`, and `scans`, respectively.
 #' @keywords internal
-find_rt_limits <- function(rt, rt_limits) {
+find_rt_limits <- function(ms_header, rt_limits) {
   if (is.numeric(rt_limits) && length(rt_limits) == 2) {
     rt_limits <- tibble::tibble(
       rt_min = rt_limits[1],
@@ -25,29 +26,34 @@ find_rt_limits <- function(rt, rt_limits) {
     rt_limits <- tibble::as_tibble(rt_limits)
   }
 
+  rt <- ms_header$retentionTime
+
   rt_limits %>%
     dplyr::mutate(
       rt_min = dplyr::recode(.data$rt_min, `-Inf` = min(rt)),
       rt_max = dplyr::recode(.data$rt_max, `+Inf` = max(rt)),
-      scan_min = purrr::map_int(
+      id_min = purrr::map_int(
         .data$rt_min,
         function(rt_min)
           purrr::detect_index(rt, ~.x >= rt_min)
       ),
-      scan_max = purrr::map_int(
+      id_max = purrr::map_int(
         .data$rt_max,
         function(rt_max)
           purrr::detect_index(rt, ~.x <= rt_max, .dir = "backward")
       ),
-      scan_min = dplyr::case_when(
-        .data$scan_min > .data$scan_max ~ NA_integer_,
-        TRUE                            ~ .data$scan_min
-      ),
-      scan_max = dplyr::case_when(
-        is.na(.data$scan_min) ~ NA_integer_,
-        TRUE                  ~ .data$scan_max
+      scans = purrr::map2(
+        .data$id_min,
+        .data$id_max,
+        function(id_min, id_max) {
+          if (id_min > id_max)
+            NA_integer_
+          else
+            ms_header$seqNum[id_min:id_max]
+        }
       )
-    )
+    ) %>%
+    dplyr::select(.data$rt_min, .data$rt_max, .data$scans)
 }
 
 #' Quantify proteoform ions
@@ -104,6 +110,7 @@ find_rt_limits <- function(rt, rt_limits) {
 #'   by [mzR::openMSfile()].
 #' @param ions A data frame specifying ions (see details).
 #' @param rt_limits A specification of retention time limits (see details).
+#' @param filter_ms1 If true, only scans from MS level 1 are integrated.
 #' @param ifun_spectrum Integration method for spectra (see details).
 #' @param ifun_xic Integration method for XICs (see details).
 #'
@@ -156,16 +163,23 @@ find_rt_limits <- function(rt, rt_limits) {
 quantify_ions <- function(ms_data,
                           ions,
                           rt_limits = c(-Inf, +Inf),
+                          filter_ms1 = TRUE,
                           ifun_spectrum = c("adaptive", "trapezoidal"),
                           ifun_xic = c("trapezoidal", "adaptive")) {
 
   ions <-
     ions %>%
     dplyr::mutate(ion_id = paste0("id_", dplyr::row_number())) %>%
-    dplyr::select(.data$ion_id, tidyselect::everything())
+    dplyr::relocate(.data$ion_id)
 
-  rt <- mzR::header(ms_data)$retentionTime
-  rt_limits <- find_rt_limits(rt, rt_limits)
+  ms_header <- mzR::header(ms_data)
+  if (filter_ms1) {
+    ms_header <-
+      ms_header %>%
+      dplyr::filter(.data$msLevel == 1L)
+  }
+  scans <- mzR::spectra(ms_data, ms_header$seqNum)
+  rt_limits <- find_rt_limits(ms_header, rt_limits)
 
   ifun_spectrum <- match.arg(ifun_spectrum)
   if (ifun_spectrum == "adaptive") {
@@ -192,7 +206,7 @@ quantify_ions <- function(ms_data,
   ifun_xic <- match.arg(ifun_xic)
   if (ifun_xic == "adaptive") {
     integrate_xic <- function(intensity) {
-      fun <- stats::approxfun(rt, intensity, rule = 2)
+      fun <- stats::approxfun(ms_header$retentionTime, intensity, rule = 2)
       purrr::pmap_dbl(
         rt_limits,
         function(rt_min, rt_max, ...) {
@@ -205,18 +219,17 @@ quantify_ions <- function(ms_data,
       purrr::pmap_dbl(
         rt_limits,
         function(rt_min, rt_max, ...) {
-          trapz_limits(rt, intensity, rt_min, rt_max)
+          trapz_limits(ms_header$retentionTime, intensity, rt_min, rt_max)
         }
       )
     }
   }
 
   xics <-
-    ms_data %>%
-    mzR::spectra() %>%
+    scans %>%
     purrr::map(integrate_spectrum) %>%
     purrr::flatten_dbl() %>%
-    matrix(ncol = length(rt)) %>%
+    matrix(ncol = nrow(ms_header)) %>%
     magrittr::set_rownames(paste0("id_", seq_len(nrow(.))))
 
   abundances <-
@@ -233,7 +246,7 @@ quantify_ions <- function(ms_data,
     ifuns = c(ifun_spectrum, ifun_xic),
     ions = ions,
     rt_limits = rt_limits,
-    rt = rt,
+    rt = ms_header$retentionTime,
     xics = xics,
     abundances = abundances
   ) %>%

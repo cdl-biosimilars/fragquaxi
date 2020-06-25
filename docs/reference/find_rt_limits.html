@@ -139,14 +139,15 @@ scan indices are <code>NA</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>find_rt_limits</span>(<span class='no'>rt</span>, <span class='no'>rt_limits</span>)</pre>
+    <pre class="usage"><span class='fu'>find_rt_limits</span>(<span class='no'>ms_header</span>, <span class='no'>rt_limits</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>rt</th>
-      <td><p>Retention times from an <code>mzR</code> object.</p></td>
+      <th>ms_header</th>
+      <td><p>Header of an <code>mzR</code> object, possibly pre-filtered for MS1
+scans.</p></td>
     </tr>
     <tr>
       <th>rt_limits</th>
@@ -158,7 +159,7 @@ scan indices are <code>NA</code>.</p></li>
 
     <p>A data frame with one row per retention time window and the
 calculated retention time limits and scan indices in columns <code>rt_min</code>,
-<code>rt_max</code>, <code>scan_min</code>, and <code>scan_max</code>, respectively.</p>
+<code>rt_max</code>, and <code>scans</code>, respectively.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
