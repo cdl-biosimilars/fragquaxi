@@ -131,7 +131,7 @@ specified with its own header line, <em>i.e.</em>, a line starting with <code>&g
 each chain, a water molecule is added to the formula.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_proteins</span>(<span class='no'>...</span>, <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>0L</span>)</pre>
+    <pre class="usage"><span class='fu'>define_proteins</span>(<span class='kw'>...</span>, .disulfides = <span class='fl'>0L</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,7 +152,7 @@ two hydrogen atoms are subtracted from the molecular formula.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame that describes one protein per row and comprises three
-columns:</p><dl'>
+columns:</p><dl>
 <dt><code>protein_data</code></dt><dd><p>Nested column storing the FASTA file name
 (<code>file</code>) and number of disulfides (<code>disulfides</code>) used for calculating its
 formula.</p></dd><dt><code>protein_formula</code></dt><dd><p>Formula calculated from its sequence.</p></dd>
@@ -160,13 +160,15 @@ formula.</p></dd><dt><code>protein_formula</code></dt><dd><p>Formula calculated 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mab_sequence</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>,
-                            <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
-<span class='fu'>define_proteins</span>(<span class='kw'>mab</span> <span class='kw'>=</span> <span class='no'>mab_sequence</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>mab_sequence</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>,
+                            package = <span class='st'>"fragquaxi"</span>)
+<span class='fu'>define_proteins</span>(mab = <span class='kw'>mab_sequence</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   protein_name protein_data     protein_formula            
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                      
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> mab          </span><span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span><span> C</span><span style='color: #0000BB;'>6464</span><span> H</span><span style='color: #0000BB;'>9982</span><span> N</span><span style='color: #0000BB;'>1706</span><span> O</span><span style='color: #0000BB;'>2014</span><span> S</span><span style='color: #0000BB;'>44</span><span></div><div class='input'>
-<span class='fu'>define_proteins</span>(<span class='no'>mab_sequence</span>, <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
+<span class='fu'>define_proteins</span>(<span class='kw'>mab_sequence</span>, .disulfides = <span class='fl'>16</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
 #&gt;   protein_name protein_data     protein_formula            
 #&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                      
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>            1 </span><span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span><span> C</span><span style='color: #0000BB;'>6464</span><span> H</span><span style='color: #0000BB;'>9950</span><span> N</span><span style='color: #0000BB;'>1706</span><span> O</span><span style='color: #0000BB;'>2014</span><span> S</span><span style='color: #0000BB;'>44</span><span></div></span></pre>
@@ -185,7 +187,7 @@ formula.</p></dd><dt><code>protein_formula</code></dt><dd><p>Formula calculated 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

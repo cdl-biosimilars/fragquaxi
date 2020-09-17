@@ -135,7 +135,7 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ionize</span>(<span class='no'>p</span>, <span class='no'>charge_states</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>charge_agent_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>ionize</span>(<span class='kw'>p</span>, <span class='kw'>charge_states</span>, ppm = <span class='fl'>400</span>, charge_agent_mass = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,10 +177,11 @@ The data frame may contain any number of additional columns, which will be
 returned unchanged.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>masses</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"p1"</span>, <span class='st'>"p2"</span>), <span class='kw'>mass</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>140000</span>, <span class='fl'>145000</span>))
-<span class='fu'>ionize</span>(<span class='no'>masses</span>, <span class='fl'>36L</span>:<span class='fl'>40L</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 6</span><span>
+    <pre class="examples"><div class='input'><span class='kw'>masses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(name = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"p1"</span>, <span class='st'>"p2"</span>), mass = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>140000</span>, <span class='fl'>145000</span>))
+<span class='fu'>ionize</span>(<span class='kw'>masses</span>, <span class='fl'>36L</span><span class='op'>:</span><span class='fl'>40L</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 6</span><span>
 #&gt;    name    mass     z    mz mz_min mz_max
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    36 </span><span style='text-decoration: underline;'>3</span><span>890.  </span><span style='text-decoration: underline;'>3</span><span>889.  </span><span style='text-decoration: underline;'>3</span><span>891.
 #&gt; </span><span style='color: #BCBCBC;'> 2</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    37 </span><span style='text-decoration: underline;'>3</span><span>785.  </span><span style='text-decoration: underline;'>3</span><span>784.  </span><span style='text-decoration: underline;'>3</span><span>786.
 #&gt; </span><span style='color: #BCBCBC;'> 3</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    38 </span><span style='text-decoration: underline;'>3</span><span>685.  </span><span style='text-decoration: underline;'>3</span><span>684.  </span><span style='text-decoration: underline;'>3</span><span>686.
@@ -206,7 +207,7 @@ returned unchanged.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

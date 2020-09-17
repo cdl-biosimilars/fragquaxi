@@ -123,9 +123,9 @@
     <p>Generate a vector of molecular formulas from a character vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>molecular_formula</span>(<span class='kw'>s</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
+    <pre class="usage"><span class='fu'>molecular_formula</span>(s = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
 
-<span class='fu'>is_molecular_formula</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>is_molecular_formula</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,19 +145,24 @@
     <p>An S3 vector of class <code>mol_form</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>molecular_formula</span>(<span class='st'>"C35 H48 Cl1 N3 O10 S1"</span>)</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
+    <pre class="examples"><div class='input'><span class='fu'>molecular_formula</span>(<span class='st'>"C35 H48 Cl1 N3 O10 S1"</span>)
+</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] C35 H48 Cl N3 O10 S</div><div class='input'>
 <span class='co'># spaces and counts with value 1 are optional</span>
-<span class='fu'>molecular_formula</span>(<span class='st'>"C35H48ClN3O10S"</span>)</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
+<span class='fu'>molecular_formula</span>(<span class='st'>"C35H48ClN3O10S"</span>)
+</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] C35 H48 Cl N3 O10 S</div><div class='input'>
 <span class='co'># counts may be negative</span>
-<span class='fu'>molecular_formula</span>(<span class='st'>"H-3 N-1"</span>)</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
+<span class='fu'>molecular_formula</span>(<span class='st'>"H-3 N-1"</span>)
+</div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] H-3 N-1</div><div class='input'>
 <span class='co'># the function is vectorized</span>
-<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>"C6 H12 O6"</span>, <span class='st'>"C Cl4"</span>))</div><div class='output co'>#&gt; &lt;molecular formula[3]&gt;
+<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>"C6 H12 O6"</span>, <span class='st'>"C Cl4"</span>))
+</div><div class='output co'>#&gt; &lt;molecular formula[3]&gt;
 #&gt; [1] H2 O      C6 H12 O6 C Cl4    </div><div class='input'>
 <span class='co'># ... and handles empty and missing formulas</span>
-<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>""</span>, <span class='st'>"&lt;empty&gt;"</span>, <span class='fl'>NA</span>))</div><div class='output co'>#&gt; &lt;molecular formula[4]&gt;
+<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>""</span>, <span class='st'>"&lt;empty&gt;"</span>, <span class='fl'>NA</span>))
+</div><div class='output co'>#&gt; &lt;molecular formula[4]&gt;
 #&gt; [1] H2 O    &lt;empty&gt; &lt;empty&gt; &lt;NA&gt;   </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -174,7 +179,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -125,7 +125,7 @@ limits." />
 limits.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>lower</span>, <span class='no'>upper</span>)</pre>
+    <pre class="usage"><span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='kw'>lower</span>, <span class='kw'>upper</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,20 +153,28 @@ limits.</p>
     <p>Area under the curve defined by the (x, y)-tuples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>5</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>0</span>)
+    <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>5</span>
+<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>0</span>)
 
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, -<span class='fl'>2</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 12.5</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, -<span class='fl'>2</span>, -<span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, -<span class='fl'>2</span>, <span class='fl'>.4</span>)</div><div class='output co'>#&gt; [1] 0.64</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='fl'>.4</span>, <span class='fl'>.7</span>)</div><div class='output co'>#&gt; [1] 0.795</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='fl'>.4</span>, <span class='fl'>3.6</span>)</div><div class='output co'>#&gt; [1] 9.16</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='fl'>.4</span>, <span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] 11.86</div><div class='input'>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='fl'>6</span>, <span class='fl'>7</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>10</span>)
+</div><div class='output co'>#&gt; [1] 12.5</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='op'>-</span><span class='fl'>1</span>)
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='op'>-</span><span class='fl'>2</span>, <span class='fl'>.4</span>)
+</div><div class='output co'>#&gt; [1] 0.64</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='fl'>.4</span>, <span class='fl'>.7</span>)
+</div><div class='output co'>#&gt; [1] 0.795</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='fl'>.4</span>, <span class='fl'>3.6</span>)
+</div><div class='output co'>#&gt; [1] 9.16</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='fl'>.4</span>, <span class='fl'>7</span>)
+</div><div class='output co'>#&gt; [1] 11.86</div><div class='input'>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='fl'>6</span>, <span class='fl'>7</span>)
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># throws an error</span>
-<span class='fu'>trapz_limits</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='fl'>4</span>, <span class='fl'>3</span>)
-}</div></pre>
+<span class='fu'>trapz_limits</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, <span class='fl'>4</span>, <span class='fl'>3</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -182,7 +190,7 @@ limits.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

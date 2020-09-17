@@ -126,7 +126,7 @@ Hill order." />
     </div>
 
     <pre class="usage"><span class='co'># S3 method for mol_form</span>
-<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>x</span>, <span class='kw'>prettify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='kw'>x</span>, prettify = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,8 +152,12 @@ gray: empty formulas).</p></td>
     <p>A character representation of the molecular formula.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"N-1 H-3"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</div><div class='output co'>#&gt; [1] "H-3 N-1"</div><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"N-1 H-3"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='kw'>prettify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "H\033[31m-3\033[39m N\033[31m-1\033[39m"</div><div class='input'>
-<span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"P+1 O+3 H+1"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()</div><div class='output co'>#&gt; [1] "H O3 P"</div><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"P+1 O+3 H+1"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='kw'>prettify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "H O\033[34m3\033[39m P"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"N-1 H-3"</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()
+</div><div class='output co'>#&gt; [1] "H-3 N-1"</div><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"N-1 H-3"</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(prettify = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] "H\033[31m-3\033[39m N\033[31m-1\033[39m"</div><div class='input'>
+<span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"P+1 O+3 H+1"</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>()
+</div><div class='output co'>#&gt; [1] "H O3 P"</div><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"P+1 O+3 H+1"</span>) <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(prettify = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] "H O\033[34m3\033[39m P"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -169,7 +173,7 @@ gray: empty formulas).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -128,7 +128,7 @@ currents (XIC) for each quantified ion.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for quaxi</span>
-<span class='fu'>as_tibble</span>(<span class='no'>x</span>, <span class='kw'>abundance_col</span> <span class='kw'>=</span> <span class='st'>"abundance_data"</span>, <span class='kw'>xic_col</span> <span class='kw'>=</span> <span class='st'>"xic_data"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>x</span>, abundance_col = <span class='st'>"abundance_data"</span>, xic_col = <span class='st'>"xic_data"</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,27 +166,28 @@ contains the variables <code>scan</code> (scan index), <code>rt</code> (correspo
 time), and <code>int</code> (intensity).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tibble</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://tibble.tidyverse.org'>tibble</a></span>)
 
-<span class='no'>ms_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mzR</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
+<span class='kw'>ms_data</span> <span class='op'>&lt;-</span> <span class='kw'>mzR</span>::<span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, package = <span class='st'>"fragquaxi"</span>)
 )
 
-<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
-  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+<span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
+  .disulfides = <span class='fl'>16</span>
 )
 
-<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
+<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
 
-<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span>:<span class='fl'>40L</span>)
+<span class='kw'>pfm_ions</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span><span class='op'>:</span><span class='fl'>40L</span>)
 
-<span class='no'>abundances</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='quantify_ions.html'>quantify_ions</a></span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>350</span>))
+<span class='kw'>abundances</span> <span class='op'>&lt;-</span> <span class='fu'><a href='quantify_ions.html'>quantify_ions</a></span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>, <span class='fl'>350</span>))
 
 <span class='co'># by default, include data on abundances and XICs in the output</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 30 x 10</span><span>
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>abundances</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 30 x 10</span><span>
 #&gt;    protein_name modcom_name formula                        mass     z    mz
 #&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> 1.48</span><span style='color: #949494;'>e</span><span>5    36 </span><span style='text-decoration: underline;'>4</span><span>111.
@@ -203,8 +204,9 @@ time), and <code>int</code> (intensity).</p>
 #&gt; </span><span style='color: #949494;'>#   abundance_data </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span style='color: #949494;'>, xic_data </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span></div><div class='input'>
 <span class='co'># rename the column containing abundance data</span>
 <span class='co'># (and omit several columns for readability)</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>, <span class='kw'>abundance_col</span> <span class='kw'>=</span> <span class='st'>"abundances"</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>formula</span>, -<span class='no'>mz_min</span>, -<span class='no'>mz_max</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 30 x 7</span><span>
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>abundances</span>, abundance_col = <span class='st'>"abundances"</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='op'>-</span><span class='kw'>formula</span>, <span class='op'>-</span><span class='kw'>mz_min</span>, <span class='op'>-</span><span class='kw'>mz_max</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 30 x 7</span><span>
 #&gt;    protein_name modcom_name    mass     z    mz abundances      xic_data        
 #&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            1 G0F/G0      </span><span style='text-decoration: underline;'>147</span><span>942.    36 </span><span style='text-decoration: underline;'>4</span><span>111. </span><span style='color: #949494;'>&lt;tibble [1 × 4</span><span>… </span><span style='color: #949494;'>&lt;tibble [352 × </span><span>…
@@ -219,8 +221,9 @@ time), and <code>int</code> (intensity).</p>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>            1 G0F/G0F     </span><span style='text-decoration: underline;'>148</span><span>088.    40 </span><span style='text-decoration: underline;'>3</span><span>703. </span><span style='color: #949494;'>&lt;tibble [1 × 4</span><span>… </span><span style='color: #949494;'>&lt;tibble [352 × </span><span>…
 #&gt; </span><span style='color: #949494;'># … with 20 more rows</span><span></div><div class='input'>
 <span class='co'># omit XIC data in the output</span>
-<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>abundances</span>, <span class='kw'>xic_col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>formula</span>, -<span class='no'>mz_min</span>, -<span class='no'>mz_max</span>)</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 30 x 6</span><span>
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='kw'>abundances</span>, xic_col = <span class='kw'>NULL</span>) <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='op'>-</span><span class='kw'>formula</span>, <span class='op'>-</span><span class='kw'>mz_min</span>, <span class='op'>-</span><span class='kw'>mz_max</span>)
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 30 x 6</span><span>
 #&gt;    protein_name modcom_name    mass     z    mz abundance_data  
 #&gt;           </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>          
 #&gt; </span><span style='color: #BCBCBC;'> 1</span><span>            1 G0F/G0      </span><span style='text-decoration: underline;'>147</span><span>942.    36 </span><span style='text-decoration: underline;'>4</span><span>111. </span><span style='color: #949494;'>&lt;tibble [1 × 4]&gt;</span><span>
@@ -249,7 +252,7 @@ time), and <code>int</code> (intensity).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

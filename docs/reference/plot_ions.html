@@ -126,13 +126,13 @@ ratios and integration boundaries of proteoform ions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_ions</span>(
-  <span class='no'>ms_data</span>,
-  <span class='no'>ions</span>,
-  <span class='kw'>scans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot_elements</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"mz_min"</span>, <span class='st'>"mz_max"</span>, <span class='st'>"ion_labels"</span>),
-  <span class='kw'>filter_ms1</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>ms_data</span>,
+  <span class='kw'>ions</span>,
+  scans = <span class='kw'>NULL</span>,
+  rt_limits = <span class='kw'>NULL</span>,
+  xlim = <span class='kw'>NULL</span>,
+  plot_elements = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"mz_min"</span>, <span class='st'>"mz_max"</span>, <span class='st'>"ion_labels"</span>),
+  filter_ms1 = <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -168,7 +168,7 @@ default scale range.</p></td>
     <tr>
       <th>plot_elements</th>
       <td><p>Character vector specifying which plot elements should
-be displayed:</p><dl'>
+be displayed:</p><dl>
 <dt><code>"mz"</code></dt><dd><p>Solid red vertical lines indicating
 m/z values.</p></dd> <dt><code>"mz_min"</code>, <code>"mz_max"</code></dt><dd><p>Dashed red vertical lines
 indicating lower and upper integration boundaries, respectively.</p></dd>
@@ -188,31 +188,35 @@ retention time limits.</p></td>
     <p>A ggplot object describing the created plot.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ms_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mzR</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>ms_data</span> <span class='op'>&lt;-</span> <span class='kw'>mzR</span>::<span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, package = <span class='st'>"fragquaxi"</span>)
 )
 
-<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
-  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+<span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
+  .disulfides = <span class='fl'>16</span>
 )
 
-<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
+<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
 
-<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>) <span class='kw'>%&gt;%</span>
+<span class='kw'>pfm_ions</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span>)
 
 <span class='co'># show all scans</span>
-<span class='fu'>plot_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))</div><div class='img'><img src='plot_ions-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>, xlim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))
+</div><div class='img'><img src='plot_ions-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show selected scans</span>
-<span class='fu'>plot_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='kw'>scans</span> <span class='kw'>=</span> <span class='fl'>126</span>:<span class='fl'>136</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))</div><div class='img'><img src='plot_ions-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>, scans = <span class='fl'>126</span><span class='op'>:</span><span class='fl'>136</span>, xlim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))
+</div><div class='img'><img src='plot_ions-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show a single scan</span>
-<span class='fu'>plot_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='kw'>scans</span> <span class='kw'>=</span> <span class='fl'>126</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))</div><div class='img'><img src='plot_ions-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>, scans = <span class='fl'>126</span>, xlim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>))
+</div><div class='img'><img src='plot_ions-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># only show selected plot elements</span>
-<span class='fu'>plot_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>,
-          <span class='kw'>scans</span> <span class='kw'>=</span> <span class='fl'>126</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>),
-          <span class='kw'>plot_elements</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"ion_labels"</span>))</div><div class='img'><img src='plot_ions-4.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>,
+          scans = <span class='fl'>126</span>, xlim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4100</span>, <span class='fl'>4150</span>),
+          plot_elements = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mz"</span>, <span class='st'>"ion_labels"</span>))
+</div><div class='img'><img src='plot_ions-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -228,7 +232,7 @@ retention time limits.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -125,7 +125,7 @@ values for a single mass." />
 values for a single mass.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>charge</span>(<span class='no'>m</span>, <span class='no'>z</span>, <span class='kw'>charge_agent_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>charge</span>(<span class='kw'>m</span>, <span class='kw'>z</span>, charge_agent_mass = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,11 +151,14 @@ average IUPAC mass of the proton.</p></td>
 values of <code>z</code>, converted to character.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>charge</span>(<span class='fl'>150000</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>24</span>)</div><div class='output co'>#&gt;       24 
+    <pre class="examples"><div class='input'><span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>24</span>)
+</div><div class='output co'>#&gt;       24 
 #&gt; 6251.008 </div><div class='input'>
-<span class='fu'>charge</span>(<span class='fl'>150000</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>20</span>:<span class='fl'>24</span>)</div><div class='output co'>#&gt;       20       21       22       23       24 
+<span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span>)
+</div><div class='output co'>#&gt;       20       21       22       23       24 
 #&gt; 7501.008 7143.865 6819.190 6522.747 6251.008 </div><div class='input'>
-<span class='fu'>charge</span>(<span class='fl'>150000</span>, <span class='kw'>z</span> <span class='kw'>=</span> <span class='fl'>20</span>:<span class='fl'>24</span>, <span class='kw'>charge_agent_mass</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt;       20       21       22       23       24 
+<span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span>, charge_agent_mass = <span class='fl'>3</span>)
+</div><div class='output co'>#&gt;       20       21       22       23       24 
 #&gt; 7503.000 7145.857 6821.182 6524.739 6253.000 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -172,7 +175,7 @@ values of <code>z</code>, converted to character.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

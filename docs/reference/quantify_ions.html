@@ -146,12 +146,12 @@ retention time window.</p>
     </div>
 
     <pre class="usage"><span class='fu'>quantify_ions</span>(
-  <span class='no'>ms_data</span>,
-  <span class='no'>ions</span>,
-  <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>Inf</span>, +<span class='fl'>Inf</span>),
-  <span class='kw'>filter_ms1</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ifun_spectrum</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"adaptive"</span>, <span class='st'>"trapezoidal"</span>),
-  <span class='kw'>ifun_xic</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trapezoidal"</span>, <span class='st'>"adaptive"</span>)
+  <span class='kw'>ms_data</span>,
+  <span class='kw'>ions</span>,
+  rt_limits = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>Inf</span>, <span class='op'>+</span><span class='fl'>Inf</span>),
+  filter_ms1 = <span class='fl'>TRUE</span>,
+  ifun_spectrum = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"adaptive"</span>, <span class='st'>"trapezoidal"</span>),
+  ifun_xic = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trapezoidal"</span>, <span class='st'>"adaptive"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -186,7 +186,7 @@ by <code><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>mzR::openMSfile()
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of class <code>quaxi</code> with seven elements:</p><dl'>
+    <p>A list of class <code>quaxi</code> with seven elements:</p><dl>
 <dt><code>ms_file</code></dt><dd><p>Path of the MS data file.</p></dd>
 <dt><code>ifuns</code></dt><dd><p>Character vector denoting the integration methods used for
 spectra and XICs, respectively.</p></dd>
@@ -208,14 +208,14 @@ abundances, with one row per ion and one column per retention time window.</p></
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<h3>Ion specification</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Ion specification</h3>
 
 
 <p>Ions are provided <em>via</em> a data frame that must contain two columns <code>mz_min</code>
 and <code>mz_max</code> specifying the lower and upper integration limit for each ion.
 The data frame may contain additional columns, which are ignored.</p>
 
-<h3>Retention time limits</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Retention time limits</h3>
 
 
 <p><code>rt_limits</code> accepts one of the following:</p><ul>
@@ -229,12 +229,12 @@ ignored) specifying one retention time window per row</p></li>
 <p>The values <code>-Inf</code> and <code>+Inf</code> are replaced by the minimum and maximum
 retention time, respectively.</p>
 
-<h3>Integration methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Integration methods</h3>
 
 
 <p>The integration method may be selected separately for the spectrum
 integration step (by <code>ifun_spectrum</code>) and the XIC integration step (by
-<code>ifun_xic</code>).</p><dl'>
+<code>ifun_xic</code>).</p><dl>
 <dt><code>"adaptive"</code></dt><dd><p>Default method for spectrum integration (step 1).
 Adaptive quadrature via <code><a href='https://rdrr.io/r/stats/approxfun.html'>approxfun()</a></code> and <code><a href='https://rdrr.io/r/stats/integrate.html'>stats::integrate()</a></code>. This method
 is faster, but may yield wrong results if the integrand is zero over nearly
@@ -250,23 +250,24 @@ but always gives correct results for XIC integration.</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ms_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mzR</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>ms_data</span> <span class='op'>&lt;-</span> <span class='kw'>mzR</span>::<span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, package = <span class='st'>"fragquaxi"</span>)
 )
 
-<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
-  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+<span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
+  .disulfides = <span class='fl'>16</span>
 )
 
-<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
+<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
 
-<span class='no'>pfm_ions</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span>:<span class='fl'>40L</span>)
+<span class='kw'>pfm_ions</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='ionize.html'>ionize</a></span>(<span class='fl'>36L</span><span class='op'>:</span><span class='fl'>40L</span>)
 
 <span class='co'># no rentention time limits: use all spectra</span>
-<span class='fu'>quantify_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>)</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>1</span><span> retention time window.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpnlayh5/temp_libpath25ee419e721d/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
+<span class='fu'>quantify_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>)
+</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>1</span><span> retention time window.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpy2NsH0/temp_libpathdcbb1a8952ca/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
 #&gt; <span class='message'>  ion_id protein_name modcom_name formula                        mass     z</span>
 #&gt; <span class='message'>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span></span>
 #&gt; <span class='message'></span><span style='color: #BCBCBC;'>1</span><span> id_1              1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> 1.48</span><span style='color: #949494;'>e</span><span>5    36</span>
@@ -285,7 +286,8 @@ but always gives correct results for XIC integration.</p></dd>
 #&gt; <span class='message'></span><span style='color: #949494;'># … with 21 more variables: id_10 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, id_11 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, id_12 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, id_13 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,</span><span></span>
 #&gt; <span class='message'></span><span style='color: #949494;'>#   id_14 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, …</span><span></span></div><div class='input'>
 <span class='co'># define a single retention time window</span>
-<span class='fu'>quantify_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>, <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>240</span>, <span class='fl'>330</span>))</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>1</span><span> retention time window.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpnlayh5/temp_libpath25ee419e721d/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
+<span class='fu'>quantify_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>, rt_limits = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>240</span>, <span class='fl'>330</span>))
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>1</span><span> retention time window.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpy2NsH0/temp_libpathdcbb1a8952ca/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
 #&gt; <span class='message'>  ion_id protein_name modcom_name formula                        mass     z</span>
 #&gt; <span class='message'>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span></span>
 #&gt; <span class='message'></span><span style='color: #BCBCBC;'>1</span><span> id_1              1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> 1.48</span><span style='color: #949494;'>e</span><span>5    36</span>
@@ -305,8 +307,9 @@ but always gives correct results for XIC integration.</p></dd>
 #&gt; <span class='message'></span><span style='color: #949494;'>#   id_14 </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>, …</span><span></span></div><div class='input'>
 <span class='co'># define several retention time windows;</span>
 <span class='co'># instead of a list, you may also pass a data frame to rt_limits</span>
-<span class='fu'>quantify_ions</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_ions</span>,
-              <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>rt_min</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>240</span>), <span class='kw'>rt_max</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>330</span>)))</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>2</span><span> retention time windows.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpnlayh5/temp_libpath25ee419e721d/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
+<span class='fu'>quantify_ions</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_ions</span>,
+              rt_limits = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(rt_min = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>240</span>), rt_max = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>60</span>, <span class='fl'>330</span>)))
+</div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Abundances of </span><span style='color: #0000BB;'>30</span><span> ions quantified in </span><span style='color: #0000BB;'>352</span><span> mass spectra using </span><span style='color: #0000BB;'>2</span><span> retention time windows.</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>── </span><span style='font-weight: bold;'>Parameters</span><span> ──</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>MS data file: </span><span style='color: #0000BB;'>/tmp/Rtmpy2NsH0/temp_libpathdcbb1a8952ca/fragquaxi/extdata/mzml/mab1.mzML</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>Ions:</span></div><div class='output co'>#&gt; <span class='message'></span><span style='color: #949494;'># A tibble: 30 x 9</span><span></span>
 #&gt; <span class='message'>  ion_id protein_name modcom_name formula                        mass     z</span>
 #&gt; <span class='message'>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span></span>
 #&gt; <span class='message'></span><span style='color: #BCBCBC;'>1</span><span> id_1              1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> 1.48</span><span style='color: #949494;'>e</span><span>5    36</span>
@@ -341,7 +344,7 @@ but always gives correct results for XIC integration.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

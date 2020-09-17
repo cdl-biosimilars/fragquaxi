@@ -125,7 +125,7 @@ specification from PTM compositions." />
 specification from PTM compositions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_ptm_compositions</span>(<span class='no'>x</span>, <span class='kw'>other_ptms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>define_ptm_compositions</span>(<span class='kw'>x</span>, other_ptms = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,7 +144,7 @@ additional PTMs like <code>c(ptm_1 = correction formula 1, ..., ptm_n = correcti
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame that describes one PTM composition per row and comprises
-three columns:</p><dl'>
+three columns:</p><dl>
 <dt><code>modcom_data</code></dt><dd><p>Nested column
 storing the remaining columns from the input data
 frame.</p></dd><dt><code>modcom_formula</code></dt><dd><p>Correction formula associated with the
@@ -154,7 +154,7 @@ respective PTM composition.</p></dd>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<h3>PTM compositions</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>PTM compositions</h3>
 
 
 <p>PTM compositions ("modcoms") are supplied in a data frame where each row
@@ -175,8 +175,8 @@ respective PTM found in the respective composition.</p>
 PTMs, respectively</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ptm_compositions</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  ~<span class='no'>modcom_name</span>, ~<span class='no'>Hex</span>, ~<span class='no'>HexNAc</span>, ~<span class='no'>Fuc</span>, ~<span class='no'>PHOS</span>, ~<span class='no'>foo</span>,
+    <pre class="examples"><div class='input'><span class='kw'>ptm_compositions</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
+  <span class='op'>~</span><span class='kw'>modcom_name</span>, <span class='op'>~</span><span class='kw'>Hex</span>, <span class='op'>~</span><span class='kw'>HexNAc</span>, <span class='op'>~</span><span class='kw'>Fuc</span>, <span class='op'>~</span><span class='kw'>PHOS</span>, <span class='op'>~</span><span class='kw'>foo</span>,
   <span class='st'>"G0F/G0"</span>,        <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>1</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
   <span class='st'>"G0F/G0F"</span>,       <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
   <span class='st'>"G0F/G1F"</span>,       <span class='fl'>7</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
@@ -187,12 +187,13 @@ PTMs, respectively</p></div>
   <span class='st'>"G2F/G2F+foo"</span>,  <span class='fl'>10</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>1</span>,
 )
 
-<span class='no'>my_ptms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-  <span class='kw'>foo</span> <span class='kw'>=</span> <span class='st'>"C42"</span>,
-  <span class='kw'>bar</span> <span class='kw'>=</span> <span class='st'>"H42"</span>
+<span class='kw'>my_ptms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+  foo = <span class='st'>"C42"</span>,
+  bar = <span class='st'>"H42"</span>
 )
 
-<span class='fu'>define_ptm_compositions</span>(<span class='no'>ptm_compositions</span>, <span class='no'>my_ptms</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span><span>
+<span class='fu'>define_ptm_compositions</span>(<span class='kw'>ptm_compositions</span>, <span class='kw'>my_ptms</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span><span>
 #&gt;   modcom_name modcom_data      modcom_formula     
 #&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>              
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span> G0F/G0      </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>106</span><span> H</span><span style='color: #0000BB;'>174</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>74</span><span>   
@@ -218,7 +219,7 @@ PTMs, respectively</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

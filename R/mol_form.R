@@ -255,9 +255,19 @@ vec_cast.character.mol_form <- function(x, to, ...) {
   format(x)
 }
 
-#' @method vec_proxy_compare mol_form
-#' @export
-vec_proxy_compare.mol_form <- function(x, ...) {
+#' Generate proxy for comparing molecular formulas.
+#'
+#' Returns a string vector as proxy for comparing and sorting molecular
+#' formulas. Each string corresponds to a molecular formula and is derived by
+#' pasting the chemical elements and their counts. Counts are padded to ten
+#' digits. Carbon and hydrogen are renamed to 'AC' and 'AH', respectively, in
+#' order to preserve Hill ordering.
+#'
+#' @param x Vector of molecular formulas.
+#'
+#' @return A string vector.
+#' @keywords internal
+compare_mol_form <- function(x) {
   purrr::map_chr(
     vec_data(x),
     ~if (is.null(.x)) {
@@ -269,6 +279,18 @@ vec_proxy_compare.mol_form <- function(x, ...) {
         stringr::str_c(collapse = "")
     }
   )
+}
+
+#' @method vec_proxy_compare mol_form
+#' @export
+vec_proxy_compare.mol_form <- function(x, ...) {
+  compare_mol_form(x)
+}
+
+#' @method vec_proxy_order mol_form
+#' @export
+vec_proxy_order.mol_form <- function(x, ...) {
+  compare_mol_form(x)
 }
 
 #' @export

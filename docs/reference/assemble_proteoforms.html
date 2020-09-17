@@ -129,7 +129,7 @@ different molecular forms in which the protein product of a single gene can
 be found due to changes introduced by posttranslational modifications).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assemble_proteoforms</span>(<span class='no'>p</span>, <span class='no'>m</span>, <span class='kw'>mass_set</span> <span class='kw'>=</span> <span class='st'>"average"</span>)</pre>
+    <pre class="usage"><span class='fu'>assemble_proteoforms</span>(<span class='kw'>p</span>, <span class='kw'>m</span>, mass_set = <span class='st'>"average"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,14 +162,15 @@ masses).</p>
     <div class='dont-index'><p><code><a href='get_mass.html'>get_mass()</a></code> for predefined mass sets</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
-  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+    <pre class="examples"><div class='input'><span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
+  .disulfides = <span class='fl'>16</span>
 )
 
-<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
+<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
 
-<span class='fu'>assemble_proteoforms</span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span><span>
+<span class='fu'>assemble_proteoforms</span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>)
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span><span>
 #&gt;   protein_name modcom_name formula                         mass
 #&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>1</span><span>            1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>147</span><span>942.
@@ -193,7 +194,7 @@ masses).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

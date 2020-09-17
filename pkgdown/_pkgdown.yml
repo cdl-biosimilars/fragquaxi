@@ -52,7 +52,8 @@ reference:
   description:
   contents:
   - add_sub_mol_form
-  - mul_div_mol_form
-  - sum_mol_form
+  - compare_mol_form
   - find_rt_limits
   - hill_order
+  - mul_div_mol_form
+  - sum_mol_form

@@ -126,12 +126,12 @@ ionize(), which in turn determines the integration boundaries for each ion." />
     </div>
 
     <pre class="usage"><span class='fu'>plot_optimal_ppm</span>(
-  <span class='no'>ms_data</span>,
-  <span class='no'>proteoforms</span>,
-  <span class='no'>charge_states</span>,
-  <span class='kw'>ppm_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>2500</span>, <span class='fl'>50</span>),
-  <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>Inf</span>, +<span class='fl'>Inf</span>),
-  <span class='kw'>subplots</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"total"</span>, <span class='st'>"modcom"</span>)
+  <span class='kw'>ms_data</span>,
+  <span class='kw'>proteoforms</span>,
+  <span class='kw'>charge_states</span>,
+  ppm_values = <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>2500</span>, <span class='fl'>50</span>),
+  rt_limits = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>Inf</span>, <span class='op'>+</span><span class='fl'>Inf</span>),
+  subplots = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"total"</span>, <span class='st'>"modcom"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -183,18 +183,19 @@ the curves in the upper plots reach the first plateau, and their derivatives
 become zero.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ms_data</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>mzR</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>ms_data</span> <span class='op'>&lt;-</span> <span class='kw'>mzR</span>::<span class='fu'><a href='https://rdrr.io/pkg/mzR/man/openMSfile.html'>openMSfile</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mzml"</span>, <span class='st'>"mab1.mzML"</span>, package = <span class='st'>"fragquaxi"</span>)
 )
-<span class='no'>proteins</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"fragquaxi"</span>),
-  <span class='kw'>.disulfides</span> <span class='kw'>=</span> <span class='fl'>16</span>
+<span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
+  .disulfides = <span class='fl'>16</span>
 )
-<span class='no'>modcoms</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='no'>sample_modcoms</span>)
-<span class='no'>pfm_masses</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='no'>proteins</span>, <span class='no'>modcoms</span>)
+<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
+<span class='kw'>pfm_masses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='assemble_proteoforms.html'>assemble_proteoforms</a></span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>)
 
-<span class='fu'>plot_optimal_ppm</span>(<span class='no'>ms_data</span>, <span class='no'>pfm_masses</span>,
-                 <span class='kw'>charge_states</span> <span class='kw'>=</span> <span class='fl'>33L</span>:<span class='fl'>40L</span>, <span class='kw'>rt_limits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>350</span>))</div><div class='img'><img src='plot_optimal_ppm-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_optimal_ppm</span>(<span class='kw'>ms_data</span>, <span class='kw'>pfm_masses</span>,
+                 charge_states = <span class='fl'>33L</span><span class='op'>:</span><span class='fl'>40L</span>, rt_limits = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>300</span>,<span class='fl'>350</span>))
+</div><div class='img'><img src='plot_optimal_ppm-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -210,7 +211,7 @@ become zero.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
