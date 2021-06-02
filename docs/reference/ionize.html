@@ -55,6 +55,9 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
 
 " />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -86,7 +89,7 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -94,7 +97,7 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,9 +107,17 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -121,7 +132,7 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate mass-to-charge ratios for proteoform ions.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/ions.R'><code>R/ions.R</code></a></small>
     <div class="hidden name"><code>ionize.Rd</code></div>
     </div>
 
@@ -135,7 +146,7 @@ form a window of width \(mz \times ppm / 10^6\) centered at \(mz\).</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>ionize</span>(<span class='kw'>p</span>, <span class='kw'>charge_states</span>, ppm = <span class='fl'>400</span>, charge_agent_mass = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>ionize</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>charge_states</span>, ppm <span class='op'>=</span> <span class='fl'>400</span>, charge_agent_mass <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,21 +188,21 @@ The data frame may contain any number of additional columns, which will be
 returned unchanged.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>masses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(name = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"p1"</span>, <span class='st'>"p2"</span>), mass = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>140000</span>, <span class='fl'>145000</span>))
-<span class='fu'>ionize</span>(<span class='kw'>masses</span>, <span class='fl'>36L</span><span class='op'>:</span><span class='fl'>40L</span>)
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 6</span><span>
+    <pre class="examples"><div class='input'><span class='va'>masses</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"p1"</span>, <span class='st'>"p2"</span><span class='op'>)</span>, mass <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>140000</span>, <span class='fl'>145000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>ionize</span><span class='op'>(</span><span class='va'>masses</span>, <span class='fl'>36L</span><span class='op'>:</span><span class='fl'>40L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 10 x 6</span>
 #&gt;    name    mass     z    mz mz_min mz_max
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    36 </span><span style='text-decoration: underline;'>3</span><span>890.  </span><span style='text-decoration: underline;'>3</span><span>889.  </span><span style='text-decoration: underline;'>3</span><span>891.
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    37 </span><span style='text-decoration: underline;'>3</span><span>785.  </span><span style='text-decoration: underline;'>3</span><span>784.  </span><span style='text-decoration: underline;'>3</span><span>786.
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    38 </span><span style='text-decoration: underline;'>3</span><span>685.  </span><span style='text-decoration: underline;'>3</span><span>684.  </span><span style='text-decoration: underline;'>3</span><span>686.
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    39 </span><span style='text-decoration: underline;'>3</span><span>591.  </span><span style='text-decoration: underline;'>3</span><span>590.  </span><span style='text-decoration: underline;'>3</span><span>591.
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> p1    </span><span style='text-decoration: underline;'>140</span><span>000    40 </span><span style='text-decoration: underline;'>3</span><span>501.  </span><span style='text-decoration: underline;'>3</span><span>500.  </span><span style='text-decoration: underline;'>3</span><span>502.
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> p2    </span><span style='text-decoration: underline;'>145</span><span>000    36 </span><span style='text-decoration: underline;'>4</span><span>029.  </span><span style='text-decoration: underline;'>4</span><span>028.  </span><span style='text-decoration: underline;'>4</span><span>030.
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> p2    </span><span style='text-decoration: underline;'>145</span><span>000    37 </span><span style='text-decoration: underline;'>3</span><span>920.  </span><span style='text-decoration: underline;'>3</span><span>919.  </span><span style='text-decoration: underline;'>3</span><span>921.
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> p2    </span><span style='text-decoration: underline;'>145</span><span>000    38 </span><span style='text-decoration: underline;'>3</span><span>817.  </span><span style='text-decoration: underline;'>3</span><span>816.  </span><span style='text-decoration: underline;'>3</span><span>818.
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> p2    </span><span style='text-decoration: underline;'>145</span><span>000    39 </span><span style='text-decoration: underline;'>3</span><span>719.  </span><span style='text-decoration: underline;'>3</span><span>718.  </span><span style='text-decoration: underline;'>3</span><span>720.
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> p2    </span><span style='text-decoration: underline;'>145</span><span>000    40 </span><span style='text-decoration: underline;'>3</span><span>626.  </span><span style='text-decoration: underline;'>3</span><span>625.  </span><span style='text-decoration: underline;'>3</span><span>627.</div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> p1    <span style='text-decoration: underline;'>140</span>000    36 <span style='text-decoration: underline;'>3</span>890.  <span style='text-decoration: underline;'>3</span>889.  <span style='text-decoration: underline;'>3</span>891.
+#&gt; <span style='color: #BCBCBC;'> 2</span> p1    <span style='text-decoration: underline;'>140</span>000    37 <span style='text-decoration: underline;'>3</span>785.  <span style='text-decoration: underline;'>3</span>784.  <span style='text-decoration: underline;'>3</span>786.
+#&gt; <span style='color: #BCBCBC;'> 3</span> p1    <span style='text-decoration: underline;'>140</span>000    38 <span style='text-decoration: underline;'>3</span>685.  <span style='text-decoration: underline;'>3</span>684.  <span style='text-decoration: underline;'>3</span>686.
+#&gt; <span style='color: #BCBCBC;'> 4</span> p1    <span style='text-decoration: underline;'>140</span>000    39 <span style='text-decoration: underline;'>3</span>591.  <span style='text-decoration: underline;'>3</span>590.  <span style='text-decoration: underline;'>3</span>591.
+#&gt; <span style='color: #BCBCBC;'> 5</span> p1    <span style='text-decoration: underline;'>140</span>000    40 <span style='text-decoration: underline;'>3</span>501.  <span style='text-decoration: underline;'>3</span>500.  <span style='text-decoration: underline;'>3</span>502.
+#&gt; <span style='color: #BCBCBC;'> 6</span> p2    <span style='text-decoration: underline;'>145</span>000    36 <span style='text-decoration: underline;'>4</span>029.  <span style='text-decoration: underline;'>4</span>028.  <span style='text-decoration: underline;'>4</span>030.
+#&gt; <span style='color: #BCBCBC;'> 7</span> p2    <span style='text-decoration: underline;'>145</span>000    37 <span style='text-decoration: underline;'>3</span>920.  <span style='text-decoration: underline;'>3</span>919.  <span style='text-decoration: underline;'>3</span>921.
+#&gt; <span style='color: #BCBCBC;'> 8</span> p2    <span style='text-decoration: underline;'>145</span>000    38 <span style='text-decoration: underline;'>3</span>817.  <span style='text-decoration: underline;'>3</span>816.  <span style='text-decoration: underline;'>3</span>818.
+#&gt; <span style='color: #BCBCBC;'> 9</span> p2    <span style='text-decoration: underline;'>145</span>000    39 <span style='text-decoration: underline;'>3</span>719.  <span style='text-decoration: underline;'>3</span>718.  <span style='text-decoration: underline;'>3</span>720.
+#&gt; <span style='color: #BCBCBC;'>10</span> p2    <span style='text-decoration: underline;'>145</span>000    40 <span style='text-decoration: underline;'>3</span>626.  <span style='text-decoration: underline;'>3</span>625.  <span style='text-decoration: underline;'>3</span>627.</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -203,7 +214,7 @@ returned unchanged.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -50,6 +50,9 @@
 <meta property="og:description" content="The function is vectorized over z and thus may calculate several \(m/z\)
 values for a single mass." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -81,7 +84,7 @@ values for a single mass." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -89,7 +92,7 @@ values for a single mass." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,9 +102,17 @@ values for a single mass." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,7 +127,7 @@ values for a single mass." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate mass-to-charge ratios.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/mol_form.R'><code>R/mol_form.R</code></a></small>
     <div class="hidden name"><code>charge.Rd</code></div>
     </div>
 
@@ -125,7 +136,7 @@ values for a single mass." />
 values for a single mass.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>charge</span>(<span class='kw'>m</span>, <span class='kw'>z</span>, charge_agent_mass = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>charge</span><span class='op'>(</span><span class='va'>m</span>, <span class='va'>z</span>, charge_agent_mass <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,13 +162,13 @@ average IUPAC mass of the proton.</p></td>
 values of <code>z</code>, converted to character.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>24</span>)
+    <pre class="examples"><div class='input'><span class='fu'>charge</span><span class='op'>(</span><span class='fl'>150000</span>, z <span class='op'>=</span> <span class='fl'>24</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       24 
 #&gt; 6251.008 </div><div class='input'>
-<span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span>)
+<span class='fu'>charge</span><span class='op'>(</span><span class='fl'>150000</span>, z <span class='op'>=</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       20       21       22       23       24 
 #&gt; 7501.008 7143.865 6819.190 6522.747 6251.008 </div><div class='input'>
-<span class='fu'>charge</span>(<span class='fl'>150000</span>, z = <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span>, charge_agent_mass = <span class='fl'>3</span>)
+<span class='fu'>charge</span><span class='op'>(</span><span class='fl'>150000</span>, z <span class='op'>=</span> <span class='fl'>20</span><span class='op'>:</span><span class='fl'>24</span>, charge_agent_mass <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;       20       21       22       23       24 
 #&gt; 7503.000 7145.857 6821.182 6524.739 6253.000 </div></pre>
   </div>
@@ -171,7 +182,7 @@ values of <code>z</code>, converted to character.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -22,10 +22,10 @@ knitr::opts_chunk$set(
 
 ## Installation
 
+`fragquaxi` is currently only available from GitHub.
+
 ```{r, eval = FALSE}
-devtools::install_git(
-  "https://gitlab-ci-token:5pxmPK8746GxLmYuzXB6@git.sbg.ac.at/b1044569/fragquaxi.git"
-)
+remotes::install_github("cdl-biosimilars/fragquaxi")
 ```
 
 

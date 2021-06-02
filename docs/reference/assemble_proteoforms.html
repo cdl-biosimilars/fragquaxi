@@ -52,6 +52,9 @@
 different molecular forms in which the protein product of a single gene can
 be found due to changes introduced by posttranslational modifications)." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -83,7 +86,7 @@ be found due to changes introduced by posttranslational modifications)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -91,7 +94,7 @@ be found due to changes introduced by posttranslational modifications)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,9 +104,17 @@ be found due to changes introduced by posttranslational modifications)." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -118,7 +129,7 @@ be found due to changes introduced by posttranslational modifications)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Assemble proteoforms and calculate their masses.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/ions.R'><code>R/ions.R</code></a></small>
     <div class="hidden name"><code>assemble_proteoforms.Rd</code></div>
     </div>
 
@@ -129,7 +140,7 @@ different molecular forms in which the protein product of a single gene can
 be found due to changes introduced by posttranslational modifications).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assemble_proteoforms</span>(<span class='kw'>p</span>, <span class='kw'>m</span>, mass_set = <span class='st'>"average"</span>)</pre>
+    <pre class="usage"><span class='fu'>assemble_proteoforms</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>m</span>, mass_set <span class='op'>=</span> <span class='st'>"average"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,23 +173,23 @@ masses).</p>
     <div class='dont-index'><p><code><a href='get_mass.html'>get_mass()</a></code> for predefined mass sets</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package = <span class='st'>"fragquaxi"</span>),
-  .disulfides = <span class='fl'>16</span>
-)
+    <pre class="examples"><div class='input'><span class='va'>proteins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_proteins.html'>define_proteins</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>, package <span class='op'>=</span> <span class='st'>"fragquaxi"</span><span class='op'>)</span>,
+  .disulfides <span class='op'>=</span> <span class='fl'>16</span>
+<span class='op'>)</span>
 
-<span class='kw'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span>(<span class='kw'>sample_modcoms</span>)
+<span class='va'>modcoms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='define_ptm_compositions.html'>define_ptm_compositions</a></span><span class='op'>(</span><span class='va'>sample_modcoms</span><span class='op'>)</span>
 
-<span class='fu'>assemble_proteoforms</span>(<span class='kw'>proteins</span>, <span class='kw'>modcoms</span>)
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span><span>
+<span class='fu'>assemble_proteoforms</span><span class='op'>(</span><span class='va'>proteins</span>, <span class='va'>modcoms</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span>
 #&gt;   protein_name modcom_name formula                         mass
-#&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>            1 G0F/G0      C</span><span style='color: #0000BB;'>6570</span><span> H</span><span style='color: #0000BB;'>10124</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2088</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>147</span><span>942.
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>            1 G0F/G0F     C</span><span style='color: #0000BB;'>6576</span><span> H</span><span style='color: #0000BB;'>10134</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2092</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>088.
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>            1 G0F/G1F     C</span><span style='color: #0000BB;'>6582</span><span> H</span><span style='color: #0000BB;'>10144</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2097</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>250.
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>            1 G1F/G1F     C</span><span style='color: #0000BB;'>6588</span><span> H</span><span style='color: #0000BB;'>10154</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2102</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>412.
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>            1 G1F/G2F     C</span><span style='color: #0000BB;'>6594</span><span> H</span><span style='color: #0000BB;'>10164</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2107</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>574.
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>            1 G2F/G2F     C</span><span style='color: #0000BB;'>6600</span><span> H</span><span style='color: #0000BB;'>10174</span><span> N</span><span style='color: #0000BB;'>1714</span><span> O</span><span style='color: #0000BB;'>2112</span><span> S</span><span style='color: #0000BB;'>44</span><span> </span><span style='text-decoration: underline;'>148</span><span>737.</div></span></pre>
+#&gt;          <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;mol&gt;</span>                          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>            1 G0F/G0      C<span style='color: #0000BB;'>6570</span> H<span style='color: #0000BB;'>10124</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2088</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>147</span>942.
+#&gt; <span style='color: #BCBCBC;'>2</span>            1 G0F/G0F     C<span style='color: #0000BB;'>6576</span> H<span style='color: #0000BB;'>10134</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2092</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>148</span>088.
+#&gt; <span style='color: #BCBCBC;'>3</span>            1 G0F/G1F     C<span style='color: #0000BB;'>6582</span> H<span style='color: #0000BB;'>10144</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2097</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>148</span>250.
+#&gt; <span style='color: #BCBCBC;'>4</span>            1 G1F/G1F     C<span style='color: #0000BB;'>6588</span> H<span style='color: #0000BB;'>10154</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2102</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>148</span>412.
+#&gt; <span style='color: #BCBCBC;'>5</span>            1 G1F/G2F     C<span style='color: #0000BB;'>6594</span> H<span style='color: #0000BB;'>10164</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2107</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>148</span>574.
+#&gt; <span style='color: #BCBCBC;'>6</span>            1 G2F/G2F     C<span style='color: #0000BB;'>6600</span> H<span style='color: #0000BB;'>10174</span> N<span style='color: #0000BB;'>1714</span> O<span style='color: #0000BB;'>2112</span> S<span style='color: #0000BB;'>44</span> <span style='text-decoration: underline;'>148</span>737.</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -190,7 +201,7 @@ masses).</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

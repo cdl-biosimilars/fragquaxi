@@ -49,6 +49,9 @@
 <meta property="og:title" content="Calculate the mass of a molecular formula. — get_mass" />
 <meta property="og:description" content="Calculate the mass of a molecular formula." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -80,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -88,7 +91,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,9 +101,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,7 +126,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate the mass of a molecular formula.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/mol_form.R'><code>R/mol_form.R</code></a></small>
     <div class="hidden name"><code>get_mass.Rd</code></div>
     </div>
 
@@ -123,10 +134,10 @@
     <p>Calculate the mass of a molecular formula.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_mass</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>get_mass</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for mol_form</span>
-<span class='fu'>get_mass</span>(<span class='kw'>x</span>, mass_set = <span class='st'>"average"</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>get_mass</span><span class='op'>(</span><span class='va'>x</span>, mass_set <span class='op'>=</span> <span class='st'>"average"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,9 +169,9 @@ set defined by <code><a href='new_mass_set.html'>new_mass_set()</a></code>.</p><
 for predefined mass sets</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"C6 H10 O5"</span>) <span class='op'>%&gt;%</span> <span class='fu'>get_mass</span>()
+    <pre class="examples"><div class='input'><span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span><span class='op'>(</span><span class='st'>"C6 H10 O5"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>get_mass</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 162.141</div><div class='input'>
-<span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span>(<span class='st'>"C6 H10 O5"</span>) <span class='op'>%&gt;%</span> <span class='fu'>get_mass</span>(<span class='st'>"monoisotopic"</span>)
+<span class='fu'><a href='molecular_formula.html'>molecular_formula</a></span><span class='op'>(</span><span class='st'>"C6 H10 O5"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>get_mass</span><span class='op'>(</span><span class='st'>"monoisotopic"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 167.0528</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -173,7 +184,7 @@ for predefined mass sets</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -53,6 +53,9 @@ molecular formula. If the protein has multiple chains, each chain must be
 specified with its own header line, i.e., a line starting with &amp;gt;. For
 each chain, a water molecule is added to the formula." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -84,7 +87,7 @@ each chain, a water molecule is added to the formula." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -92,7 +95,7 @@ each chain, a water molecule is added to the formula." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,9 +105,17 @@ each chain, a water molecule is added to the formula." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +130,7 @@ each chain, a water molecule is added to the formula." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a protein specification.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/ions.R'><code>R/ions.R</code></a></small>
     <div class="hidden name"><code>define_proteins.Rd</code></div>
     </div>
 
@@ -131,7 +142,7 @@ specified with its own header line, <em>i.e.</em>, a line starting with <code>&g
 each chain, a water molecule is added to the formula.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_proteins</span>(<span class='kw'>...</span>, .disulfides = <span class='fl'>0L</span>)</pre>
+    <pre class="usage"><span class='fu'>define_proteins</span><span class='op'>(</span><span class='va'>...</span>, .disulfides <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,18 +171,18 @@ formula.</p></dd><dt><code>protein_formula</code></dt><dd><p>Formula calculated 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>mab_sequence</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>,
-                            package = <span class='st'>"fragquaxi"</span>)
-<span class='fu'>define_proteins</span>(mab = <span class='kw'>mab_sequence</span>)
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='va'>mab_sequence</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"mab_sequence.fasta"</span>,
+                            package <span class='op'>=</span> <span class='st'>"fragquaxi"</span><span class='op'>)</span>
+<span class='fu'>define_proteins</span><span class='op'>(</span>mab <span class='op'>=</span> <span class='va'>mab_sequence</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
 #&gt;   protein_name protein_data     protein_formula            
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                      
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> mab          </span><span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span><span> C</span><span style='color: #0000BB;'>6464</span><span> H</span><span style='color: #0000BB;'>9982</span><span> N</span><span style='color: #0000BB;'>1706</span><span> O</span><span style='color: #0000BB;'>2014</span><span> S</span><span style='color: #0000BB;'>44</span><span></div><div class='input'>
-<span class='fu'>define_proteins</span>(<span class='kw'>mab_sequence</span>, .disulfides = <span class='fl'>16</span>)
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 3</span><span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;mol&gt;</span>                      
+#&gt; <span style='color: #BCBCBC;'>1</span> mab          <span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span> C<span style='color: #0000BB;'>6464</span> H<span style='color: #0000BB;'>9982</span> N<span style='color: #0000BB;'>1706</span> O<span style='color: #0000BB;'>2014</span> S<span style='color: #0000BB;'>44</span></div><div class='input'>
+<span class='fu'>define_proteins</span><span class='op'>(</span><span class='va'>mab_sequence</span>, .disulfides <span class='op'>=</span> <span class='fl'>16</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 3</span>
 #&gt;   protein_name protein_data     protein_formula            
-#&gt;          </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>                      
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>            1 </span><span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span><span> C</span><span style='color: #0000BB;'>6464</span><span> H</span><span style='color: #0000BB;'>9950</span><span> N</span><span style='color: #0000BB;'>1706</span><span> O</span><span style='color: #0000BB;'>2014</span><span> S</span><span style='color: #0000BB;'>44</span><span></div></span></pre>
+#&gt;          <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;mol&gt;</span>                      
+#&gt; <span style='color: #BCBCBC;'>1</span>            1 <span style='color: #949494;'>&lt;tibble [1 × 2]&gt;</span> C<span style='color: #0000BB;'>6464</span> H<span style='color: #0000BB;'>9950</span> N<span style='color: #0000BB;'>1706</span> O<span style='color: #0000BB;'>2014</span> S<span style='color: #0000BB;'>44</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -183,7 +194,7 @@ formula.</p></dd><dt><code>protein_formula</code></dt><dd><p>Formula calculated 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

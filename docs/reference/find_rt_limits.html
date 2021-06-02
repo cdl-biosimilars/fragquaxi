@@ -57,6 +57,9 @@ scan indices are NA.
 
 " />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -88,7 +91,7 @@ scan indices are NA.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -96,7 +99,7 @@ scan indices are NA.
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -106,9 +109,17 @@ scan indices are NA.
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -123,7 +134,7 @@ scan indices are NA.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Find retention time limits for XIC integration.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/quantification.R'><code>R/quantification.R</code></a></small>
     <div class="hidden name"><code>find_rt_limits.Rd</code></div>
     </div>
 
@@ -139,7 +150,7 @@ scan indices are <code>NA</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>find_rt_limits</span>(<span class='kw'>ms_header</span>, <span class='kw'>rt_limits</span>)</pre>
+    <pre class="usage"><span class='fu'>find_rt_limits</span><span class='op'>(</span><span class='va'>ms_header</span>, <span class='va'>rt_limits</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,7 +183,7 @@ calculated retention time limits and scan indices in columns <code>rt_min</code>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

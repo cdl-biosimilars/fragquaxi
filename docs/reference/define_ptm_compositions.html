@@ -50,6 +50,9 @@
 <meta property="og:description" content="This function assembles a post-translational modification (PTM)
 specification from PTM compositions." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -81,7 +84,7 @@ specification from PTM compositions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -89,7 +92,7 @@ specification from PTM compositions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,9 +102,17 @@ specification from PTM compositions." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,7 +127,7 @@ specification from PTM compositions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a specification of PTM compositions.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/ions.R'><code>R/ions.R</code></a></small>
     <div class="hidden name"><code>define_ptm_compositions.Rd</code></div>
     </div>
 
@@ -125,7 +136,7 @@ specification from PTM compositions." />
 specification from PTM compositions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>define_ptm_compositions</span>(<span class='kw'>x</span>, other_ptms = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>define_ptm_compositions</span><span class='op'>(</span><span class='va'>x</span>, other_ptms <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,8 +186,8 @@ respective PTM found in the respective composition.</p>
 PTMs, respectively</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>ptm_compositions</span> <span class='op'>&lt;-</span> <span class='kw'>tibble</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span>(
-  <span class='op'>~</span><span class='kw'>modcom_name</span>, <span class='op'>~</span><span class='kw'>Hex</span>, <span class='op'>~</span><span class='kw'>HexNAc</span>, <span class='op'>~</span><span class='kw'>Fuc</span>, <span class='op'>~</span><span class='kw'>PHOS</span>, <span class='op'>~</span><span class='kw'>foo</span>,
+    <pre class="examples"><div class='input'><span class='va'>ptm_compositions</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>modcom_name</span>, <span class='op'>~</span><span class='va'>Hex</span>, <span class='op'>~</span><span class='va'>HexNAc</span>, <span class='op'>~</span><span class='va'>Fuc</span>, <span class='op'>~</span><span class='va'>PHOS</span>, <span class='op'>~</span><span class='va'>foo</span>,
   <span class='st'>"G0F/G0"</span>,        <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>1</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
   <span class='st'>"G0F/G0F"</span>,       <span class='fl'>6</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
   <span class='st'>"G0F/G1F"</span>,       <span class='fl'>7</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
@@ -185,25 +196,25 @@ PTMs, respectively</p></div>
   <span class='st'>"G2F/G2F"</span>,      <span class='fl'>10</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>0</span>,
   <span class='st'>"G2F/G2F+P"</span>,    <span class='fl'>10</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>1</span>,     <span class='fl'>0</span>,
   <span class='st'>"G2F/G2F+foo"</span>,  <span class='fl'>10</span>,       <span class='fl'>8</span>,    <span class='fl'>2</span>,    <span class='fl'>0</span>,     <span class='fl'>1</span>,
-)
+<span class='op'>)</span>
 
-<span class='kw'>my_ptms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-  foo = <span class='st'>"C42"</span>,
-  bar = <span class='st'>"H42"</span>
-)
+<span class='va'>my_ptms</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+  foo <span class='op'>=</span> <span class='st'>"C42"</span>,
+  bar <span class='op'>=</span> <span class='st'>"H42"</span>
+<span class='op'>)</span>
 
-<span class='fu'>define_ptm_compositions</span>(<span class='kw'>ptm_compositions</span>, <span class='kw'>my_ptms</span>)
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span><span>
+<span class='fu'>define_ptm_compositions</span><span class='op'>(</span><span class='va'>ptm_compositions</span>, <span class='va'>my_ptms</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 x 3</span>
 #&gt;   modcom_name modcom_data      modcom_formula     
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;mol&gt;</span><span>              
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> G0F/G0      </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>106</span><span> H</span><span style='color: #0000BB;'>174</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>74</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> G0F/G0F     </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>112</span><span> H</span><span style='color: #0000BB;'>184</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>78</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> G0F/G1F     </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>118</span><span> H</span><span style='color: #0000BB;'>194</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>83</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> G1F/G1F     </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>124</span><span> H</span><span style='color: #0000BB;'>204</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>88</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> G1F/G2F     </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>130</span><span> H</span><span style='color: #0000BB;'>214</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>93</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> G2F/G2F     </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>136</span><span> H</span><span style='color: #0000BB;'>224</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>98</span><span>   
-#&gt; </span><span style='color: #BCBCBC;'>7</span><span> G2F/G2F+P   </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>136</span><span> H</span><span style='color: #0000BB;'>225</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>101</span><span> P
-#&gt; </span><span style='color: #BCBCBC;'>8</span><span> G2F/G2F+foo </span><span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span><span> C</span><span style='color: #0000BB;'>178</span><span> H</span><span style='color: #0000BB;'>224</span><span> N</span><span style='color: #0000BB;'>8</span><span> O</span><span style='color: #0000BB;'>98</span><span>   </div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;mol&gt;</span>              
+#&gt; <span style='color: #BCBCBC;'>1</span> G0F/G0      <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>106</span> H<span style='color: #0000BB;'>174</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>74</span>   
+#&gt; <span style='color: #BCBCBC;'>2</span> G0F/G0F     <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>112</span> H<span style='color: #0000BB;'>184</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>78</span>   
+#&gt; <span style='color: #BCBCBC;'>3</span> G0F/G1F     <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>118</span> H<span style='color: #0000BB;'>194</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>83</span>   
+#&gt; <span style='color: #BCBCBC;'>4</span> G1F/G1F     <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>124</span> H<span style='color: #0000BB;'>204</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>88</span>   
+#&gt; <span style='color: #BCBCBC;'>5</span> G1F/G2F     <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>130</span> H<span style='color: #0000BB;'>214</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>93</span>   
+#&gt; <span style='color: #BCBCBC;'>6</span> G2F/G2F     <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>136</span> H<span style='color: #0000BB;'>224</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>98</span>   
+#&gt; <span style='color: #BCBCBC;'>7</span> G2F/G2F+P   <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>136</span> H<span style='color: #0000BB;'>225</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>101</span> P
+#&gt; <span style='color: #BCBCBC;'>8</span> G2F/G2F+foo <span style='color: #949494;'>&lt;tibble [1 × 5]&gt;</span> C<span style='color: #0000BB;'>178</span> H<span style='color: #0000BB;'>224</span> N<span style='color: #0000BB;'>8</span> O<span style='color: #0000BB;'>98</span>   </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -215,7 +226,7 @@ PTMs, respectively</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

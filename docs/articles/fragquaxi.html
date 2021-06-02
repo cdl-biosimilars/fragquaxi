@@ -20,6 +20,9 @@
 <script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to fragquaxi">
 <meta property="og:description" content="fragquaxi">
 <meta property="og:image" content="/logo.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@skafdasschaf">
+<meta name="twitter:site" content="@PLUS_1622">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -38,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -46,7 +49,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -56,8 +59,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -67,13 +80,13 @@
 
       
 
-      </header><script src="fragquaxi_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="fragquaxi_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to fragquaxi</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/cdl-biosimilars/fragquaxi/blob/master/vignettes/fragquaxi.Rmd"><code>vignettes/fragquaxi.Rmd</code></a></small>
       <div class="hidden name"><code>fragquaxi.Rmd</code></div>
 
     </div>
@@ -81,109 +94,100 @@
     
     
 <p>The <code>fragquaxi</code> package allows you to obtain <strong>fr</strong>actional <strong>a</strong>bundances of <strong>g</strong>lycoforms (and proteoforms in general) from mass spectrometric (MS) data by <strong>qua</strong>ntification <em>via</em> <strong>X</strong>IC (extracted ion current) <strong>i</strong>ntegration.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://purrr.tidyverse.org">purrr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tidyr.tidyverse.org">tidyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/sneumann/mzR">mzR</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">fragquaxi</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/mzR/">mzR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdl-biosimilars/fragquaxi">fragquaxi</a></span><span class="op">)</span></code></pre></div>
 <div id="molecular-formulas" class="section level1">
 <h1 class="hasAnchor">
 <a href="#molecular-formulas" class="anchor"></a>Molecular formulas</h1>
 <p>This package provides an S3 class <code>mol_form</code> that represents molecular formulas. Such a formula is created by <code><a href="../reference/molecular_formula.html">molecular_formula()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">emtansine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C35 H48 Cl1 N3 O10 S1"</span>)
-<span class="kw">emtansine</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">emtansine</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C35 H48 Cl1 N3 O10 S1"</span><span class="op">)</span>
+<span class="va">emtansine</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
-<span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span>
-</pre></div>
+<span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span></code></pre></div>
 <p>Spaces separating individual elements are optional, as are counts with value 1. Hence, the following function calls will return identical formula objects:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C35 H48 Cl1 N3 O10 S1"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C35 H48 Cl1 N3 O10 S1"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span>
 
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C35 H48 Cl N3 O10 S"</span>)
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C35 H48 Cl N3 O10 S"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span>
 
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C35H48ClN3O10S"</span>)
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C35H48ClN3O10S"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
-<span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span>
-</pre></div>
+<span class="co">#&gt; [1] C35 H48 Cl N3 O10 S</span></code></pre></div>
 <p>Element counts may be negative or marked by an explicit plus sign:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"N-1 H-3"</span>)      <span class="co"># Gln -&gt; pyroglutamate</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"N-1 H-3"</span><span class="op">)</span>      <span class="co"># Gln -&gt; pyroglutamate</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] H-3 N-1</span>
 
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"P+1 O+3 H+1"</span>)  <span class="co"># phosphorylation</span>
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"P+1 O+3 H+1"</span><span class="op">)</span>  <span class="co"># phosphorylation</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
-<span class="co">#&gt; [1] H O3 P</span>
-</pre></div>
+<span class="co">#&gt; [1] H O3 P</span></code></pre></div>
 <p>Note how the order of elements in the printed output complies with the Hill system.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"Cl4 C"</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"Cl4 C"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C Cl4</span>
 
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"H12 C6 O6"</span>)
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"H12 C6 O6"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C6 H12 O6</span>
   
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"H2SO4"</span>)
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"H2SO4"</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
-<span class="co">#&gt; [1] H2 O4 S</span>
-</pre></div>
+<span class="co">#&gt; [1] H2 O4 S</span></code></pre></div>
 <p><code><a href="../reference/molecular_formula.html">molecular_formula()</a></code> is vectorized: If called with a string vector, it returns a vector of formulas.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"H2 O"</span>, <span class="st">"C6 H12 O6"</span>))
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"H2 O"</span>, <span class="st">"C6 H12 O6"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[2]&gt;</span>
-<span class="co">#&gt; [1] H2 O      C6 H12 O6</span>
-</pre></div>
+<span class="co">#&gt; [1] H2 O      C6 H12 O6</span></code></pre></div>
 <p>Formulas support elementary arithmetic operations. (In case of multiplication and division, the numeric multiplier is always coerced to integer in order to ensure that element counts remain integral. Moreover, division is always integral.)</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6 H10 O5"</span>)
-<span class="kw">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C5 H11 NO2 S"</span>)
-<span class="kw">f1</span> <span class="op">+</span> <span class="kw">f2</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6 H10 O5"</span><span class="op">)</span>
+<span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C5 H11 NO2 S"</span><span class="op">)</span>
+<span class="va">f1</span> <span class="op">+</span> <span class="va">f2</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C11 H21 N O7 S</span>
 
-<span class="kw">f1</span> <span class="op">-</span> <span class="kw">f2</span>
+<span class="va">f1</span> <span class="op">-</span> <span class="va">f2</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C H-1 N-1 O3 S-1</span>
 
-<span class="kw">f1</span> <span class="op">*</span> <span class="fl">2L</span>
+<span class="va">f1</span> <span class="op">*</span> <span class="fl">2L</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C12 H20 O10</span>
 
-<span class="kw">f1</span> <span class="op">*</span> <span class="fl">2.9</span>  <span class="co"># multiplier implicitly converted to the integer 2L</span>
+<span class="va">f1</span> <span class="op">*</span> <span class="fl">2.9</span>  <span class="co"># multiplier implicitly converted to the integer 2L</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C12 H20 O10</span>
 
-<span class="kw">f1</span> <span class="op">/</span> <span class="fl">2</span>    <span class="co"># equivalent to f1 %/% 2L</span>
+<span class="va">f1</span> <span class="op">/</span> <span class="fl">2</span>    <span class="co"># equivalent to f1 %/% 2L</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
 <span class="co">#&gt; [1] C3 H5 O2</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">f1</span>, <span class="kw">f2</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; &lt;molecular formula[1]&gt;</span>
-<span class="co">#&gt; [1] C11 H21 N O7 S</span>
-</pre></div>
+<span class="co">#&gt; [1] C11 H21 N O7 S</span></code></pre></div>
 <p><code><a href="../reference/get_mass.html">get_mass()</a></code> calculates the molecular mass of a formula:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6 H10 O5"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>()
-<span class="co">#&gt; [1] 162.141</span>
-</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6 H10 O5"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] 162.141</span></code></pre></div>
 <p>By default, <code><a href="../reference/get_mass.html">get_mass()</a></code> uses average atomic masses. However, the package also provides monoisotopic masses:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6 H10 O5"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>(mass_set = <span class="st">"monoisotopic"</span>)
-<span class="co">#&gt; [1] 167.0528</span>
-</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6 H10 O5"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span>mass_set <span class="op">=</span> <span class="st">"monoisotopic"</span><span class="op">)</span>
+<span class="co">#&gt; [1] 167.0528</span></code></pre></div>
 <p>The dataset <code>atomic_masses</code> provides these average and monoisotopic masses:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="kw">atomic_masses</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">atomic_masses</span>
 <span class="co">#&gt; # A tibble: 118 x 6</span>
 <span class="co">#&gt;    element name          Z average     A monoisotopic</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt; &lt;int&gt;        &lt;dbl&gt;</span>
@@ -197,40 +201,35 @@
 <span class="co">#&gt;  8 O       oxygen        8   16.0     16        17.0 </span>
 <span class="co">#&gt;  9 F       fluorine      9   19.0     19        20.0 </span>
 <span class="co">#&gt; 10 Ne      neon         10   20.2     20        21.0 </span>
-<span class="co">#&gt; # … with 108 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 108 more rows</span></code></pre></div>
 <p><code><a href="../reference/new_mass_set.html">new_mass_set()</a></code> allows you to define custom mass sets:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">my_masses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_mass_set.html">new_mass_set</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(H = <span class="fl">10</span>, C = <span class="fl">100</span>, O = <span class="fl">1</span>))
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6 H8 O5"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>(<span class="kw">my_masses</span>)
-<span class="co">#&gt; [1] 685</span>
-</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_masses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_mass_set.html">new_mass_set</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>H <span class="op">=</span> <span class="fl">10</span>, C <span class="op">=</span> <span class="fl">100</span>, O <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6 H8 O5"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span><span class="va">my_masses</span><span class="op">)</span>
+<span class="co">#&gt; [1] 685</span></code></pre></div>
 <p>In order to avoid missing values in custom mass sets, you may choose to inherit masses from a previously defined set <em>via</em> the argument <code>inherits_from</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="kw">my_masses_complete</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_mass_set.html">new_mass_set</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(H = <span class="fl">10</span>, C = <span class="fl">100</span>, O = <span class="fl">1</span>),
-  inherits_from = <span class="st">"average"</span>
-)
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"H2 S O4"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>(<span class="kw">my_masses</span>)
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_masses_complete</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_mass_set.html">new_mass_set</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>H <span class="op">=</span> <span class="fl">10</span>, C <span class="op">=</span> <span class="fl">100</span>, O <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+  inherits_from <span class="op">=</span> <span class="st">"average"</span>
+<span class="op">)</span>
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"H2 S O4"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span><span class="va">my_masses</span><span class="op">)</span>
 <span class="co">#&gt; [1] NA</span>
 
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"H2 S O4"</span>) <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>(<span class="kw">my_masses_complete</span>)
-<span class="co">#&gt; [1] 56.06</span>
-</pre></div>
+<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"H2 S O4"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span><span class="va">my_masses_complete</span><span class="op">)</span>
+<span class="co">#&gt; [1] 56.06</span></code></pre></div>
 <p><code><a href="../reference/charge.html">charge()</a></code> converts a molecular mass to a mass-to-charge ratio:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/charge.html">charge</a></span>(<span class="fl">150000</span>, z = <span class="fl">20</span><span class="op">:</span><span class="fl">24</span>)
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/charge.html">charge</a></span><span class="op">(</span><span class="fl">150000</span>, z <span class="op">=</span> <span class="fl">20</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span>
 <span class="co">#&gt;       20       21       22       23       24 </span>
-<span class="co">#&gt; 7501.008 7143.865 6819.190 6522.747 6251.008</span>
-</pre></div>
+<span class="co">#&gt; 7501.008 7143.865 6819.190 6522.747 6251.008</span></code></pre></div>
 <p><code><a href="../reference/charge.html">charge()</a></code> naturally works with masses calculated for molecular formulas:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6464 H9950 N1706 O2014 S44"</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/charge.html">charge</a></span>(<span class="fl">20</span><span class="op">:</span><span class="fl">24</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6464 H9950 N1706 O2014 S44"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/get_mass.html">get_mass</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/charge.html">charge</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span>
 <span class="co">#&gt;       20       21       22       23       24 </span>
-<span class="co">#&gt; 7260.872 6915.164 6600.884 6313.933 6050.894</span>
-</pre></div>
+<span class="co">#&gt; 7260.872 6915.164 6600.884 6313.933 6050.894</span></code></pre></div>
 </div>
 <div id="prepare-data-for-quantification" class="section level1">
 <h1 class="hasAnchor">
@@ -240,32 +239,31 @@
 <h2 class="hasAnchor">
 <a href="#define-proteins" class="anchor"></a>(1) Define proteins</h2>
 <p><code><a href="../reference/define_proteins.html">define_proteins()</a></code> loads protein sequences in FASTA format and obtains their formulas. Each FASTA file must contain one record for each protein chain (so that the formula reflects the correct number of chain termini). In addition, indicate the number of disulfide bridges (if any) <em>via</em> the optional argument <code>.disulfides</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">mab_sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mab_sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>
   <span class="st">"extdata"</span>, <span class="st">"mab_sequence.fasta"</span>,
-  package = <span class="st">"fragquaxi"</span>
-)
+  package <span class="op">=</span> <span class="st">"fragquaxi"</span>
+<span class="op">)</span>
 
-<span class="kw">proteins</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_proteins.html">define_proteins</a></span>(
-  mab = <span class="kw">mab_sequence</span>,
-  .disulfides = <span class="fl">16</span>
-)
+<span class="va">proteins</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_proteins.html">define_proteins</a></span><span class="op">(</span>
+  mab <span class="op">=</span> <span class="va">mab_sequence</span>,
+  .disulfides <span class="op">=</span> <span class="fl">16</span>
+<span class="op">)</span>
 
-<span class="kw">proteins</span>
+<span class="va">proteins</span>
 <span class="co">#&gt; # A tibble: 1 x 3</span>
 <span class="co">#&gt;   protein_name protein_data     protein_formula            </span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;list&gt;           &lt;mol&gt;                      </span>
-<span class="co">#&gt; 1 mab          &lt;tibble [1 × 2]&gt; C6464 H9950 N1706 O2014 S44</span>
-</pre></div>
+<span class="co">#&gt; 1 mab          &lt;tibble [1 × 2]&gt; C6464 H9950 N1706 O2014 S44</span></code></pre></div>
 <p>The resulting <em>protein specification</em> is a data frame that describes one protein per row and comprises three columns: <code>protein_name</code>, protein names derived from the argument names in <code><a href="../reference/define_proteins.html">define_proteins()</a></code>; <code>protein_data</code>, a nested column that stores the FASTA file name and number of disulfides; and <code>protein_formula</code>, the formula calculated from the amino acid sequence, taking into account the numbers of disulfides and chains.</p>
 </div>
 <div id="define-ptm-compositions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#define-ptm-compositions" class="anchor"></a>(2) Define PTM compositions</h2>
 <p><code>fragquaxi</code> is tailored towards analysis of <em>proteoforms</em>, <em>i.e.</em>, the different molecular forms in which the protein product of a single gene can be found due to changes introduced by posttranslational modifications (PTMs). In the context of this package, proteoforms are described by their PTM compositions (or <em>modcoms</em> in short):</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">ptm_compositions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  <span class="op">~</span><span class="kw">modcom_name</span>, <span class="op">~</span><span class="kw">Hex</span>, <span class="op">~</span><span class="kw">HexNAc</span>, <span class="op">~</span><span class="kw">Fuc</span>, <span class="op">~</span><span class="kw">PHOS</span>, <span class="op">~</span><span class="kw">foo</span>,
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ptm_compositions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">modcom_name</span>, <span class="op">~</span><span class="va">Hex</span>, <span class="op">~</span><span class="va">HexNAc</span>, <span class="op">~</span><span class="va">Fuc</span>, <span class="op">~</span><span class="va">PHOS</span>, <span class="op">~</span><span class="va">foo</span>,
   <span class="st">"G0F/G0"</span>,        <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">1</span>,     <span class="fl">0</span>,    <span class="fl">0</span>,
   <span class="st">"G0F/G0F"</span>,       <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,     <span class="fl">0</span>,    <span class="fl">0</span>,
   <span class="st">"G0F/G1F"</span>,       <span class="fl">7</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,     <span class="fl">0</span>,    <span class="fl">0</span>,
@@ -274,16 +272,15 @@
   <span class="st">"G2F/G2F"</span>,      <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,     <span class="fl">0</span>,    <span class="fl">0</span>,
   <span class="st">"G2F/G2F+P"</span>,    <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,     <span class="fl">1</span>,    <span class="fl">0</span>,
   <span class="st">"G2F/G2F+foo"</span>,  <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,     <span class="fl">0</span>,    <span class="fl">1</span>,
-)
-</pre></div>
+<span class="op">)</span></code></pre></div>
 <p>In this data frame, each row corresponds to the PTM composition of a single proteoform. The first column must be labeled <code>modcom_name</code> and should contain a short description. The remaining columns must be labeled by valid PTM names (see below) and contain the number of the respective PTM found in the respective composition.</p>
 <p>The table above describes a range of proteoforms that differ in <em>N</em>-glycosylation, phosphorylation (<code>PHOS</code>) and “fooylation” (<code>foo</code>). Glycosylation is described in terms of the overall monosaccharide composition of the <em>N</em>-glycans; consequently, the data frame includes the columns <code>Hex</code>, <code>HexNAc</code>, and <code>Fuc</code> to indicate the number of hexose, <em>N</em>-acetylhexosamine, and fucose residues, respectively.</p>
 <p>Valid PTM names include</p>
 <ul>
 <li>
 <p>monosaccharides as provided in the data set <code>monosaccharides</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">monosaccharides</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">monosaccharides</span>
 <span class="co">#&gt; # A tibble: 83 x 5</span>
 <span class="co">#&gt;    abbreviation type      formula   short_name     systematic_name              </span>
 <span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;                        </span>
@@ -297,13 +294,12 @@
 <span class="co">#&gt;  8 Aci          Di-deoxy… C9 H16 N… Acinetaminic … 5,7-Diamino-3,5,7,9-tetradeo…</span>
 <span class="co">#&gt;  9 All          Hexose    C6 H10 O5 D-Allose       D-Allopyranose               </span>
 <span class="co">#&gt; 10 AllA         Hexurona… C5 H8 O6  D-Alluronic a… D-Allopyranuronic acid       </span>
-<span class="co">#&gt; # … with 73 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 73 more rows</span></code></pre></div>
 </li>
 <li>
 <p>PTMs as provided in the data set <code>ptms</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="kw">ptms</span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ptms</span>
 <span class="co">#&gt; # A tibble: 72 x 3</span>
 <span class="co">#&gt;    abbreviation name                     formula          </span>
 <span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;                    &lt;chr&gt;            </span>
@@ -317,23 +313,21 @@
 <span class="co">#&gt;  8 BROM         Bromination              Br H-1           </span>
 <span class="co">#&gt;  9 CETH         N6-1-carboxyethyl lysine C3 H4 O2         </span>
 <span class="co">#&gt; 10 CHOL         Cholesterol              C27 H44          </span>
-<span class="co">#&gt; # … with 62 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 62 more rows</span></code></pre></div>
 </li>
 <li>
 <p>other PTMs that must be defined in terms of their correction formula:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="kw">my_ptms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
-  foo = <span class="st">"C42"</span>,  <span class="co"># so this is fooylation!</span>
-  bar = <span class="st">"H-42"</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_ptms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  foo <span class="op">=</span> <span class="st">"C42"</span>,  <span class="co"># so this is fooylation!</span>
+  bar <span class="op">=</span> <span class="st">"H-42"</span>
+<span class="op">)</span></code></pre></div>
 </li>
 </ul>
 <p><code><a href="../reference/define_ptm_compositions.html">define_ptm_compositions()</a></code> creates a modcom specification from these PTM compositions and custom PTMs (if required):</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="kw">modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_ptm_compositions.html">define_ptm_compositions</a></span>(<span class="kw">ptm_compositions</span>, other_ptms = <span class="kw">my_ptms</span>)
-<span class="kw">modcoms</span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_ptm_compositions.html">define_ptm_compositions</a></span><span class="op">(</span><span class="va">ptm_compositions</span>, other_ptms <span class="op">=</span> <span class="va">my_ptms</span><span class="op">)</span>
+<span class="va">modcoms</span>
 <span class="co">#&gt; # A tibble: 8 x 3</span>
 <span class="co">#&gt;   modcom_name modcom_data      modcom_formula     </span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;list&gt;           &lt;mol&gt;              </span>
@@ -344,18 +338,17 @@
 <span class="co">#&gt; 5 G1F/G2F     &lt;tibble [1 × 5]&gt; C130 H214 N8 O93   </span>
 <span class="co">#&gt; 6 G2F/G2F     &lt;tibble [1 × 5]&gt; C136 H224 N8 O98   </span>
 <span class="co">#&gt; 7 G2F/G2F+P   &lt;tibble [1 × 5]&gt; C136 H225 N8 O101 P</span>
-<span class="co">#&gt; 8 G2F/G2F+foo &lt;tibble [1 × 5]&gt; C178 H224 N8 O98</span>
-</pre></div>
+<span class="co">#&gt; 8 G2F/G2F+foo &lt;tibble [1 × 5]&gt; C178 H224 N8 O98</span></code></pre></div>
 <p>The resulting <em>modcom specification</em> is a data frame that describes one PTM composition per row and comprises three columns: <code>modcom_name</code> (same column as in the input data frame); <code>modcom_data</code>, a nested column that contains the remaining columns from the input data frame; and <code>modcom_formula</code>, the correction formula associated with the respective PTM composition.</p>
 </div>
 <div id="assemble-proteoforms-and-calculate-their-masses" class="section level2">
 <h2 class="hasAnchor">
 <a href="#assemble-proteoforms-and-calculate-their-masses" class="anchor"></a>(3) Assemble proteoforms and calculate their masses</h2>
 <p>Once all proteins and modcoms have been specified in this way, <code><a href="../reference/assemble_proteoforms.html">assemble_proteoforms()</a></code> combines them and calculates the masses of the resulting proteoforms:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">pfm_masses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assemble_proteoforms.html">assemble_proteoforms</a></span>(<span class="kw">proteins</span>, <span class="kw">modcoms</span>)
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pfm_masses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assemble_proteoforms.html">assemble_proteoforms</a></span><span class="op">(</span><span class="va">proteins</span>, <span class="va">modcoms</span><span class="op">)</span>
 
-<span class="kw">pfm_masses</span>
+<span class="va">pfm_masses</span>
 <span class="co">#&gt; # A tibble: 8 x 4</span>
 <span class="co">#&gt;   protein_name modcom_name formula                           mass</span>
 <span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                            &lt;dbl&gt;</span>
@@ -366,35 +359,33 @@
 <span class="co">#&gt; 5 mab          G1F/G2F     C6594 H10164 N1714 O2107 S44   148574.</span>
 <span class="co">#&gt; 6 mab          G2F/G2F     C6600 H10174 N1714 O2112 S44   148737.</span>
 <span class="co">#&gt; 7 mab          G2F/G2F+P   C6600 H10175 N1714 O2115 P S44 148816.</span>
-<span class="co">#&gt; 8 mab          G2F/G2F+foo C6642 H10174 N1714 O2112 S44   149241.</span>
-</pre></div>
+<span class="co">#&gt; 8 mab          G2F/G2F+foo C6642 H10174 N1714 O2112 S44   149241.</span></code></pre></div>
 <p>Combining <span class="math inline">\(p\)</span> proteins with <span class="math inline">\(m\)</span> modcoms yields a data frame that describes <span class="math inline">\(p \times m\)</span> proteoforms and comprises four columns: <code>protein_name</code> and <code>modcom_name</code>, which together uniquely identify a proteoform; <code>formula</code>, its molecular formula; and <code>mass</code>, its mass in Dalton.</p>
 </div>
 <div id="select-ions-to-be-quantified" class="section level2">
 <h2 class="hasAnchor">
 <a href="#select-ions-to-be-quantified" class="anchor"></a>(4) Select ions to be quantified</h2>
 <p>Finally, <code><a href="../reference/ionize.html">ionize()</a></code> calculates mass-to-charge ratios of these proteoforms in selected <code>charge_states</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">pfm_ions</span> <span class="op">&lt;-</span>
-  <span class="kw">pfm_masses</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/ionize.html">ionize</a></span>(charge_states = <span class="fl">33L</span><span class="op">:</span><span class="fl">40L</span>)
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pfm_ions</span> <span class="op">&lt;-</span>
+  <span class="va">pfm_masses</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/ionize.html">ionize</a></span><span class="op">(</span>charge_states <span class="op">=</span> <span class="fl">33L</span><span class="op">:</span><span class="fl">40L</span><span class="op">)</span>
 
-<span class="kw">pfm_ions</span>
+<span class="va">pfm_ions</span>
 <span class="co">#&gt; # A tibble: 64 x 8</span>
-<span class="co">#&gt;    protein_name modcom_name formula                        mass     z    mz</span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.</span>
-<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.</span>
-<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.</span>
-<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.</span>
-<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.</span>
-<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.</span>
-<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.</span>
-<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.</span>
-<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.</span>
-<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.</span>
-<span class="co">#&gt; # … with 54 more rows, and 2 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;</span>
-</pre></div>
+<span class="co">#&gt;    protein_name modcom_name formula                         mass     z    mz</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33 4484.</span>
+<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34 4352.</span>
+<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35 4228.</span>
+<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36 4111.</span>
+<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37 3999.</span>
+<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    38 3894.</span>
+<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    39 3794.</span>
+<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    40 3700.</span>
+<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    33 4489.</span>
+<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    34 4357.</span>
+<span class="co">#&gt; # … with 54 more rows, and 2 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;</span></code></pre></div>
 <p>Creating <span class="math inline">\(c\)</span> differently charged ions for <span class="math inline">\(r\)</span> proteoforms yields a data frame with <span class="math inline">\(c \times r\)</span> rows, containing all variables from the input data frame as well as four additional columns: <code>z</code> (charge state), <code>mz</code> (exact mass-to-charge ratio), <code>mz_min</code>, and <code>mz_max</code>. The latter two columns represent lower and upper tolerances for the mass-to-charge ratio and will be used as integration boundaries (see below). (The width of this tolerance region is governed by the optional argument <code>ppm</code>; see the documentation of <code><a href="../reference/ionize.html">ionize()</a></code> for details.)</p>
 </div>
 </div>
@@ -402,60 +393,57 @@
 <h1 class="hasAnchor">
 <a href="#quantify-proteoforms" class="anchor"></a>Quantify proteoforms</h1>
 <p>Proteoform quantification requires mass spectrometric data, which can be loaded by <code><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">mzR::openMSfile()</a></code>. The exemplary file <code>mab1.mzML</code> contains mass spectra of a monoclonal antibody.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="kw">ms_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab1.mzML"</span>, package = <span class="st">"fragquaxi"</span>)
-)
-</pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ms_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab1.mzML"</span>, package <span class="op">=</span> <span class="st">"fragquaxi"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p>The figure below shows charge states 37+ to 34+ (from left to right) of a representative scan. Each charge state comprises several discernible peaks, each of which corresponds to a single proteoform (or a set of isobaric proteoforms).</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="kw">sample_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/peaks.html">spectra</a></span>(<span class="kw">ms_data</span>, <span class="fl">128</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="kw">sample_spectrum</span>) <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mz"</span>, <span class="st">"intensity"</span>)
-<span class="kw">sample_spectrum</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">mz</span>, <span class="kw">intensity</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span>(<span class="fl">3950</span>, <span class="fl">4400</span>)
-</pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sample_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/peaks.html">spectra</a></span><span class="op">(</span><span class="va">ms_data</span>, <span class="fl">128</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">sample_spectrum</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mz"</span>, <span class="st">"intensity"</span><span class="op">)</span>
+<span class="va">sample_spectrum</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mz</span>, <span class="va">intensity</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">3950</span>, <span class="fl">4400</span><span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <p>In order to check whether the previously calculated mass-to-charge ratios match peaks in the mass spectrum, the helper function <code><a href="../reference/plot_ions.html">plot_ions()</a></code> allows you to plot mass spectra overlaid with <span class="math inline">\(m/z\)</span> values and integration boundaries of proteoform ions:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_ions.html">plot_ions</a></span>(
-  <span class="kw">ms_data</span>,
-  ions = <span class="kw">pfm_ions</span>,
-  scans = <span class="fl">126</span><span class="op">:</span><span class="fl">136</span>,      <span class="co"># plot these scans</span>
-  xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4100</span>, <span class="fl">4150</span>)  <span class="co"># zoom into charge state 36+</span>
-)
-</pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_ions.html">plot_ions</a></span><span class="op">(</span>
+  <span class="va">ms_data</span>,
+  ions <span class="op">=</span> <span class="va">pfm_ions</span>,
+  scans <span class="op">=</span> <span class="fl">126</span><span class="op">:</span><span class="fl">136</span>,      <span class="co"># plot these scans</span>
+  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4100</span>, <span class="fl">4150</span><span class="op">)</span>  <span class="co"># zoom into charge state 36+</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p>Labels on the upper <span class="math inline">\(x\)</span>-axis denote proteoform ions, while solid and dashed red lines indicate mass-to-charge ratios and integration boundaries, respectively</p>
 <p><code><a href="../reference/quantify_ions.html">quantify_ions()</a></code> quantifies the previously defined proteoform ions. In the loaded MS data set, only mass spectra that were acquired at retention times between 300 and 350 seconds contain relevant information. Thus, specify these retention time limits <em>via</em> the argument <code>rt_limits</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span>(
-  <span class="kw">ms_data</span>,
-  <span class="kw">pfm_ions</span>,
-  rt_limits = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">300</span>, <span class="fl">350</span>)
-)
-</pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span><span class="op">(</span>
+  <span class="va">ms_data</span>,
+  <span class="va">pfm_ions</span>,
+  rt_limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">350</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p>(<code>rt_limits</code> also allows to specify several retention time windows, as described in the documentation.)</p>
 <p>Printing the quantification results stored in <code>abundances</code> yields a concise summary:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="kw">abundances</span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span>
 <span class="co">#&gt; ℹ Abundances of 64 ions quantified in 352 mass spectra using 1 retention time window.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Parameters ──</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; MS data file: /tmp/Rtmpy2NsH0/temp_libpathdcbb1a8952ca/fragquaxi/extdata/mzml/mab1.mzML</span>
+<span class="co">#&gt; MS data file:</span>
+<span class="co">#&gt; '/tmp/RtmpMZpe4N/temp_libpath126f21a1228f4/fragquaxi/extdata/mzml/mab1.mzML'</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Ions:</span>
 <span class="co">#&gt; # A tibble: 64 x 9</span>
-<span class="co">#&gt;   ion_id protein_name modcom_name formula                        mass     z</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33</span>
-<span class="co">#&gt; 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34</span>
-<span class="co">#&gt; 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35</span>
-<span class="co">#&gt; 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36</span>
-<span class="co">#&gt; 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37</span>
+<span class="co">#&gt;   ion_id protein_name modcom_name formula                         mass     z</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33</span>
+<span class="co">#&gt; 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34</span>
+<span class="co">#&gt; 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35</span>
+<span class="co">#&gt; 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36</span>
+<span class="co">#&gt; 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37</span>
 <span class="co">#&gt; # … with 59 more rows, and 3 more variables: mz &lt;dbl&gt;, mz_min &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   mz_max &lt;dbl&gt;</span>
 <span class="co">#&gt; </span>
@@ -468,40 +456,38 @@
 <span class="co">#&gt; ── Results ──</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 1 x 66</span>
-<span class="co">#&gt;   rt_min rt_max   id_1   id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1    300    350 1.54e5 2.05e5 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6</span>
+<span class="co">#&gt;   rt_min rt_max    id_1    id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1    300    350 153744. 204512. 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6</span>
 <span class="co">#&gt; # … with 55 more variables: id_10 &lt;dbl&gt;, id_11 &lt;dbl&gt;, id_12 &lt;dbl&gt;, id_13 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   id_14 &lt;dbl&gt;, …</span>
-</pre></div>
+<span class="co">#&gt; #   id_14 &lt;dbl&gt;, …</span></code></pre></div>
 <p>For data analysis, it may be convenient to convert these results to a data frame:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>(<span class="kw">abundances</span>)
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">abundances</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 64 x 10</span>
-<span class="co">#&gt;    protein_name modcom_name formula                        mass     z    mz</span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.</span>
-<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.</span>
-<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.</span>
-<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.</span>
-<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.</span>
-<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.</span>
-<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.</span>
-<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.</span>
-<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.</span>
-<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.</span>
+<span class="co">#&gt;    protein_name modcom_name formula                         mass     z    mz</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33 4484.</span>
+<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34 4352.</span>
+<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35 4228.</span>
+<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36 4111.</span>
+<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37 3999.</span>
+<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    38 3894.</span>
+<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    39 3794.</span>
+<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    40 3700.</span>
+<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    33 4489.</span>
+<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    34 4357.</span>
 <span class="co">#&gt; # … with 54 more rows, and 4 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   abundance_data &lt;list&gt;, xic_data &lt;list&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   abundance_data &lt;list&gt;, xic_data &lt;list&gt;</span></code></pre></div>
 <p>This conversion returns the data frame describing proteoform ions, plus two additional nested columns <code>abundance_data</code> and <code>xic_data</code>.</p>
 <ul>
 <li>
 <p>The column <code>abundance_data</code> stores data on ion abundances. Each value is a tibble with one row per retention time window (given by the values in columns <code>rt_min</code> and <code>rt_max</code>); column <code>abundance</code> contains corresponding XIC area.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">modcom_name</span>, <span class="kw">z</span>, <span class="kw">abundance_data</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">abundance_data</span>)
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">modcom_name</span>, <span class="va">z</span>, <span class="va">abundance_data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">abundance_data</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 64 x 6</span>
 <span class="co">#&gt;    modcom_name     z rt_min rt_max scans      abundance</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;         &lt;dbl&gt;</span>
@@ -515,30 +501,28 @@
 <span class="co">#&gt;  8 G0F/G0         40    300    350 &lt;int [25]&gt;   114270.</span>
 <span class="co">#&gt;  9 G0F/G0F        33    300    350 &lt;int [25]&gt;  2903791.</span>
 <span class="co">#&gt; 10 G0F/G0F        34    300    350 &lt;int [25]&gt;  4762999.</span>
-<span class="co">#&gt; # … with 54 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 54 more rows</span></code></pre></div>
 <p>Use this data to visualize proteoform abundances:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">abundance_data</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">modcom_name</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(abundance = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>)) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(frac_ab = <span class="kw">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>) <span class="op">*</span> <span class="fl">100</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">modcom_name</span>, <span class="kw">frac_ab</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">""</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"fractional abundance (%)"</span>)
-</pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">abundance_data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>frac_ab <span class="op">=</span> <span class="va">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">modcom_name</span>, <span class="va">frac_ab</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"fractional abundance (%)"</span><span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 </li>
 <li>
 <p>The column <code>xic_data</code> stores retention times (column <code>rt</code>) and intensities (column <code>int</code>) of the XIC associated with the respective ion:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="kw">modcom_name</span>, <span class="kw">z</span>, <span class="kw">xic_data</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">xic_data</span>)
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">modcom_name</span>, <span class="va">z</span>, <span class="va">xic_data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">xic_data</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 22,528 x 5</span>
 <span class="co">#&gt;    modcom_name     z  scan    rt   int</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -552,21 +536,19 @@
 <span class="co">#&gt;  8 G0F/G0         33     8 20.9      0</span>
 <span class="co">#&gt;  9 G0F/G0         33     9 23.5      0</span>
 <span class="co">#&gt; 10 G0F/G0         33    10 26.1      0</span>
-<span class="co">#&gt; # … with 22,518 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 22,518 more rows</span></code></pre></div>
 <p>Use this data to visualize all XICs:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">xic_data</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">rt</span>, <span class="kw">int</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(color = <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw">z</span>))) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="kw">modcom_name</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"retention time (s)"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"intensity (AU)"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span>(<span class="fl">300</span>, <span class="fl">350</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()
-</pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">xic_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">rt</span>, <span class="va">int</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"retention time (s)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"intensity (AU)"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">350</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 </li>
 </ul>
@@ -575,28 +557,28 @@
 <h1 class="hasAnchor">
 <a href="#working-with-several-ms-files" class="anchor"></a>Working with several MS files</h1>
 <p>Ions may also be quantified in a batch of MS files, and the resulting abundances may be used to calculate summary statistics.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit">
-<span class="kw">ms_files</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"mzml"</span>, package = <span class="st">"fragquaxi"</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(pattern = <span class="st">"mab\\d"</span>, full.names = <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ms_files</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mzml"</span>, package <span class="op">=</span> <span class="st">"fragquaxi"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"mab\\d"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="kw">all_abundances</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span>(
-    <span class="kw">ms_files</span>,
-    <span class="fu">function</span>(<span class="kw">file</span>) {
-      <span class="kw">ms_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span>(<span class="kw">file</span>)
-      <span class="kw">xic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span>(<span class="kw">ms_file</span>, <span class="kw">pfm_ions</span>, rt_limits = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">300</span>, <span class="fl">350</span>))
-      <span class="kw">xic</span> <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">abundance_data</span>) <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">modcom_name</span>) <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(abundance = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>)) <span class="op">%&gt;%</span>
-        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(abundance = <span class="kw">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>) <span class="op">*</span> <span class="fl">100</span>)
-    },
-    .id = <span class="st">"sample"</span>
-  )
+<span class="va">all_abundances</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span>
+    <span class="va">ms_files</span>,
+    <span class="kw">function</span><span class="op">(</span><span class="va">file</span><span class="op">)</span> <span class="op">{</span>
+      <span class="va">ms_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
+      <span class="va">xic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span><span class="op">(</span><span class="va">ms_file</span>, <span class="va">pfm_ions</span>, rt_limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">350</span><span class="op">)</span><span class="op">)</span>
+      <span class="va">xic</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">abundance_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="va">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>
+    <span class="op">}</span>,
+    .id <span class="op">=</span> <span class="st">"sample"</span>
+  <span class="op">)</span>
 
-<span class="kw">all_abundances</span>
+<span class="va">all_abundances</span>
 <span class="co">#&gt; # A tibble: 24 x 3</span>
 <span class="co">#&gt;    sample modcom_name abundance</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt;</span>
@@ -610,26 +592,23 @@
 <span class="co">#&gt;  8 1      G2F/G2F+P       0.115</span>
 <span class="co">#&gt;  9 2      G0F/G0          2.00 </span>
 <span class="co">#&gt; 10 2      G0F/G0F        57.6  </span>
-<span class="co">#&gt; # … with 14 more rows</span>
-</pre></div>
+<span class="co">#&gt; # … with 14 more rows</span></code></pre></div>
 <p>The following bar chart displays ion abundances in each sample:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="kw">all_abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">sample</span>, <span class="kw">abundance</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(fill = <span class="kw">modcom_name</span>), position = <span class="st">"dodge"</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"fractional abundance (%)"</span>)
-</pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sample</span>, <span class="va">abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">modcom_name</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"fractional abundance (%)"</span><span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 <p>Since the three MS data files correspond to replicates, calculate mean proteoform abundances and their standard deviations:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit">
-<span class="kw">all_abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">modcom_name</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(mean = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">abundance</span>), sd = <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span>(<span class="kw">abundance</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">modcom_name</span>, <span class="kw">mean</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(fill = <span class="kw">modcom_name</span>), show.legend = <span class="fl">FALSE</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(ymin = <span class="kw">mean</span> <span class="op">-</span> <span class="kw">sd</span>, ymax = <span class="kw">mean</span> <span class="op">+</span> <span class="kw">sd</span>), width = <span class="fl">.5</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"fractional abundance (%)"</span>)
-</pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">modcom_name</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">modcom_name</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">mean</span> <span class="op">-</span> <span class="va">sd</span>, ymax <span class="op">=</span> <span class="va">mean</span> <span class="op">+</span> <span class="va">sd</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"fractional abundance (%)"</span><span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 </div>
 <div id="direct-infusion" class="section level1">
@@ -637,18 +616,18 @@
 <a href="#direct-infusion" class="anchor"></a>Direct infusion</h1>
 <p>In certain experiments (e.g., direct infusion with rolling averaging), it may be sensible to quantify proteoforms by integrating a single mass spectrum instead of an XIC. <code>fragquaxi</code> also facilitates this approach, since each intensity value in the XIC data reported by <code>quantify_ions(...) %&gt;% as_table()</code> corresponds to the abundance of an ion in a single spectrum.</p>
 <p>Below, we load a series of 105 spectra from a direct infusion measurement of NISTmAb and define proteoforms to be quantified in charge states 24+ to 30+:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="kw">di_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab_di.mzML"</span>, package = <span class="st">"fragquaxi"</span>)
-)
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">di_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab_di.mzML"</span>, package <span class="op">=</span> <span class="st">"fragquaxi"</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">nistmab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(
-  protein_name = <span class="st">"nistmab"</span>,
-  protein_formula = <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span>(<span class="st">"C6464 H9984 N1700 O2006 S48"</span>)
-)
+<span class="va">nistmab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
+  protein_name <span class="op">=</span> <span class="st">"nistmab"</span>,
+  protein_formula <span class="op">=</span> <span class="fu"><a href="../reference/molecular_formula.html">molecular_formula</a></span><span class="op">(</span><span class="st">"C6464 H9984 N1700 O2006 S48"</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">nistmab_modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  <span class="op">~</span><span class="kw">modcom_name</span>,     <span class="op">~</span><span class="kw">Hex</span>, <span class="op">~</span><span class="kw">HexNAc</span>, <span class="op">~</span><span class="kw">Fuc</span>, 
+<span class="va">nistmab_modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">modcom_name</span>,     <span class="op">~</span><span class="va">Hex</span>, <span class="op">~</span><span class="va">HexNAc</span>, <span class="op">~</span><span class="va">Fuc</span>, 
   <span class="st">"A2G0F/A2G0F"</span>,       <span class="fl">6</span>,        <span class="fl">8</span>,   <span class="fl">2</span>, 
   <span class="st">"A2G0F/A2G1F"</span>,       <span class="fl">7</span>,        <span class="fl">8</span>,   <span class="fl">2</span>, 
   <span class="st">"A2G1F/A2G1F"</span>,       <span class="fl">8</span>,        <span class="fl">8</span>,   <span class="fl">2</span>, 
@@ -656,57 +635,54 @@
   <span class="st">"A2G2F/A2G2F"</span>,      <span class="fl">10</span>,        <span class="fl">8</span>,   <span class="fl">2</span>, 
   <span class="st">"A2G2F/A2G2F+1Hex"</span>, <span class="fl">11</span>,        <span class="fl">8</span>,   <span class="fl">2</span>, 
   <span class="st">"A1G0F/A2G0F"</span>,       <span class="fl">6</span>,        <span class="fl">7</span>,   <span class="fl">2</span>
-) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/define_ptm_compositions.html">define_ptm_compositions</a></span>()
+<span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/define_ptm_compositions.html">define_ptm_compositions</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">di_ions</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="../reference/assemble_proteoforms.html">assemble_proteoforms</a></span>(<span class="kw">nistmab</span>, <span class="kw">nistmab_modcoms</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ionize.html">ionize</a></span>(<span class="fl">24L</span><span class="op">:</span><span class="fl">30L</span>)
-</pre></div>
+<span class="va">di_ions</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="../reference/assemble_proteoforms.html">assemble_proteoforms</a></span><span class="op">(</span><span class="va">nistmab</span>, <span class="va">nistmab_modcoms</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/ionize.html">ionize</a></span><span class="op">(</span><span class="fl">24L</span><span class="op">:</span><span class="fl">30L</span><span class="op">)</span></code></pre></div>
 <p>Since these spectra were obtained by rolling averaging, it is sufficient to quantify proteoforms in the last recorded spectrum, where most of the noise has been eliminated.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_ions.html">plot_ions</a></span>(<span class="kw">di_data</span>, <span class="kw">di_ions</span>, scans = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">105</span>), xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5450</span>, <span class="fl">5550</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span>(
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="kw">scan</span>),
-    ncol = <span class="fl">1</span>,
-    strip.position = <span class="st">"right"</span>,
-    scales = <span class="st">"free_y"</span>
-  )
-</pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_ions.html">plot_ions</a></span><span class="op">(</span><span class="va">di_data</span>, <span class="va">di_ions</span>, scans <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">105</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5450</span>, <span class="fl">5550</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">scan</span><span class="op">)</span>,
+    ncol <span class="op">=</span> <span class="fl">1</span>,
+    strip.position <span class="op">=</span> <span class="st">"right"</span>,
+    scales <span class="op">=</span> <span class="st">"free_y"</span>
+  <span class="op">)</span></code></pre></div>
 <p><img src="fragquaxi_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 <p>(Note how the plot returned by <code><a href="../reference/plot_ions.html">plot_ions()</a></code> may be further customized <em>via</em> the usual <code>ggplot2</code> syntax – here, a facet specification is included.)</p>
 <p>Following quantification, obtain XIC data and filter for the last scan number:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="kw">di_abundances</span> <span class="op">&lt;-</span> 
-  <span class="kw">di_data</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span>(<span class="kw">di_ions</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>(abundance_col = <span class="kw">NULL</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">xic_data</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw">scan</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="kw">scan</span>))
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">di_abundances</span> <span class="op">&lt;-</span> 
+  <span class="va">di_data</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/quantify_ions.html">quantify_ions</a></span><span class="op">(</span><span class="va">di_ions</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>abundance_col <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">xic_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">scan</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">scan</span><span class="op">)</span><span class="op">)</span>
 
-<span class="kw">di_abundances</span>
+<span class="va">di_abundances</span>
 <span class="co">#&gt; # A tibble: 49 x 11</span>
-<span class="co">#&gt;    protein_name modcom_name formula                        mass     z    mz</span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    24 6169.</span>
-<span class="co">#&gt;  2 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    25 5923.</span>
-<span class="co">#&gt;  3 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    26 5695.</span>
-<span class="co">#&gt;  4 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    27 5484.</span>
-<span class="co">#&gt;  5 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    28 5288.</span>
-<span class="co">#&gt;  6 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    29 5106.</span>
-<span class="co">#&gt;  7 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 1.48e5    30 4936.</span>
-<span class="co">#&gt;  8 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 1.48e5    24 6176.</span>
-<span class="co">#&gt;  9 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 1.48e5    25 5929.</span>
-<span class="co">#&gt; 10 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 1.48e5    26 5701.</span>
+<span class="co">#&gt;    protein_name modcom_name formula                         mass     z    mz</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    24 6169.</span>
+<span class="co">#&gt;  2 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    25 5923.</span>
+<span class="co">#&gt;  3 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    26 5695.</span>
+<span class="co">#&gt;  4 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    27 5484.</span>
+<span class="co">#&gt;  5 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    28 5288.</span>
+<span class="co">#&gt;  6 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    29 5106.</span>
+<span class="co">#&gt;  7 nistmab      A2G0F/A2G0F C6576 H10168 N1708 O2084 S48 148038.    30 4936.</span>
+<span class="co">#&gt;  8 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 148201.    24 6176.</span>
+<span class="co">#&gt;  9 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 148201.    25 5929.</span>
+<span class="co">#&gt; 10 nistmab      A2G0F/A2G1F C6582 H10178 N1708 O2089 S48 148201.    26 5701.</span>
 <span class="co">#&gt; # … with 39 more rows, and 5 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   scan &lt;int&gt;, rt &lt;dbl&gt;, int &lt;dbl&gt;</span>
-</pre></div>
+<span class="co">#&gt; #   scan &lt;int&gt;, rt &lt;dbl&gt;, int &lt;dbl&gt;</span></code></pre></div>
 <p>The values in column <code>int</code> represent proteoform ion abundances in the last scan.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit">
-<span class="kw">di_abundances</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">modcom_name</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(abundance = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">int</span>)) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(abundance = <span class="kw">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>) <span class="op">*</span> <span class="fl">100</span>)
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">di_abundances</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">int</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="va">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 7 x 2</span>
 <span class="co">#&gt;   modcom_name      abundance</span>
 <span class="co">#&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
@@ -716,8 +692,7 @@
 <span class="co">#&gt; 4 A2G1F/A2G1F          26.9 </span>
 <span class="co">#&gt; 5 A2G1F/A2G2F          12.9 </span>
 <span class="co">#&gt; 6 A2G2F/A2G2F           4.98</span>
-<span class="co">#&gt; 7 A2G2F/A2G2F+1Hex      1.95</span>
-</pre></div>
+<span class="co">#&gt; 7 A2G2F/A2G2F+1Hex      1.95</span></code></pre></div>
 </div>
   </div>
 
@@ -732,7 +707,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://wolfgang.esser-skala.at">Wolfgang Esser-Skala</a>, <a href="https://www.uni-salzburg.at/"><img src="https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg" alt="PLUS" height="24"></a>.</p>
+  <p>Developed by <a href="http://wolfgang.esser-skala.at">Wolfgang Esser-Skala</a>, <a href="https://www.plus.ac.at/">University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

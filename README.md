@@ -10,10 +10,10 @@ data by **qua**ntification *via* **X**IC (extracted ion current)
 
 ## Installation
 
+`fragquaxi` is currently only available from GitHub.
+
 ``` r
-devtools::install_git(
-  "https://gitlab-ci-token:5pxmPK8746GxLmYuzXB6@git.sbg.ac.at/b1044569/fragquaxi.git"
-)
+remotes::install_github("cdl-biosimilars/fragquaxi")
 ```
 
 ## Usage
@@ -71,18 +71,18 @@ pfm_ions <-
 
 pfm_ions
 #> # A tibble: 48 x 8
-#>    protein_name modcom_name formula                        mass     z    mz
-#>    <chr>        <chr>       <mol>                         <dbl> <int> <dbl>
-#>  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.
-#>  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.
-#>  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.
-#>  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.
-#>  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.
-#>  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.
-#>  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.
-#>  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.
-#>  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.
-#> 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.
+#>    protein_name modcom_name formula                         mass     z    mz
+#>    <chr>        <chr>       <mol>                          <dbl> <int> <dbl>
+#>  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33 4484.
+#>  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34 4352.
+#>  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35 4228.
+#>  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36 4111.
+#>  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37 3999.
+#>  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    38 3894.
+#>  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    39 3794.
+#>  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    40 3700.
+#>  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    33 4489.
+#> 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    34 4357.
 #> # … with 38 more rows, and 2 more variables: mz_min <dbl>, mz_max <dbl>
 ```
 
@@ -113,32 +113,33 @@ abundances
 #> 
 #> ── Parameters ──
 #> 
-#> MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML
+#> MS data file:
+#> '/home/wolfgang/R/x86_64-pc-linux-gnu-library/4.0/fragquaxi/extdata/mzml/mab1.mzML'
 #> 
 #> Ions:
 #> # A tibble: 48 x 9
-#>   ion_id protein_name modcom_name formula                        mass     z
-#>   <chr>  <chr>        <chr>       <mol>                         <dbl> <int>
-#> 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33
-#> 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34
-#> 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35
-#> 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36
-#> 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37
+#>   ion_id protein_name modcom_name formula                         mass     z
+#>   <chr>  <chr>        <chr>       <mol>                          <dbl> <int>
+#> 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33
+#> 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34
+#> 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35
+#> 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36
+#> 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37
 #> # … with 43 more rows, and 3 more variables: mz <dbl>, mz_min <dbl>,
 #> #   mz_max <dbl>
 #> 
 #> Retention time limits:
-#> # A tibble: 1 x 4
-#>   rt_min rt_max scan_min scan_max
-#>    <dbl>  <dbl>    <int>    <int>
-#> 1    300    350      117      141
+#> # A tibble: 1 x 3
+#>   rt_min rt_max scans     
+#>    <dbl>  <dbl> <list>    
+#> 1    300    350 <int [25]>
 #> 
 #> ── Results ──
 #> 
 #> # A tibble: 1 x 50
-#>   rt_min rt_max   id_1   id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9
-#>    <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-#> 1    300    350 1.54e5 2.05e5 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6
+#>   rt_min rt_max    id_1    id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9
+#>    <dbl>  <dbl>   <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#> 1    300    350 153744. 204512. 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6
 #> # … with 39 more variables: id_10 <dbl>, id_11 <dbl>, id_12 <dbl>, id_13 <dbl>,
 #> #   id_14 <dbl>, …
 ```

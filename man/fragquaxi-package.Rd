@@ -9,6 +9,14 @@
 Tools for relative quantification of proteoforms in mass
     spectometric data by integration of extracted ion currents.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/cdl-biosimilars/fragquaxi}
+  \item Report bugs at \url{https://github.com/cdl-biosimilars/fragquaxi/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Wolfgang Esser-Skala \email{Wolfgang.Esser-Skala@sbg.ac.at} (\href{https://orcid.org/0000-0002-7350-4045}{ORCID})
 

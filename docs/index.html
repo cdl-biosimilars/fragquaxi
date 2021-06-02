@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glycoform Quantification via XIC Integration • fragquaxi</title>
+<title>fragquaxi • fragquaxi</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,10 +17,12 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Glycoform Quantification via XIC Integration">
-<meta property="og:description" content="Tools for relative quantification of proteoforms in mass
-    spectometric data by integration of extracted ion currents.">
+<script src="pkgdown.js"></script><meta property="og:title" content="fragquaxi">
+<meta property="og:description" content="fractional abundances of glycoforms from mass spectrometric data by quantification via extracted ion current integration">
 <meta property="og:image" content="/logo.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@skafdasschaf">
+<meta name="twitter:site" content="@PLUS_1622">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -47,7 +49,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,8 +59,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -82,146 +94,147 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">devtools</span>::<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_git</a></span>(
-  <span class="st">"https://gitlab-ci-token:5pxmPK8746GxLmYuzXB6@git.sbg.ac.at/b1044569/fragquaxi.git"</span>
-)
-</pre></div>
+<p><code>fragquaxi</code> is currently only available from GitHub.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"cdl-biosimilars/fragquaxi"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Load mass spectrometric data.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">fragquaxi</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tibble.tidyverse.org">tibble</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tidyr.tidyverse.org">tidyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cdl-biosimilars/fragquaxi">fragquaxi</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="kw">ms_data</span> <span class="op">&lt;-</span> <span class="kw">mzR</span>::<span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab1.mzML"</span>, package = <span class="st">"fragquaxi"</span>)
-)
-</pre></div>
+<span class="va">ms_data</span> <span class="op">&lt;-</span> <span class="fu">mzR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mzR/man/openMSfile.html">openMSfile</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mzml"</span>, <span class="st">"mab1.mzML"</span>, package <span class="op">=</span> <span class="st">"fragquaxi"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p>Define proteins.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">mab_sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mab_sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>
   <span class="st">"extdata"</span>, <span class="st">"mab_sequence.fasta"</span>,
-  package = <span class="st">"fragquaxi"</span>
-)
+  package <span class="op">=</span> <span class="st">"fragquaxi"</span>
+<span class="op">)</span>
 
-<span class="kw">proteins</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/define_proteins.html">define_proteins</a></span>(
-  mab = <span class="kw">mab_sequence</span>,
-  .disulfides = <span class="fl">16</span>
-)
-</pre></div>
+<span class="va">proteins</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/define_proteins.html">define_proteins</a></span><span class="op">(</span>
+  mab <span class="op">=</span> <span class="va">mab_sequence</span>,
+  .disulfides <span class="op">=</span> <span class="fl">16</span>
+<span class="op">)</span></code></pre></div>
 <p>Define PTM compositions.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  <span class="op">~</span><span class="kw">modcom_name</span>, <span class="op">~</span><span class="kw">Hex</span>, <span class="op">~</span><span class="kw">HexNAc</span>, <span class="op">~</span><span class="kw">Fuc</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">modcoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">modcom_name</span>, <span class="op">~</span><span class="va">Hex</span>, <span class="op">~</span><span class="va">HexNAc</span>, <span class="op">~</span><span class="va">Fuc</span>,
   <span class="st">"G0F/G0"</span>,        <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">1</span>,
   <span class="st">"G0F/G0F"</span>,       <span class="fl">6</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
   <span class="st">"G0F/G1F"</span>,       <span class="fl">7</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
   <span class="st">"G1F/G1F"</span>,       <span class="fl">8</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
   <span class="st">"G1F/G2F"</span>,       <span class="fl">9</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
   <span class="st">"G2F/G2F"</span>,      <span class="fl">10</span>,       <span class="fl">8</span>,    <span class="fl">2</span>,
-) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/define_ptm_compositions.html">define_ptm_compositions</a></span>()
-</pre></div>
+<span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/define_ptm_compositions.html">define_ptm_compositions</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Assemble proteoforms and calculate mass-to-charge ratios of proteoform ions in charge states 33+ to 40+</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">pfm_ions</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="reference/assemble_proteoforms.html">assemble_proteoforms</a></span>(<span class="kw">proteins</span>, <span class="kw">modcoms</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/ionize.html">ionize</a></span>(charge_states = <span class="fl">33L</span><span class="op">:</span><span class="fl">40L</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pfm_ions</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="reference/assemble_proteoforms.html">assemble_proteoforms</a></span><span class="op">(</span><span class="va">proteins</span>, <span class="va">modcoms</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="reference/ionize.html">ionize</a></span><span class="op">(</span>charge_states <span class="op">=</span> <span class="fl">33L</span><span class="op">:</span><span class="fl">40L</span><span class="op">)</span>
 
-<span class="kw">pfm_ions</span>
+<span class="va">pfm_ions</span>
 <span class="co">#&gt; # A tibble: 48 x 8</span>
-<span class="co">#&gt;    protein_name modcom_name formula                        mass     z    mz</span>
-<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33 4484.</span>
-<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34 4352.</span>
-<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35 4228.</span>
-<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36 4111.</span>
-<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37 3999.</span>
-<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    38 3894.</span>
-<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    39 3794.</span>
-<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    40 3700.</span>
-<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    33 4489.</span>
-<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 1.48e5    34 4357.</span>
-<span class="co">#&gt; # … with 38 more rows, and 2 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;</span>
-</pre></div>
+<span class="co">#&gt;    protein_name modcom_name formula                         mass     z    mz</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33 4484.</span>
+<span class="co">#&gt;  2 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34 4352.</span>
+<span class="co">#&gt;  3 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35 4228.</span>
+<span class="co">#&gt;  4 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36 4111.</span>
+<span class="co">#&gt;  5 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37 3999.</span>
+<span class="co">#&gt;  6 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    38 3894.</span>
+<span class="co">#&gt;  7 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    39 3794.</span>
+<span class="co">#&gt;  8 mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    40 3700.</span>
+<span class="co">#&gt;  9 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    33 4489.</span>
+<span class="co">#&gt; 10 mab          G0F/G0F     C6576 H10134 N1714 O2092 S44 148088.    34 4357.</span>
+<span class="co">#&gt; # … with 38 more rows, and 2 more variables: mz_min &lt;dbl&gt;, mz_max &lt;dbl&gt;</span></code></pre></div>
 <p>Plot these ions (here, only charge state 36+ of scans 126 to 136).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="reference/plot_ions.html">plot_ions</a></span>(
-  <span class="kw">ms_data</span>,
-  ions = <span class="kw">pfm_ions</span>,
-  scans = <span class="fl">126</span><span class="op">:</span><span class="fl">136</span>,
-  xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">4100</span>, <span class="fl">4150</span>)
-)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_ions.html">plot_ions</a></span><span class="op">(</span>
+  <span class="va">ms_data</span>,
+  ions <span class="op">=</span> <span class="va">pfm_ions</span>,
+  scans <span class="op">=</span> <span class="fl">126</span><span class="op">:</span><span class="fl">136</span>,
+  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4100</span>, <span class="fl">4150</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-plot_ions-1.png" width="75%"></p>
 <p>Quantify these ions via XIC integration.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/quantify_ions.html">quantify_ions</a></span>(
-  <span class="kw">ms_data</span>,
-  <span class="kw">pfm_ions</span>,
-  rt_limits = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">300</span>, <span class="fl">350</span>)
-)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/quantify_ions.html">quantify_ions</a></span><span class="op">(</span>
+  <span class="va">ms_data</span>,
+  <span class="va">pfm_ions</span>,
+  rt_limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">350</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">abundances</span>
+<span class="va">abundances</span>
 <span class="co">#&gt; ℹ Abundances of 48 ions quantified in 352 mass spectra using 1 retention time window.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Parameters ──</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; MS data file: /home/wolfgang/Programme/R/3.6/fragquaxi/extdata/mzml/mab1.mzML</span>
+<span class="co">#&gt; MS data file:</span>
+<span class="co">#&gt; '/home/wolfgang/R/x86_64-pc-linux-gnu-library/4.0/fragquaxi/extdata/mzml/mab1.mzML'</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Ions:</span>
 <span class="co">#&gt; # A tibble: 48 x 9</span>
-<span class="co">#&gt;   ion_id protein_name modcom_name formula                        mass     z</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                         &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt; 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    33</span>
-<span class="co">#&gt; 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    34</span>
-<span class="co">#&gt; 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    35</span>
-<span class="co">#&gt; 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    36</span>
-<span class="co">#&gt; 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 1.48e5    37</span>
+<span class="co">#&gt;   ion_id protein_name modcom_name formula                         mass     z</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;       &lt;mol&gt;                          &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1 id_1   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    33</span>
+<span class="co">#&gt; 2 id_2   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    34</span>
+<span class="co">#&gt; 3 id_3   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    35</span>
+<span class="co">#&gt; 4 id_4   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    36</span>
+<span class="co">#&gt; 5 id_5   mab          G0F/G0      C6570 H10124 N1714 O2088 S44 147942.    37</span>
 <span class="co">#&gt; # … with 43 more rows, and 3 more variables: mz &lt;dbl&gt;, mz_min &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   mz_max &lt;dbl&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Retention time limits:</span>
-<span class="co">#&gt; # A tibble: 1 x 4</span>
-<span class="co">#&gt;   rt_min rt_max scan_min scan_max</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;int&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1    300    350      117      141</span>
+<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt;   rt_min rt_max scans     </span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;    </span>
+<span class="co">#&gt; 1    300    350 &lt;int [25]&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Results ──</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 1 x 50</span>
-<span class="co">#&gt;   rt_min rt_max   id_1   id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1    300    350 1.54e5 2.05e5 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6</span>
+<span class="co">#&gt;   rt_min rt_max    id_1    id_2   id_3   id_4   id_5   id_6   id_7   id_8   id_9</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1    300    350 153744. 204512. 2.57e5 3.34e5 1.84e5 1.77e5 1.21e5 1.14e5 2.90e6</span>
 <span class="co">#&gt; # … with 39 more variables: id_10 &lt;dbl&gt;, id_11 &lt;dbl&gt;, id_12 &lt;dbl&gt;, id_13 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   id_14 &lt;dbl&gt;, …</span>
-</pre></div>
+<span class="co">#&gt; #   id_14 &lt;dbl&gt;, …</span></code></pre></div>
 <p>Plot abundances.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="kw">abundances</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="kw">abundance_data</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw">modcom_name</span>) <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(abundance = <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>)) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(frac_ab = <span class="kw">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw">abundance</span>) <span class="op">*</span> <span class="fl">100</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">modcom_name</span>, <span class="kw">frac_ab</span>)) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span>() <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">""</span>) <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"fractional abundance (%)"</span>)
-</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">abundances</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">abundance_data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">modcom_name</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>frac_ab <span class="op">=</span> <span class="va">abundance</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">abundance</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">modcom_name</span>, <span class="va">frac_ab</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"fractional abundance (%)"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-plot_abundances-1.png" width="75%"></p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/cdl-biosimilars/fragquaxi/">https://​github.com/​cdl-biosimilars/​fragquaxi/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/cdl-biosimilars/fragquaxi/issues">https://​github.com/​cdl-biosimilars/​fragquaxi/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -234,7 +247,7 @@
 <li>
 <a href="http://wolfgang.esser-skala.at">Wolfgang Esser-Skala</a> <br><small class="roles"> Maintainer </small> <a href="https://orcid.org/0000-0002-7350-4045" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>
-<a href="https://www.uni-salzburg.at/"><img src="https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg" alt="PLUS" height="24"></a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://www.plus.ac.at/">University of Salzburg</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
@@ -244,7 +257,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://wolfgang.esser-skala.at">Wolfgang Esser-Skala</a>, <a href="https://www.uni-salzburg.at/"><img src="https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg" alt="PLUS" height="24"></a>.</p>
+  <p>Developed by <a href="http://wolfgang.esser-skala.at">Wolfgang Esser-Skala</a>, <a href="https://www.plus.ac.at/">University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">

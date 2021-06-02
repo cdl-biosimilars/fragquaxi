@@ -1,15 +1,24 @@
+home:
+  title: fragquaxi
+  description: fractional abundances of glycoforms from mass spectrometric data by quantification via extracted ion current integration
+
+template:
+  opengraph:
+    twitter:
+      creator: "@skafdasschaf"
+      site: "@PLUS_1622"
+
 destination: docs
 
 development:
-  mode: unreleased
-  version_label: danger
+  mode: release
+  version_label: default
 
 authors:
   Wolfgang Esser-Skala:
     href: http://wolfgang.esser-skala.at
   University of Salzburg:
-    href: https://www.uni-salzburg.at/
-    html: "<img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24>"
+    href: https://www.plus.ac.at/
 
 reference:
 - title: Molecular formulas

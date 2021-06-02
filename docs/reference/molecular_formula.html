@@ -49,6 +49,9 @@
 <meta property="og:title" content="Vector of molecular formulas. — molecular_formula" />
 <meta property="og:description" content="Generate a vector of molecular formulas from a character vector." />
 <meta property="og:image" content="/logo.svg" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@skafdasschaf" />
+<meta name="twitter:site" content="@PLUS_1622" />
 
 
 
@@ -80,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fragquaxi</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -88,7 +91,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,9 +101,17 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cdl-biosimilars/fragquaxi/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,7 +126,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Vector of molecular formulas.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/cdl-biosimilars/fragquaxi/blob/master/R/mol_form.R'><code>R/mol_form.R</code></a></small>
     <div class="hidden name"><code>molecular_formula.Rd</code></div>
     </div>
 
@@ -123,9 +134,9 @@
     <p>Generate a vector of molecular formulas from a character vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>molecular_formula</span>(s = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
+    <pre class="usage"><span class='fu'>molecular_formula</span><span class='op'>(</span>s <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>is_molecular_formula</span>(<span class='kw'>x</span>)</pre>
+<span class='fu'>is_molecular_formula</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,23 +156,23 @@
     <p>An S3 vector of class <code>mol_form</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>molecular_formula</span>(<span class='st'>"C35 H48 Cl1 N3 O10 S1"</span>)
+    <pre class="examples"><div class='input'><span class='fu'>molecular_formula</span><span class='op'>(</span><span class='st'>"C35 H48 Cl1 N3 O10 S1"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] C35 H48 Cl N3 O10 S</div><div class='input'>
 <span class='co'># spaces and counts with value 1 are optional</span>
-<span class='fu'>molecular_formula</span>(<span class='st'>"C35H48ClN3O10S"</span>)
+<span class='fu'>molecular_formula</span><span class='op'>(</span><span class='st'>"C35H48ClN3O10S"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] C35 H48 Cl N3 O10 S</div><div class='input'>
 <span class='co'># counts may be negative</span>
-<span class='fu'>molecular_formula</span>(<span class='st'>"H-3 N-1"</span>)
+<span class='fu'>molecular_formula</span><span class='op'>(</span><span class='st'>"H-3 N-1"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;molecular formula[1]&gt;
 #&gt; [1] H-3 N-1</div><div class='input'>
 <span class='co'># the function is vectorized</span>
-<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>"C6 H12 O6"</span>, <span class='st'>"C Cl4"</span>))
+<span class='fu'>molecular_formula</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"H2 O"</span>, <span class='st'>"C6 H12 O6"</span>, <span class='st'>"C Cl4"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;molecular formula[3]&gt;
 #&gt; [1] H2 O      C6 H12 O6 C Cl4    </div><div class='input'>
 <span class='co'># ... and handles empty and missing formulas</span>
-<span class='fu'>molecular_formula</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"H2 O"</span>, <span class='st'>""</span>, <span class='st'>"&lt;empty&gt;"</span>, <span class='fl'>NA</span>))
+<span class='fu'>molecular_formula</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"H2 O"</span>, <span class='st'>""</span>, <span class='st'>"&lt;empty&gt;"</span>, <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; &lt;molecular formula[4]&gt;
 #&gt; [1] H2 O    &lt;empty&gt; &lt;empty&gt; &lt;NA&gt;   </div></pre>
   </div>
@@ -175,7 +186,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.uni-salzburg.at/'><img src='https://uni-salzburg.at/fileadmin/templates/Adhurricane_templates/images/logo_neu.jpg' alt='PLUS' height=24></a>.</p>
+  <p>Developed by <a href='http://wolfgang.esser-skala.at'>Wolfgang Esser-Skala</a>, <a href='https://www.plus.ac.at/'>University of Salzburg</a>.</p>
 </div>
 
 <div class="pkgdown">
